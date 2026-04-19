@@ -16,6 +16,8 @@ Expect a string,schema string --eq blue
 Expect an enum,"schema string --enum green,orange,red"
 Expect an enum,"schema string --enum green;orange;red" --enum-separator ;
 Expect a uri,"schema uri --https --allow-fragment --allow-query --allow-ip --reject-port"
-Expect a color,schema color --hex #F54927
-Expect a color,"schema color --rgb 245,73,39"
-Expect a color,"schema color --hsl 10,91,56"
+Expect a color like #F54927,schema color --hex
+"Expect a RGB color (ex:  245,73,39)","schema color --rgb"
+"Expect a HSL color (ex: 10,91,56)","schema color --hsl"
+Expect first tuple element,"schema string --tuple 0 --enum monday,tuesday"
+Expect second tuple element,"schema colox --tuple 1 --hex"
