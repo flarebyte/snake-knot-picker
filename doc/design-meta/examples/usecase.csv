@@ -22,3 +22,4 @@ Expect a color like #F54927,schema color --hex
 Expect first tuple element,"schema string --tuple 0 --enum monday,tuesday"
 Expect second tuple element,"schema colox --tuple 1 --hex"
 Expect a list of string,"schema string --list --max-chars < 20 --max-length <= 5"
+Expect list of tuple element,"schema string --list --tuple 0 --enum monday,tuesday --max-length <= 5"
