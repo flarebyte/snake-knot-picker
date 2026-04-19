@@ -1,0 +1,20 @@
+description,example
+Support Positional Arguments,wash start heavy-duty
+Support Boolean flags,wash start bedding --extra-rinse
+Support single parameter flag,wash start normal --spin 1200
+Support n-tuple flag,wash start normal --range 800 1200
+Support list by repetition,wash start whites --add bleach --add softener
+Support string and enum type,wash start delicate --temp warm
+Support number type,wash start normal --spin 1200
+Support url or uri type,wash alarm --report https://website.com
+The Args language is perhaps homoiconic schema,
+Validate the number of characters,schema string --min-chars >- 10 --max-chars < 20
+Validate the number of words,schema string --min-words >- 10 --max-words < 20
+Validate a numeric,schema numeric --min >- 10 --max < 20
+Expect a numeric,schema numeric --eq 10
+Expect a string,schema string --eq blue
+Expect an enum,"schema string --enum green,orange,red"
+Expect an enum,"schema string --enum green;orange;red" --enum-separator ;
+Expect a color,schema color --hex #F54927
+Expect a color,"schema color --rgb 245,73,39"
+Expect a color,"schema color --hsl 10,91,56"
