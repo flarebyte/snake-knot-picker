@@ -1,4 +1,5 @@
 import type {
+  StringValidation,
   TupleValidation,
   TupleValidationChain,
   ValidationError,
@@ -7,15 +8,15 @@ import type {
 
 export interface TupleValidationFactory {
   chain(): TupleValidationChain;
-  length(length: number): TupleValidation;
+  of(validations: readonly StringValidation[]): TupleValidation;
 }
 
 export declare const tupleValidations: TupleValidationFactory;
 
-export declare class Length implements TupleValidation {
-  readonly length: number;
+export declare class TupleOf implements TupleValidation {
+  readonly validations: readonly StringValidation[];
 
-  constructor(length: number);
+  constructor(validations: readonly StringValidation[]);
 
   validate(input: readonly unknown[], opts: ValidatorOptions): ValidationError | null;
 }

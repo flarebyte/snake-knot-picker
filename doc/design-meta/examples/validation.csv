@@ -36,7 +36,7 @@ time,,
 date,,
 datetime,,
 duration,,
-tuple,length,Length(length)
+tuple,of,TupleOf(validations)
 tuple,factory,tupleValidations
 tuple,chain,TupleValidationChain.pipe(...).build()
 list,min-length,MinLength(minLength)

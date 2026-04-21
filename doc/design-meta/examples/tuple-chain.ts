@@ -5,5 +5,8 @@ export declare const constrainedTupleChain: TupleValidationChain;
 
 // Example chain shape:
 // tupleValidations.chain()
-//   .pipe(tupleValidations.length(3))
+//   .pipe(tupleValidations.of([
+//     stringValidations.minChars(2),
+//     stringValidations.matchesFormatter(stringFormatters.trim()),
+//   ]))
 //   .build();
