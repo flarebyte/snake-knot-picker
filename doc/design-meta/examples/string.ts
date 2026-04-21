@@ -1,5 +1,10 @@
 import type { StringFunction, ValidationError, ValidatorOptions } from "./common";
 
+export interface StringFunctionChain {
+  build(): StringFunction;
+  pipe(next: StringFunction): StringFunctionChain;
+}
+
 export interface StringFunctionFactory {
   alpha(): StringFunction;
   arn(): StringFunction;
@@ -8,6 +13,7 @@ export interface StringFunctionFactory {
   digit(): StringFunction;
   email(): StringFunction;
   enum(allowedValues: readonly string[]): StringFunction;
+  chain(): StringFunctionChain;
   lowercase(): StringFunction;
   maxChars(maxChars: number): StringFunction;
   maxWords(maxWords: number): StringFunction;

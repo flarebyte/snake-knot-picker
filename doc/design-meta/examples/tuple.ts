@@ -1,6 +1,7 @@
-import type { TupleFunction, ValidationError, ValidatorOptions } from "./common";
+import type { TupleFunction, TupleFunctionChain, ValidationError, ValidatorOptions } from "./common";
 
 export interface TupleFunctionFactory {
+  chain(): TupleFunctionChain;
   length(length: number): TupleFunction;
 }
 

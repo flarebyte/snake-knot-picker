@@ -1,6 +1,7 @@
-import type { ListFunction, ValidationError, ValidatorOptions } from "./common";
+import type { ListFunction, ListFunctionChain, ValidationError, ValidatorOptions } from "./common";
 
 export interface ListFunctionFactory {
+  chain(): ListFunctionChain;
   maxLength(maxLength: number): ListFunction;
   minLength(minLength: number): ListFunction;
 }

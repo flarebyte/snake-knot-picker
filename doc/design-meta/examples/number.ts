@@ -1,6 +1,7 @@
-import type { NumberFunction, ValidationError, ValidatorOptions } from "./common";
+import type { NumberFunction, NumberFunctionChain, ValidationError, ValidatorOptions } from "./common";
 
 export interface NumberFunctionFactory {
+  chain(): NumberFunctionChain;
   float(): NumberFunction;
   int(): NumberFunction;
   max(max: number): NumberFunction;
