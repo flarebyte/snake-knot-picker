@@ -11,6 +11,7 @@ string,uri,Uri
 string,arn,Arn
 string,email,Email
 string,matches-formatter,MatchesFormatter(formatter)
+string,number,NumberStringValidation(numberValidation)
 string,starts-with,StartsWith(prefix)
 string,uuid,Uuid
 string,factory,stringValidations
@@ -25,6 +26,9 @@ number,max,Max(max)
 number,multiple of,MultipleOf(factor)
 number,int,Int
 number,float,Float
+number,parse-int,ParseInt
+number,parse-float,ParseFloat
+number,converter,numberConversions
 number,factory,numberValidations
 number,chain,NumberValidationChain.pipe(...).build()
 boolean,,
@@ -36,10 +40,10 @@ time,,
 date,,
 datetime,,
 duration,,
-tuple,of,TupleOf(validations:stringValidation[])
+tuple,of,TupleOf(validations:StringValidation[])
 tuple,factory,tupleValidations
 tuple,chain,TupleValidationChain.pipe(...).build()
-list,of,ListOf(itemValidation:string|tupleValidation)
+list,of,ListOf(itemValidation:StringValidation|TupleValidation)
 list,min-length,MinLength(minLength)
 list,max-length,MaxLength(maxLength)
 list,factory,listValidations

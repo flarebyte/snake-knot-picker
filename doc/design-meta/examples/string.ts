@@ -2,6 +2,7 @@ import type {
   StringFormatter,
   StringValidation,
   StringValidationChain,
+  NumberValidation,
   ValidationError,
   ValidatorOptions,
 } from "./common";
@@ -20,6 +21,7 @@ export interface StringValidationFactory {
   matchesFormatter(formatter: StringFormatter): StringValidation;
   minChars(minChars: number): StringValidation;
   minWords(minWords: number): StringValidation;
+  number(numberValidation: NumberValidation): StringValidation;
   startsWith(prefix: string): StringValidation;
   uri(): StringValidation;
   uuid(): StringValidation;
@@ -112,6 +114,14 @@ export declare class MatchesFormatter implements StringValidation {
   readonly formatter: StringFormatter;
 
   constructor(formatter: StringFormatter);
+
+  validate(input: string, opts: ValidatorOptions): ValidationError | null;
+}
+
+export declare class NumberStringValidation implements StringValidation {
+  readonly numberValidation: NumberValidation;
+
+  constructor(numberValidation: NumberValidation);
 
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }

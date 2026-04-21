@@ -34,6 +34,10 @@ export interface NumberValidationChain {
   pipe(next: NumberValidation): NumberValidationChain;
 }
 
+export interface NumberConversion {
+  convert(input: string, opts: ValidatorOptions): number | null;
+}
+
 export interface TupleValidation {
   validate(input: readonly unknown[], opts: ValidatorOptions): ValidationError | null;
 }

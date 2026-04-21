@@ -1,9 +1,15 @@
 import type {
+  NumberConversion,
   NumberValidation,
   NumberValidationChain,
   ValidationError,
   ValidatorOptions,
 } from "./common";
+
+export interface NumberConversionFactory {
+  float(): NumberConversion;
+  int(): NumberConversion;
+}
 
 export interface NumberValidationFactory {
   chain(): NumberValidationChain;
@@ -14,7 +20,16 @@ export interface NumberValidationFactory {
   multipleOf(factor: number): NumberValidation;
 }
 
+export declare const numberConversions: NumberConversionFactory;
 export declare const numberValidations: NumberValidationFactory;
+
+export declare class ParseInt implements NumberConversion {
+  convert(input: string, opts: ValidatorOptions): number | null;
+}
+
+export declare class ParseFloat implements NumberConversion {
+  convert(input: string, opts: ValidatorOptions): number | null;
+}
 
 export declare class Min implements NumberValidation {
   readonly min: number;
