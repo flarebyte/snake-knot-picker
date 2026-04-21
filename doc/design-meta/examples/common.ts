@@ -4,16 +4,13 @@ export interface ValidationError {
 }
 
 export interface ValidatorOptions {
-    field?: string;
+  field?: string;
 }
 
-export interface StringValidator {
+export interface StringFunction {
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }
 
 export interface NumberValidator {
   validate(input: number, opts: ValidatorOptions): ValidationError | null;
 }
-
-
-

@@ -1,20 +1,20 @@
-string,min-chars,
-string,max-chars,
-string,min-words,
-string,max-words,
-string,enum,
-string,digit,
-string,alpha,
-string,base64,
-string,codepoint-range,
-string,lowercase,
-string,uppercase,
-string,trim,
-string,uri,
-string,arn,
-string,email,
-string,starts-with,
-string,uuid,
+string,min-chars,MinChars(minChars)
+string,max-chars,MaxChars(maxChars)
+string,min-words,MinWords(minWords)
+string,max-words,MaxWords(maxWords)
+string,enum,Enum(allowedValues)
+string,digit,Digit
+string,alpha,Alpha
+string,base64,Base64
+string,codepoint-range,CodepointRange(from,to)
+string,lowercase,Lowercase
+string,uppercase,Uppercase
+string,trim,Trim
+string,uri,Uri
+string,arn,Arn
+string,email,Email
+string,starts-with,StartsWith(prefix)
+string,uuid,Uuid
 number,min,
 number,max,
 number,multiple of,
@@ -32,8 +32,6 @@ duration,,
 tuple,length,
 list,min-length,
 list,max-length,
-
-
 
 
 
