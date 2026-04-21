@@ -3,6 +3,7 @@ import type { ListValidation, StringValidation, TupleValidation, ValidationError
 export interface ArgsCommandSchema {
   commandPath: readonly string[];
   flags: readonly ArgsFlagSchema[];
+  adminOnly: boolean;
   positionals: readonly StringValidation[];
 }
 
@@ -70,6 +71,7 @@ export interface AdminArgsFactory {
 }
 
 export interface AdminArgsCommandBuilder {
+  adminOnly(): AdminArgsCommandBuilder;
   boolean(name: string): AdminArgsCommandBuilder;
   list(name: string, validation: ListValidation): AdminArgsCommandBuilder;
   positional(validation: StringValidation): AdminArgsCommandBuilder;
