@@ -1,56 +1,48 @@
-purpose,"Validation API for string, number, tuple, list, formatter, and conversion rules",
-string,min-chars,MinChars(minChars)
-string,max-chars,MaxChars(maxChars)
-string,min-words,MinWords(minWords)
-string,max-words,MaxWords(maxWords)
-string,enum,Enum(allowedValues)
-string,digit,Digit
-string,alpha,Alpha
-string,base64,Base64
-string,codepoint-range,CodepointRange(from,to)
-string,boolean,Boolean
-string,color,Color
-string,date,DateString
-string,datetime,DateTimeString
-string,duration,DurationString
-string,uri,Uri
-string,arn,Arn
-string,email,Email
-string,matches-formatter,MatchesFormatter(formatter)
-string,number,NumberStringValidation(numberValidation)
-string,starts-with,StartsWith(prefix)
-string,time,TimeString
-string,uuid,Uuid
-string,factory,stringValidations
-string,chain,StringValidationChain.pipe(...).build()
-formatter,trim,Trim
-formatter,lowercase,Lowercase
-formatter,uppercase,Uppercase
-formatter,factory,stringFormatters
-formatter,chain,StringFormatterChain.pipe(...).build()
-number,min,Min(min)
-number,max,Max(max)
-number,multiple of,MultipleOf(factor)
-number,int,Int
-number,float,Float
-number,parse-int,ParseInt
-number,parse-float,ParseFloat
-number,converter,numberConversions
-number,factory,numberValidations
-number,chain,NumberValidationChain.pipe(...).build()
-boolean,,
-color,hex,
-color,hsl,
-color,rgb,
-datetime,,
-time,,
-date,,
-duration,,
-tuple,of,TupleOf(validations:StringValidation[])
-tuple,factory,tupleValidations
-tuple,chain,TupleValidationChain.pipe(...).build()
-list,of,ListOf(itemValidation:StringValidation|TupleValidation)
-list,min-length,MinLength(minLength)
-list,max-length,MaxLength(maxLength)
-list,factory,listValidations
-list,chain,ListValidationChain.pipe(...).build()
+domain,feature,api,purpose
+string,min-chars,MinChars(minChars),Require a minimum character count
+string,max-chars,MaxChars(maxChars),Limit a maximum character count
+string,min-words,MinWords(minWords),Require a minimum word count
+string,max-words,MaxWords(maxWords),Limit a maximum word count
+string,enum,Enum(allowedValues),Allow only values from a fixed set
+string,digit,Digit,Require decimal digits only
+string,alpha,Alpha,Require alphabetic characters only
+string,base64,Base64,Require base64 encoded text
+string,codepoint-range,CodepointRange(from,to),Restrict characters to a codepoint span
+string,boolean,Boolean,Accept only string booleans
+string,color,Color,Accept only string colors
+string,date,DateString,Accept only string dates
+string,datetime,DateTimeString,Accept only string date-times
+string,duration,DurationString,Accept only string durations
+string,uri,Uri,Accept only string URIs
+string,arn,Arn,Accept only string ARNs
+string,email,Email,Accept only string email addresses
+string,matches-formatter,MatchesFormatter(formatter),Fail if formatting changes the value
+string,number,NumberStringValidation(numberValidation),Parse a string to number then validate it
+string,starts-with,StartsWith(prefix),Require a specific prefix
+string,time,TimeString,Accept only string times
+string,uuid,Uuid,Accept only string UUIDs
+string,factory,stringValidations,Create string validators from the factory API
+string,chain,StringValidationChain.pipe(...).build(),Compose string validators and formatters
+formatter,trim,Trim,Trim surrounding whitespace
+formatter,lowercase,Lowercase,Convert text to lowercase
+formatter,uppercase,Uppercase,Convert text to uppercase
+formatter,factory,stringFormatters,Create string formatters from the factory API
+formatter,chain,StringFormatterChain.pipe(...).build(),Compose string formatters
+number,min,Min(min),Require a minimum numeric value
+number,max,Max(max),Require a maximum numeric value
+number,multiple of,MultipleOf(factor),Require a numeric multiple
+number,int,Int,Require an integer value
+number,float,Float,Require a floating-point value
+number,parse-int,ParseInt,Convert string input to an integer
+number,parse-float,ParseFloat,Convert string input to a float
+number,converter,numberConversions,Create number converters from the factory API
+number,factory,numberValidations,Create number validators from the factory API
+number,chain,NumberValidationChain.pipe(...).build(),Compose number validators
+tuple,of,TupleOf(validations:StringValidation[]),Validate tuple items with ordered string validations
+tuple,factory,tupleValidations,Create tuple validators from the factory API
+tuple,chain,TupleValidationChain.pipe(...).build(),Compose tuple validators
+list,of,ListOf(itemValidation:StringValidation|TupleValidation),Validate every list item with one validation shape
+list,min-length,MinLength(minLength),Require a minimum list length
+list,max-length,MaxLength(maxLength),Require a maximum list length
+list,factory,listValidations,Create list validators from the factory API
+list,chain,ListValidationChain.pipe(...).build(),Compose list validators
