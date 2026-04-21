@@ -16,9 +16,9 @@ export declare const washStartSchema: ArgsCommandSchema;
 //   .positional(stringValidations.enum(["normal", "delicate", "whites"]))
 //   .boolean("extra-rinse")
 //   .string("temp", stringValidations.enum(["cold", "warm", "hot"]))
-//   .tuple("range", tupleValidations.of([
+//   .tuple("range", [
 //     stringValidations.number(numberValidations.int()),
 //     stringValidations.number(numberValidations.int()),
-//   ]))
+//   ])
 //   .list("add", listValidations.of(stringValidations.alpha()))
 //   .build();
