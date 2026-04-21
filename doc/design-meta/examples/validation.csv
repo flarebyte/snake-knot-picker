@@ -29,9 +29,8 @@ time,,
 date,,
 datetime,,
 duration,,
-tuple,length,
-list,min-length,
-list,max-length,
-
+tuple,length,Length(length)
+list,min-length,MinLength(minLength)
+list,max-length,MaxLength(maxLength)
 
 
