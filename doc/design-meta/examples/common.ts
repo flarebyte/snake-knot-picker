@@ -15,9 +15,14 @@ export interface StringFormatter {
   format(input: string): string;
 }
 
+export interface StringFormatterChain {
+  build(): StringFormatter;
+  pipe(next: StringFormatter): StringFormatterChain;
+}
+
 export interface StringFunctionChain {
   build(): StringFunction;
-  pipe(next: StringFunction): StringFunctionChain;
+  pipe(next: StringFunction | StringFormatter): StringFunctionChain;
 }
 
 export interface NumberFunction {

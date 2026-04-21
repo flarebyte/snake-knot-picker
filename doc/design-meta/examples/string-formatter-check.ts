@@ -5,4 +5,4 @@ export declare const normalizedUserName: StringFunction;
 export declare const normalizedUserNameFormatter: StringFormatter;
 
 // Example validation shape:
-// stringFunctions.matchesFormatter(stringFormatters.lowercase())
+// stringFunctions.matchesFormatter(stringFormatters.trim())

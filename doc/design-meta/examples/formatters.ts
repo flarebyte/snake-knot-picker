@@ -1,6 +1,7 @@
-import type { StringFormatter } from "./common";
+import type { StringFormatter, StringFormatterChain } from "./common";
 
 export interface StringFormatterFactory {
+  chain(): StringFormatterChain;
   lowercase(): StringFormatter;
   trim(): StringFormatter;
   uppercase(): StringFormatter;

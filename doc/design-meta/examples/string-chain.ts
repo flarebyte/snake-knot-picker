@@ -6,6 +6,7 @@ export declare const normalizedEmailChain: StringFunctionChain;
 
 // Example chain shape:
 // stringFunctions.chain()
+//   .pipe(stringFunctions.matchesFormatter(stringFormatters.trim()))
 //   .pipe(stringFunctions.minChars(10))
 //   .pipe(stringFunctions.maxChars(40))
 //   .pipe(stringFunctions.email())
