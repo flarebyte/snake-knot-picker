@@ -1,9 +1,4 @@
-import type { StringFunction, ValidationError, ValidatorOptions } from "./common";
-
-export interface StringFunctionChain {
-  build(): StringFunction;
-  pipe(next: StringFunction): StringFunctionChain;
-}
+import type { StringFormatter, StringFunction, StringFunctionChain, ValidationError, ValidatorOptions } from "./common";
 
 export interface StringFunctionFactory {
   alpha(): StringFunction;
@@ -14,14 +9,12 @@ export interface StringFunctionFactory {
   email(): StringFunction;
   enum(allowedValues: readonly string[]): StringFunction;
   chain(): StringFunctionChain;
-  lowercase(): StringFunction;
   maxChars(maxChars: number): StringFunction;
   maxWords(maxWords: number): StringFunction;
   minChars(minChars: number): StringFunction;
   minWords(minWords: number): StringFunction;
+  matchesFormatter(formatter: StringFormatter): StringFunction;
   startsWith(prefix: string): StringFunction;
-  trim(): StringFunction;
-  uppercase(): StringFunction;
   uri(): StringFunction;
   uuid(): StringFunction;
 }
@@ -89,18 +82,6 @@ export declare class CodepointRange implements StringFunction {
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }
 
-export declare class Lowercase implements StringFunction {
-  validate(input: string, opts: ValidatorOptions): ValidationError | null;
-}
-
-export declare class Uppercase implements StringFunction {
-  validate(input: string, opts: ValidatorOptions): ValidationError | null;
-}
-
-export declare class Trim implements StringFunction {
-  validate(input: string, opts: ValidatorOptions): ValidationError | null;
-}
-
 export declare class Uri implements StringFunction {
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }
@@ -117,6 +98,14 @@ export declare class StartsWith implements StringFunction {
   readonly prefix: string;
 
   constructor(prefix: string);
+
+  validate(input: string, opts: ValidatorOptions): ValidationError | null;
+}
+
+export declare class MatchesFormatter implements StringFunction {
+  readonly formatter: StringFormatter;
+
+  constructor(formatter: StringFormatter);
 
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }

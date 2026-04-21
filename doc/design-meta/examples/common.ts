@@ -11,6 +11,10 @@ export interface StringFunction {
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }
 
+export interface StringFormatter {
+  format(input: string): string;
+}
+
 export interface StringFunctionChain {
   build(): StringFunction;
   pipe(next: StringFunction): StringFunctionChain;
