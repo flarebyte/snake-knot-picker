@@ -21,6 +21,7 @@ export interface StringValidationFactory {
   digit(): StringValidation;
   email(): StringValidation;
   enum(allowedValues: readonly string[]): StringValidation;
+  hex(): StringValidation;
   maxChars(maxChars: number): StringValidation;
   maxWords(maxWords: number): StringValidation;
   matchesFormatter(formatter: StringFormatter): StringValidation;
@@ -84,6 +85,10 @@ export declare class Alpha implements StringValidation {
 }
 
 export declare class Base64 implements StringValidation {
+  validate(input: string, opts: ValidatorOptions): ValidationError | null;
+}
+
+export declare class Hex implements StringValidation {
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }
 
