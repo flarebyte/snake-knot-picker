@@ -13,9 +13,11 @@ export interface StringValidationFactory {
   base64(): StringValidation;
   chain(): StringValidationChain;
   codepointRange(from: string, to: string): StringValidation;
+  color(): StringValidation;
   digit(): StringValidation;
   email(): StringValidation;
   enum(allowedValues: readonly string[]): StringValidation;
+  boolean(): StringValidation;
   maxChars(maxChars: number): StringValidation;
   maxWords(maxWords: number): StringValidation;
   matchesFormatter(formatter: StringFormatter): StringValidation;
@@ -87,6 +89,14 @@ export declare class CodepointRange implements StringValidation {
 
   constructor(from: string, to: string);
 
+  validate(input: string, opts: ValidatorOptions): ValidationError | null;
+}
+
+export declare class Boolean implements StringValidation {
+  validate(input: string, opts: ValidatorOptions): ValidationError | null;
+}
+
+export declare class Color implements StringValidation {
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }
 

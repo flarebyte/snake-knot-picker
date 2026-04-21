@@ -1,3 +1,4 @@
+purpose,"Validation API for string, number, tuple, list, formatter, and conversion rules",
 string,min-chars,MinChars(minChars)
 string,max-chars,MaxChars(maxChars)
 string,min-words,MinWords(minWords)
@@ -7,6 +8,8 @@ string,digit,Digit
 string,alpha,Alpha
 string,base64,Base64
 string,codepoint-range,CodepointRange(from,to)
+string,boolean,Boolean
+string,color,Color
 string,uri,Uri
 string,arn,Arn
 string,email,Email
