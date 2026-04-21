@@ -1,31 +1,30 @@
 description,example
-Support Positional Arguments,wash start heavy-duty
-Support Boolean flags,wash start bedding --extra-rinse
-Support single parameter flag,wash start normal --spin 1200
-Support n-tuple flag,wash start normal --range 800 1200
-Support list by repetition,wash start whites --add bleach --add softener
-Support string and enum type,wash start delicate --temp warm
-Support number type,wash start normal --spin 1200
-Support url or uri type,wash alarm --report https://website.com
-The Args language is perhaps homoiconic schema,
-Validate the number of characters,schema string --min-chars >- 10 --max-chars < 20
-Validate the number of words,schema string --min-words >- 10 --max-words < 20
-Validate a numeric,schema numeric --min >- 10 --max < 20
-Expect a numeric,schema numeric --eq 10
-Expect a string,schema string --eq blue
+Support positional arguments,wash start heavy-duty
+Support boolean flags,wash start bedding --extra-rinse
+Support single-parameter flags,wash start normal --spin 1200
+Support n-tuple flags,wash start normal --range 800 1200
+Support list flags by repetition,wash start whites --add bleach --add softener
+Support string and enum types,wash start delicate --temp warm
+Support number types,wash start normal --spin 1200
+Support URL or URI types,wash alarm --report https://website.com
+Validate character counts,schema string --min-chars >- 10 --max-chars < 20
+Validate word counts,schema string --min-words >- 10 --max-words < 20
+Validate numeric values,schema number --min >- 10 --max < 20
+Expect a numeric value,schema number --eq 10
+Expect a string value,schema string --eq blue
 Expect an enum,"schema string --enum green,orange,red"
-Expect an enum,"schema string --enum green;orange;red" --enum-separator ;
-Expect a uri,"schema uri --https --allow-fragment --allow-query --allow-ip --reject-port"
+Expect an enum with custom separator,"schema string --enum green;orange;red" --enum-separator ;
+Expect a URI,"schema uri --https --allow-fragment --allow-query --allow-ip --reject-port"
 Expect a color like #F54927,schema color --hex
-"Expect a RGB color (ex:  245,73,39)","schema color --rgb"
-"Expect a HSL color (ex: 10,91,56)","schema color --hsl"
-Expect first tuple element,"schema string --tuple 0 --enum monday,tuesday"
-Expect second tuple element,"schema colox --tuple 1 --hex"
-Expect a list of string,"schema string --list --max-chars < 20 --max-length <= 5"
-Expect list of tuple element,"schema string --list --tuple 0 --enum monday,tuesday --max-length <= 5"
-Expect string with numbers, "schema string --digit"
-Expect string with hexa, "schema string --hexa"
-Expect string with alpha, "schema string --alpha"
-Expect lowercase string, "schema string --lowercase"
-Expect uppercase string, "schema string --uppercase"
-Expect string from japanese Hiragana alphabet,"schema string --codepoint-range U+3040 U+309F"
+Expect an RGB color,"schema color --rgb"
+Expect an HSL color,"schema color --hsl"
+Expect the first tuple element,"schema string --tuple 0 --enum monday,tuesday"
+Expect the second tuple element,"schema color --tuple 1 --hex"
+Expect a list of strings,"schema string --list --max-chars < 20 --max-length <= 5"
+Expect a list of tuple elements,"schema string --list --tuple 0 --enum monday,tuesday --max-length <= 5"
+Expect a string with digits,"schema string --digit"
+Expect a string with hex digits,"schema string --hex"
+Expect a string with alphabetic characters,"schema string --alpha"
+Expect a lowercase string,"schema string --lowercase"
+Expect an uppercase string,"schema string --uppercase"
+Expect a string from the Japanese Hiragana alphabet,"schema string --codepoint-range U+3040 U+309F"

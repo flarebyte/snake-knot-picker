@@ -1,1 +1,2 @@
-The biggest limitation of Cobra’s CSV parsing is when your actual data contains a comma
+note
+Cobra's CSV parsing is limited when the underlying data contains commas

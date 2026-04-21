@@ -1,8 +1,8 @@
 import type {
+  NumberValidation,
   StringFormatter,
   StringValidation,
   StringValidationChain,
-  NumberValidation,
   ValidationError,
   ValidatorOptions,
 } from "./common";
@@ -11,16 +11,16 @@ export interface StringValidationFactory {
   alpha(): StringValidation;
   arn(): StringValidation;
   base64(): StringValidation;
+  boolean(): StringValidation;
+  date(): StringValidation;
+  datetime(): StringValidation;
+  duration(): StringValidation;
   chain(): StringValidationChain;
   codepointRange(from: string, to: string): StringValidation;
   color(): StringValidation;
   digit(): StringValidation;
   email(): StringValidation;
   enum(allowedValues: readonly string[]): StringValidation;
-  boolean(): StringValidation;
-  date(): StringValidation;
-  datetime(): StringValidation;
-  duration(): StringValidation;
   maxChars(maxChars: number): StringValidation;
   maxWords(maxWords: number): StringValidation;
   matchesFormatter(formatter: StringFormatter): StringValidation;

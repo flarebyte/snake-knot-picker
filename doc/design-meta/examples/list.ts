@@ -9,8 +9,8 @@ import type {
 export interface ListValidationFactory {
   chain(): ListValidationChain;
   of(itemValidation: ListItemValidation): ListValidation;
-  maxLength(maxLength: number): ListValidation;
   minLength(minLength: number): ListValidation;
+  maxLength(maxLength: number): ListValidation;
 }
 
 export declare const listValidations: ListValidationFactory;
