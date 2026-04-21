@@ -1,5 +1,12 @@
 import type { ListFunction, ValidationError, ValidatorOptions } from "./common";
 
+export interface ListFunctionFactory {
+  maxLength(maxLength: number): ListFunction;
+  minLength(minLength: number): ListFunction;
+}
+
+export declare const listFunctions: ListFunctionFactory;
+
 export declare class MinLength implements ListFunction {
   readonly minLength: number;
 

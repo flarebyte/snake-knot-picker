@@ -15,11 +15,13 @@ string,arn,Arn
 string,email,Email
 string,starts-with,StartsWith(prefix)
 string,uuid,Uuid
+string,factory,stringFunctions
 number,min,Min(min)
 number,max,Max(max)
 number,multiple of,MultipleOf(factor)
 number,int,Int
 number,float,Float
+number,factory,numberFunctions
 boolean,,
 color,hex,
 color,hsl,
@@ -30,7 +32,7 @@ date,,
 datetime,,
 duration,,
 tuple,length,Length(length)
+tuple,factory,tupleFunctions
 list,min-length,MinLength(minLength)
 list,max-length,MaxLength(maxLength)
-
-
+list,factory,listFunctions

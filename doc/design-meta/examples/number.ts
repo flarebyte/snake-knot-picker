@@ -1,5 +1,15 @@
 import type { NumberFunction, ValidationError, ValidatorOptions } from "./common";
 
+export interface NumberFunctionFactory {
+  float(): NumberFunction;
+  int(): NumberFunction;
+  max(max: number): NumberFunction;
+  min(min: number): NumberFunction;
+  multipleOf(factor: number): NumberFunction;
+}
+
+export declare const numberFunctions: NumberFunctionFactory;
+
 export declare class Min implements NumberFunction {
   readonly min: number;
 

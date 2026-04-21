@@ -1,5 +1,27 @@
 import type { StringFunction, ValidationError, ValidatorOptions } from "./common";
 
+export interface StringFunctionFactory {
+  alpha(): StringFunction;
+  arn(): StringFunction;
+  base64(): StringFunction;
+  codepointRange(from: string, to: string): StringFunction;
+  digit(): StringFunction;
+  email(): StringFunction;
+  enum(allowedValues: readonly string[]): StringFunction;
+  lowercase(): StringFunction;
+  maxChars(maxChars: number): StringFunction;
+  maxWords(maxWords: number): StringFunction;
+  minChars(minChars: number): StringFunction;
+  minWords(minWords: number): StringFunction;
+  startsWith(prefix: string): StringFunction;
+  trim(): StringFunction;
+  uppercase(): StringFunction;
+  uri(): StringFunction;
+  uuid(): StringFunction;
+}
+
+export declare const stringFunctions: StringFunctionFactory;
+
 export declare class MinChars implements StringFunction {
   readonly minChars: number;
 
