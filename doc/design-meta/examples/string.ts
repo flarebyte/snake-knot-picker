@@ -1,27 +1,34 @@
-import type { StringFormatter, StringFunction, StringFunctionChain, ValidationError, ValidatorOptions } from "./common";
+import type {
+  StringFormatter,
+  StringValidation,
+  StringValidationChain,
+  ValidationError,
+  ValidatorOptions,
+} from "./common";
 
-export interface StringFunctionFactory {
-  alpha(): StringFunction;
-  arn(): StringFunction;
-  base64(): StringFunction;
-  codepointRange(from: string, to: string): StringFunction;
-  digit(): StringFunction;
-  email(): StringFunction;
-  enum(allowedValues: readonly string[]): StringFunction;
-  chain(): StringFunctionChain;
-  maxChars(maxChars: number): StringFunction;
-  maxWords(maxWords: number): StringFunction;
-  minChars(minChars: number): StringFunction;
-  minWords(minWords: number): StringFunction;
-  matchesFormatter(formatter: StringFormatter): StringFunction;
-  startsWith(prefix: string): StringFunction;
-  uri(): StringFunction;
-  uuid(): StringFunction;
+export interface StringValidationFactory {
+  alpha(): StringValidation;
+  arn(): StringValidation;
+  base64(): StringValidation;
+  chain(): StringValidationChain;
+  codepointRange(from: string, to: string): StringValidation;
+  digit(): StringValidation;
+  email(): StringValidation;
+  enum(allowedValues: readonly string[]): StringValidation;
+  maxChars(maxChars: number): StringValidation;
+  maxWords(maxWords: number): StringValidation;
+  matchesFormatter(formatter: StringFormatter): StringValidation;
+  minChars(minChars: number): StringValidation;
+  minWords(minWords: number): StringValidation;
+  startsWith(prefix: string): StringValidation;
+  uri(): StringValidation;
+  uuid(): StringValidation;
 }
 
-export declare const stringFunctions: StringFunctionFactory;
+export declare const stringValidations: StringValidationFactory;
+export declare const stringFunctions: StringValidationFactory;
 
-export declare class MinChars implements StringFunction {
+export declare class MinChars implements StringValidation {
   readonly minChars: number;
 
   constructor(minChars: number);
@@ -29,7 +36,7 @@ export declare class MinChars implements StringFunction {
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }
 
-export declare class MaxChars implements StringFunction {
+export declare class MaxChars implements StringValidation {
   readonly maxChars: number;
 
   constructor(maxChars: number);
@@ -37,7 +44,7 @@ export declare class MaxChars implements StringFunction {
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }
 
-export declare class MinWords implements StringFunction {
+export declare class MinWords implements StringValidation {
   readonly minWords: number;
 
   constructor(minWords: number);
@@ -45,7 +52,7 @@ export declare class MinWords implements StringFunction {
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }
 
-export declare class MaxWords implements StringFunction {
+export declare class MaxWords implements StringValidation {
   readonly maxWords: number;
 
   constructor(maxWords: number);
@@ -53,7 +60,7 @@ export declare class MaxWords implements StringFunction {
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }
 
-export declare class Enum implements StringFunction {
+export declare class Enum implements StringValidation {
   readonly allowedValues: readonly string[];
 
   constructor(allowedValues: readonly string[]);
@@ -61,19 +68,19 @@ export declare class Enum implements StringFunction {
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }
 
-export declare class Digit implements StringFunction {
+export declare class Digit implements StringValidation {
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }
 
-export declare class Alpha implements StringFunction {
+export declare class Alpha implements StringValidation {
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }
 
-export declare class Base64 implements StringFunction {
+export declare class Base64 implements StringValidation {
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }
 
-export declare class CodepointRange implements StringFunction {
+export declare class CodepointRange implements StringValidation {
   readonly from: string;
   readonly to: string;
 
@@ -82,19 +89,19 @@ export declare class CodepointRange implements StringFunction {
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }
 
-export declare class Uri implements StringFunction {
+export declare class Uri implements StringValidation {
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }
 
-export declare class Arn implements StringFunction {
+export declare class Arn implements StringValidation {
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }
 
-export declare class Email implements StringFunction {
+export declare class Email implements StringValidation {
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }
 
-export declare class StartsWith implements StringFunction {
+export declare class StartsWith implements StringValidation {
   readonly prefix: string;
 
   constructor(prefix: string);
@@ -102,7 +109,7 @@ export declare class StartsWith implements StringFunction {
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }
 
-export declare class MatchesFormatter implements StringFunction {
+export declare class MatchesFormatter implements StringValidation {
   readonly formatter: StringFormatter;
 
   constructor(formatter: StringFormatter);
@@ -110,6 +117,6 @@ export declare class MatchesFormatter implements StringFunction {
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }
 
-export declare class Uuid implements StringFunction {
+export declare class Uuid implements StringValidation {
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }

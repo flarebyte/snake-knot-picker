@@ -1,11 +1,10 @@
-import type { ListFunction } from "./common";
-import type { ListFunctionChain } from "./common";
+import type { ListValidation, ListValidationChain } from "./common";
 
-export declare const boundedList: ListFunction;
-export declare const boundedListChain: ListFunctionChain;
+export declare const boundedList: ListValidation;
+export declare const boundedListChain: ListValidationChain;
 
 // Example chain shape:
-// listFunctions.chain()
-//   .pipe(listFunctions.minLength(1))
-//   .pipe(listFunctions.maxLength(5))
+// listValidations.chain()
+//   .pipe(listValidations.minLength(1))
+//   .pipe(listValidations.maxLength(5))
 //   .build();

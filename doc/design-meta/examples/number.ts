@@ -1,17 +1,22 @@
-import type { NumberFunction, NumberFunctionChain, ValidationError, ValidatorOptions } from "./common";
+import type {
+  NumberValidation,
+  NumberValidationChain,
+  ValidationError,
+  ValidatorOptions,
+} from "./common";
 
-export interface NumberFunctionFactory {
-  chain(): NumberFunctionChain;
-  float(): NumberFunction;
-  int(): NumberFunction;
-  max(max: number): NumberFunction;
-  min(min: number): NumberFunction;
-  multipleOf(factor: number): NumberFunction;
+export interface NumberValidationFactory {
+  chain(): NumberValidationChain;
+  float(): NumberValidation;
+  int(): NumberValidation;
+  max(max: number): NumberValidation;
+  min(min: number): NumberValidation;
+  multipleOf(factor: number): NumberValidation;
 }
 
-export declare const numberFunctions: NumberFunctionFactory;
+export declare const numberValidations: NumberValidationFactory;
 
-export declare class Min implements NumberFunction {
+export declare class Min implements NumberValidation {
   readonly min: number;
 
   constructor(min: number);
@@ -19,7 +24,7 @@ export declare class Min implements NumberFunction {
   validate(input: number, opts: ValidatorOptions): ValidationError | null;
 }
 
-export declare class Max implements NumberFunction {
+export declare class Max implements NumberValidation {
   readonly max: number;
 
   constructor(max: number);
@@ -27,7 +32,7 @@ export declare class Max implements NumberFunction {
   validate(input: number, opts: ValidatorOptions): ValidationError | null;
 }
 
-export declare class MultipleOf implements NumberFunction {
+export declare class MultipleOf implements NumberValidation {
   readonly factor: number;
 
   constructor(factor: number);
@@ -35,10 +40,10 @@ export declare class MultipleOf implements NumberFunction {
   validate(input: number, opts: ValidatorOptions): ValidationError | null;
 }
 
-export declare class Int implements NumberFunction {
+export declare class Int implements NumberValidation {
   validate(input: number, opts: ValidatorOptions): ValidationError | null;
 }
 
-export declare class Float implements NumberFunction {
+export declare class Float implements NumberValidation {
   validate(input: number, opts: ValidatorOptions): ValidationError | null;
 }

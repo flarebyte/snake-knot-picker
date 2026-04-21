@@ -1,13 +1,18 @@
-import type { TupleFunction, TupleFunctionChain, ValidationError, ValidatorOptions } from "./common";
+import type {
+  TupleValidation,
+  TupleValidationChain,
+  ValidationError,
+  ValidatorOptions,
+} from "./common";
 
-export interface TupleFunctionFactory {
-  chain(): TupleFunctionChain;
-  length(length: number): TupleFunction;
+export interface TupleValidationFactory {
+  chain(): TupleValidationChain;
+  length(length: number): TupleValidation;
 }
 
-export declare const tupleFunctions: TupleFunctionFactory;
+export declare const tupleValidations: TupleValidationFactory;
 
-export declare class Length implements TupleFunction {
+export declare class Length implements TupleValidation {
   readonly length: number;
 
   constructor(length: number);

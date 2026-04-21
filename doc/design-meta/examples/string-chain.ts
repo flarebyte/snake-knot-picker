@@ -1,13 +1,12 @@
-import type { StringFunction } from "./common";
-import type { StringFunctionChain } from "./common";
+import type { StringValidation, StringValidationChain } from "./common";
 
-export declare const normalizedEmail: StringFunction;
-export declare const normalizedEmailChain: StringFunctionChain;
+export declare const normalizedEmail: StringValidation;
+export declare const normalizedEmailChain: StringValidationChain;
 
 // Example chain shape:
-// stringFunctions.chain()
-//   .pipe(stringFunctions.matchesFormatter(stringFormatters.trim()))
-//   .pipe(stringFunctions.minChars(10))
-//   .pipe(stringFunctions.maxChars(40))
-//   .pipe(stringFunctions.email())
+// stringValidations.chain()
+//   .pipe(stringValidations.matchesFormatter(stringFormatters.trim()))
+//   .pipe(stringValidations.minChars(10))
+//   .pipe(stringValidations.maxChars(40))
+//   .pipe(stringValidations.email())
 //   .build();

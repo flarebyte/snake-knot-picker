@@ -13,8 +13,8 @@ string,email,Email
 string,matches-formatter,MatchesFormatter(formatter)
 string,starts-with,StartsWith(prefix)
 string,uuid,Uuid
-string,factory,stringFunctions
-string,chain,StringFunctionChain.pipe(...).build()
+string,factory,stringValidations
+string,chain,StringValidationChain.pipe(...).build()
 formatter,trim,Trim
 formatter,lowercase,Lowercase
 formatter,uppercase,Uppercase
@@ -25,8 +25,8 @@ number,max,Max(max)
 number,multiple of,MultipleOf(factor)
 number,int,Int
 number,float,Float
-number,factory,numberFunctions
-number,chain,NumberFunctionChain.pipe(...).build()
+number,factory,numberValidations
+number,chain,NumberValidationChain.pipe(...).build()
 boolean,,
 color,hex,
 color,hsl,
@@ -37,9 +37,9 @@ date,,
 datetime,,
 duration,,
 tuple,length,Length(length)
-tuple,factory,tupleFunctions
-tuple,chain,TupleFunctionChain.pipe(...).build()
+tuple,factory,tupleValidations
+tuple,chain,TupleValidationChain.pipe(...).build()
 list,min-length,MinLength(minLength)
 list,max-length,MaxLength(maxLength)
-list,factory,listFunctions
-list,chain,ListFunctionChain.pipe(...).build()
+list,factory,listValidations
+list,chain,ListValidationChain.pipe(...).build()

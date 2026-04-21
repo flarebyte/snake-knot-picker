@@ -1,10 +1,9 @@
-import type { TupleFunction } from "./common";
-import type { TupleFunctionChain } from "./common";
+import type { TupleValidation, TupleValidationChain } from "./common";
 
-export declare const constrainedTuple: TupleFunction;
-export declare const constrainedTupleChain: TupleFunctionChain;
+export declare const constrainedTuple: TupleValidation;
+export declare const constrainedTupleChain: TupleValidationChain;
 
 // Example chain shape:
-// tupleFunctions.chain()
-//   .pipe(tupleFunctions.length(3))
+// tupleValidations.chain()
+//   .pipe(tupleValidations.length(3))
 //   .build();

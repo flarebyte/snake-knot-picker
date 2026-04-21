@@ -7,7 +7,7 @@ export interface ValidatorOptions {
   field?: string;
 }
 
-export interface StringFunction {
+export interface StringValidation {
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }
 
@@ -20,36 +20,52 @@ export interface StringFormatterChain {
   pipe(next: StringFormatter): StringFormatterChain;
 }
 
-export interface StringFunctionChain {
-  build(): StringFunction;
-  pipe(next: StringFunction | StringFormatter): StringFunctionChain;
+export interface StringValidationChain {
+  build(): StringValidation;
+  pipe(next: StringValidation | StringFormatter): StringValidationChain;
 }
 
-export interface NumberFunction {
+export interface StringFunction extends StringValidation {}
+
+export interface StringFunctionChain extends StringValidationChain {}
+
+export interface NumberValidation {
   validate(input: number, opts: ValidatorOptions): ValidationError | null;
 }
 
-export interface NumberFunctionChain {
-  build(): NumberFunction;
-  pipe(next: NumberFunction): NumberFunctionChain;
+export interface NumberValidationChain {
+  build(): NumberValidation;
+  pipe(next: NumberValidation): NumberValidationChain;
 }
 
-export interface TupleFunction {
+export interface NumberFunction extends NumberValidation {}
+
+export interface NumberFunctionChain extends NumberValidationChain {}
+
+export interface TupleValidation {
   validate(input: readonly unknown[], opts: ValidatorOptions): ValidationError | null;
 }
 
-export interface TupleFunctionChain {
-  build(): TupleFunction;
-  pipe(next: TupleFunction): TupleFunctionChain;
+export interface TupleValidationChain {
+  build(): TupleValidation;
+  pipe(next: TupleValidation): TupleValidationChain;
 }
 
-export interface ListFunction {
+export interface TupleFunction extends TupleValidation {}
+
+export interface TupleFunctionChain extends TupleValidationChain {}
+
+export interface ListValidation {
   validate(input: readonly unknown[], opts: ValidatorOptions): ValidationError | null;
 }
 
-export interface ListFunctionChain {
-  build(): ListFunction;
-  pipe(next: ListFunction): ListFunctionChain;
+export interface ListValidationChain {
+  build(): ListValidation;
+  pipe(next: ListValidation): ListValidationChain;
 }
 
-export interface NumberValidator extends NumberFunction {}
+export interface ListFunction extends ListValidation {}
+
+export interface ListFunctionChain extends ListValidationChain {}
+
+export interface NumberValidator extends NumberValidation {}

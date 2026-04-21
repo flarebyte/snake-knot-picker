@@ -1,14 +1,19 @@
-import type { ListFunction, ListFunctionChain, ValidationError, ValidatorOptions } from "./common";
+import type {
+  ListValidation,
+  ListValidationChain,
+  ValidationError,
+  ValidatorOptions,
+} from "./common";
 
-export interface ListFunctionFactory {
-  chain(): ListFunctionChain;
-  maxLength(maxLength: number): ListFunction;
-  minLength(minLength: number): ListFunction;
+export interface ListValidationFactory {
+  chain(): ListValidationChain;
+  maxLength(maxLength: number): ListValidation;
+  minLength(minLength: number): ListValidation;
 }
 
-export declare const listFunctions: ListFunctionFactory;
+export declare const listValidations: ListValidationFactory;
 
-export declare class MinLength implements ListFunction {
+export declare class MinLength implements ListValidation {
   readonly minLength: number;
 
   constructor(minLength: number);
@@ -16,7 +21,7 @@ export declare class MinLength implements ListFunction {
   validate(input: readonly unknown[], opts: ValidatorOptions): ValidationError | null;
 }
 
-export declare class MaxLength implements ListFunction {
+export declare class MaxLength implements ListValidation {
   readonly maxLength: number;
 
   constructor(maxLength: number);
