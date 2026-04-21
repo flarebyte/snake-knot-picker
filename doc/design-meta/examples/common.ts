@@ -52,4 +52,6 @@ export interface ListValidationChain {
   pipe(next: ListValidation): ListValidationChain;
 }
 
+export type ListItemValidation = StringValidation | TupleValidation;
+
 export interface NumberValidator extends NumberValidation {}

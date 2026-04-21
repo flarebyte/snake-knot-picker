@@ -5,6 +5,7 @@ export declare const boundedListChain: ListValidationChain;
 
 // Example chain shape:
 // listValidations.chain()
+//   .pipe(listValidations.of(stringValidations.email()))
 //   .pipe(listValidations.minLength(1))
 //   .pipe(listValidations.maxLength(5))
 //   .build();

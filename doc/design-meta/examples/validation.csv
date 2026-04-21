@@ -36,9 +36,10 @@ time,,
 date,,
 datetime,,
 duration,,
-tuple,of,TupleOf(validations)
+tuple,of,TupleOf(validations:stringValidation[])
 tuple,factory,tupleValidations
 tuple,chain,TupleValidationChain.pipe(...).build()
+list,of,ListOf(itemValidation:string|tupleValidation)
 list,min-length,MinLength(minLength)
 list,max-length,MaxLength(maxLength)
 list,factory,listValidations
