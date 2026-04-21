@@ -25,10 +25,6 @@ export interface StringValidationChain {
   pipe(next: StringValidation | StringFormatter): StringValidationChain;
 }
 
-export interface StringFunction extends StringValidation {}
-
-export interface StringFunctionChain extends StringValidationChain {}
-
 export interface NumberValidation {
   validate(input: number, opts: ValidatorOptions): ValidationError | null;
 }
@@ -37,10 +33,6 @@ export interface NumberValidationChain {
   build(): NumberValidation;
   pipe(next: NumberValidation): NumberValidationChain;
 }
-
-export interface NumberFunction extends NumberValidation {}
-
-export interface NumberFunctionChain extends NumberValidationChain {}
 
 export interface TupleValidation {
   validate(input: readonly unknown[], opts: ValidatorOptions): ValidationError | null;
@@ -51,10 +43,6 @@ export interface TupleValidationChain {
   pipe(next: TupleValidation): TupleValidationChain;
 }
 
-export interface TupleFunction extends TupleValidation {}
-
-export interface TupleFunctionChain extends TupleValidationChain {}
-
 export interface ListValidation {
   validate(input: readonly unknown[], opts: ValidatorOptions): ValidationError | null;
 }
@@ -63,9 +51,5 @@ export interface ListValidationChain {
   build(): ListValidation;
   pipe(next: ListValidation): ListValidationChain;
 }
-
-export interface ListFunction extends ListValidation {}
-
-export interface ListFunctionChain extends ListValidationChain {}
 
 export interface NumberValidator extends NumberValidation {}

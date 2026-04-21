@@ -26,7 +26,6 @@ export interface StringValidationFactory {
 }
 
 export declare const stringValidations: StringValidationFactory;
-export declare const stringFunctions: StringValidationFactory;
 
 export declare class MinChars implements StringValidation {
   readonly minChars: number;
