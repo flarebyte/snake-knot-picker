@@ -1,30 +1,30 @@
-description,example
-Support positional arguments,wash start heavy-duty
-Support boolean flags,wash start bedding --extra-rinse
-Support single-parameter flags,wash start normal --spin 1200
-Support n-tuple flags,wash start normal --range 800 1200
-Support list flags by repetition,wash start whites --add bleach --add softener
-Support string and enum types,wash start delicate --temp warm
-Support number types,wash start normal --spin 1200
-Support URL or URI types,wash alarm --report https://website.com
-Validate character counts,schema string --min-chars >- 10 --max-chars < 20
-Validate word counts,schema string --min-words >- 10 --max-words < 20
-Validate numeric values,schema number --min >- 10 --max < 20
-Expect a numeric value,schema number --eq 10
-Expect a string value,schema string --eq blue
-Expect an enum,"schema string --enum green,orange,red"
-Expect an enum with custom separator,"schema string --enum green;orange;red" --enum-separator ;
-Expect a URI,"schema uri --https --allow-fragment --allow-query --allow-ip --reject-port"
-Expect a color like #F54927,schema color --hex
-Expect an RGB color,"schema color --rgb"
-Expect an HSL color,"schema color --hsl"
-Expect the first tuple element,"schema string --tuple 0 --enum monday,tuesday"
-Expect the second tuple element,"schema color --tuple 1 --hex"
-Expect a list of strings,"schema string --list --max-chars < 20 --max-length <= 5"
-Expect a list of tuple elements,"schema string --list --tuple 0 --enum monday,tuesday --max-length <= 5"
-Expect a string with digits,"schema string --digit"
-Expect a string with hex digits,"schema string --hex"
-Expect a string with alphabetic characters,"schema string --alpha"
-Expect a lowercase string,"schema string --lowercase"
-Expect an uppercase string,"schema string --uppercase"
-Expect a string from the Japanese Hiragana alphabet,"schema string --codepoint-range U+3040 U+309F"
+mode,description,example
+user,Support positional arguments,wash start heavy-duty
+user,Support boolean flags,wash start bedding --extra-rinse
+user,Support single-parameter flags,wash start normal --spin 1200
+user,Support n-tuple flags,wash start normal --range 800 1200
+user,Support list flags by repetition,wash start whites --add bleach --add softener
+user,Support string and enum types,wash start delicate --temp warm
+user,Support number types,wash start normal --spin 1200
+user,Support URL or URI types,wash alarm --report https://website.com
+admin,Validate character counts,schema string --min-chars >- 10 --max-chars < 20
+admin,Validate word counts,schema string --min-words >- 10 --max-words < 20
+admin,Validate numeric values,schema number --min >- 10 --max < 20
+admin,Expect a numeric value,schema number --eq 10
+admin,Expect a string value,schema string --eq blue
+admin,Expect an enum,"schema string --enum green,orange,red"
+admin,Expect an enum with custom separator,"schema string --enum green;orange;red" --enum-separator ;
+admin,Expect a URI,"schema uri --https --allow-fragment --allow-query --allow-ip --reject-port"
+admin,Expect a color like #F54927,schema color --hex
+admin,Expect an RGB color,"schema color --rgb"
+admin,Expect an HSL color,"schema color --hsl"
+admin,Expect the first tuple element,"schema string --tuple 0 --enum monday,tuesday"
+admin,Expect the second tuple element,"schema color --tuple 1 --hex"
+admin,Expect a list of strings,"schema string --list --max-chars < 20 --max-length <= 5"
+admin,Expect a list of tuple elements,"schema string --list --tuple 0 --enum monday,tuesday --max-length <= 5"
+admin,Expect a string with digits,"schema string --digit"
+admin,Expect a string with hex digits,"schema string --hex"
+admin,Expect a string with alphabetic characters,"schema string --alpha"
+admin,Expect a lowercase string,"schema string --lowercase"
+admin,Expect an uppercase string,"schema string --uppercase"
+admin,Expect a string from the Japanese Hiragana alphabet,"schema string --codepoint-range U+3040 U+309F"

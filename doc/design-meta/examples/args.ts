@@ -6,6 +6,44 @@ export interface ArgsCommandSchema {
   positionals: readonly StringValidation[];
 }
 
+export interface ArgsParsedCommand {
+  commandPath: readonly string[];
+  flags: readonly ArgsParsedFlag[];
+  positionals: readonly string[];
+}
+
+export type ArgsParsedFlag =
+  | {
+      kind: "boolean";
+      name: string;
+      value: true;
+    }
+  | {
+      kind: "list";
+      name: string;
+      values: readonly string[];
+    }
+  | {
+      kind: "string";
+      name: string;
+      value: string;
+    }
+  | {
+      kind: "tuple";
+      name: string;
+      values: readonly string[];
+    };
+
+export type ArgsParseResult =
+  | {
+      error: null;
+      value: ArgsParsedCommand;
+    }
+  | {
+      error: ValidationError;
+      value: null;
+    };
+
 export type ArgsFlagSchema =
   | {
       kind: "boolean";
@@ -41,6 +79,7 @@ export interface AdminArgsCommandBuilder {
 }
 
 export interface UserArgsValidator {
+  parse(argv: readonly string[], schema: ArgsCommandSchema): ArgsParseResult;
   validate(argv: readonly string[], schema: ArgsCommandSchema): ValidationError | null;
 }
 
