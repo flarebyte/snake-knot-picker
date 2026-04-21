@@ -18,12 +18,16 @@ export interface StringValidationFactory {
   email(): StringValidation;
   enum(allowedValues: readonly string[]): StringValidation;
   boolean(): StringValidation;
+  date(): StringValidation;
+  datetime(): StringValidation;
+  duration(): StringValidation;
   maxChars(maxChars: number): StringValidation;
   maxWords(maxWords: number): StringValidation;
   matchesFormatter(formatter: StringFormatter): StringValidation;
   minChars(minChars: number): StringValidation;
   minWords(minWords: number): StringValidation;
   number(numberValidation: NumberValidation): StringValidation;
+  time(): StringValidation;
   startsWith(prefix: string): StringValidation;
   uri(): StringValidation;
   uuid(): StringValidation;
@@ -100,6 +104,14 @@ export declare class Color implements StringValidation {
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }
 
+export declare class DateString implements StringValidation {
+  validate(input: string, opts: ValidatorOptions): ValidationError | null;
+}
+
+export declare class DateTimeString implements StringValidation {
+  validate(input: string, opts: ValidatorOptions): ValidationError | null;
+}
+
 export declare class Uri implements StringValidation {
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }
@@ -133,6 +145,14 @@ export declare class NumberStringValidation implements StringValidation {
 
   constructor(numberValidation: NumberValidation);
 
+  validate(input: string, opts: ValidatorOptions): ValidationError | null;
+}
+
+export declare class TimeString implements StringValidation {
+  validate(input: string, opts: ValidatorOptions): ValidationError | null;
+}
+
+export declare class DurationString implements StringValidation {
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }
 

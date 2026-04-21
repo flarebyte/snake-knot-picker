@@ -10,12 +10,16 @@ string,base64,Base64
 string,codepoint-range,CodepointRange(from,to)
 string,boolean,Boolean
 string,color,Color
+string,date,DateString
+string,datetime,DateTimeString
+string,duration,DurationString
 string,uri,Uri
 string,arn,Arn
 string,email,Email
 string,matches-formatter,MatchesFormatter(formatter)
 string,number,NumberStringValidation(numberValidation)
 string,starts-with,StartsWith(prefix)
+string,time,TimeString
 string,uuid,Uuid
 string,factory,stringValidations
 string,chain,StringValidationChain.pipe(...).build()
@@ -41,7 +45,6 @@ color,rgb,
 datetime,,
 time,,
 date,,
-datetime,,
 duration,,
 tuple,of,TupleOf(validations:StringValidation[])
 tuple,factory,tupleValidations
