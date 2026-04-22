@@ -1,0 +1,94 @@
+{
+  "version": "1",
+  "commandPath": ["wash", "start"],
+  "adminOnly": true,
+  "flags": [
+    {
+      "kind": "boolean",
+      "name": "extra-rinse"
+    },
+    {
+      "kind": "string",
+      "name": "mode",
+      "validation": {
+        "kind": "enum",
+        "allowedValues": ["normal", "delicate", "whites"]
+      }
+    },
+    {
+      "kind": "string",
+      "name": "spin",
+      "validation": {
+        "kind": "number",
+        "validation": {
+          "kind": "int"
+        }
+      }
+    },
+    {
+      "kind": "tuple",
+      "name": "range",
+      "validations": [
+        {
+          "kind": "number",
+          "validation": {
+            "kind": "int"
+          }
+        },
+        {
+          "kind": "number",
+          "validation": {
+            "kind": "int"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "list",
+      "name": "add",
+      "repeatable": true,
+      "validation": {
+        "kind": "string",
+        "validation": {
+          "kind": "alpha"
+        }
+      }
+    },
+    {
+      "kind": "string",
+      "name": "report",
+      "validation": {
+        "kind": "uri"
+      }
+    },
+    {
+      "kind": "string",
+      "name": "hex",
+      "validation": {
+        "kind": "hex"
+      }
+    },
+    {
+      "kind": "string",
+      "name": "temp",
+      "validation": {
+        "kind": "enum",
+        "allowedValues": ["cold", "warm", "hot"]
+      }
+    },
+    {
+      "kind": "string",
+      "name": "due-date",
+      "validation": {
+        "kind": "date"
+      }
+    },
+    {
+      "kind": "string",
+      "name": "alarm-time",
+      "validation": {
+        "kind": "time"
+      }
+    }
+  ]
+}
