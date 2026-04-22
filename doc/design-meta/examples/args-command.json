@@ -10,85 +10,51 @@
     {
       "kind": "string",
       "name": "mode",
-      "validation": {
-        "kind": "enum",
-        "allowedValues": ["normal", "delicate", "whites"]
-      }
+      "schema": ["schema", "string", "--enum", "normal,delicate,whites"]
     },
     {
       "kind": "string",
       "name": "spin",
-      "validation": {
-        "kind": "number",
-        "validation": {
-          "kind": "int"
-        }
-      }
+      "schema": ["schema", "number", "--int"]
     },
     {
       "kind": "tuple",
       "name": "range",
-      "validations": [
-        {
-          "kind": "number",
-          "validation": {
-            "kind": "int"
-          }
-        },
-        {
-          "kind": "number",
-          "validation": {
-            "kind": "int"
-          }
-        }
+      "schemas": [
+        ["schema", "string", "--tuple", "0", "--number", "schema number --int"],
+        ["schema", "string", "--tuple", "1", "--number", "schema number --int"]
       ]
     },
     {
       "kind": "list",
       "name": "add",
       "repeatable": true,
-      "validation": {
-        "kind": "string",
-        "validation": {
-          "kind": "alpha"
-        }
-      }
+      "schema": ["schema", "string", "--list", "--alpha"]
     },
     {
       "kind": "string",
       "name": "report",
-      "validation": {
-        "kind": "uri"
-      }
+      "schema": ["schema", "string", "--uri"]
     },
     {
       "kind": "string",
       "name": "hex",
-      "validation": {
-        "kind": "hex"
-      }
+      "schema": ["schema", "string", "--hex"]
     },
     {
       "kind": "string",
       "name": "temp",
-      "validation": {
-        "kind": "enum",
-        "allowedValues": ["cold", "warm", "hot"]
-      }
+      "schema": ["schema", "string", "--enum", "cold,warm,hot"]
     },
     {
       "kind": "string",
       "name": "due-date",
-      "validation": {
-        "kind": "date"
-      }
+      "schema": ["schema", "string", "--date"]
     },
     {
       "kind": "string",
       "name": "alarm-time",
-      "validation": {
-        "kind": "time"
-      }
+      "schema": ["schema", "string", "--time"]
     }
   ]
 }
