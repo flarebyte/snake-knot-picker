@@ -13,7 +13,7 @@ export declare const washStartSchema: ArgsCommandSchema;
 //
 // adminArgs.command(["wash", "start"])
 //   .adminOnly()
-//   .positional(stringValidations.enum(["normal", "delicate", "whites"]))
+//   .string("mode", stringValidations.enum(["normal", "delicate", "whites"]))
 //   .boolean("extra-rinse")
 //   .string("temp", stringValidations.enum(["cold", "warm", "hot"]))
 //   .tuple("range", [

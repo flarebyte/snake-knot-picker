@@ -8,10 +8,10 @@ export declare const washStartUserSchema: ArgsCommandSchema;
 
 // Example user validation shape:
 // userArgs.parse(
-//   ["wash", "start", "normal", "--spin", "1200", "--extra-rinse"],
+//   ["wash", "start", "--mode", "normal", "--spin", "1200", "--extra-rinse"],
 //   washStartUserSchema,
 // )
 // userArgs.validate(
-//   ["wash", "start", "normal", "--spin", "1200", "--extra-rinse"],
+//   ["wash", "start", "--mode", "normal", "--spin", "1200", "--extra-rinse"],
 //   washStartUserSchema,
 // )

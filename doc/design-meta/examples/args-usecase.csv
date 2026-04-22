@@ -1,11 +1,11 @@
 mode,description,example
-user,Support positional arguments,wash start heavy-duty
-user,Support boolean flags,wash start bedding --extra-rinse
-user,Support single-parameter flags,wash start normal --spin 1200
-user,Support n-tuple flags,wash start normal --range 800 1200
-user,Support list flags by repetition,wash start whites --add bleach --add softener
-user,Support string and enum types,wash start delicate --temp warm
-user,Support number types,wash start normal --spin 1200
+user,Support only named values,wash start --mode heavy-duty
+user,Support boolean flags,wash start --mode bedding --extra-rinse
+user,Support single-parameter flags,wash start --mode normal --spin 1200
+user,Support n-tuple flags,wash start --mode normal --range 800 1200
+user,Support list flags by repetition,wash start --mode whites --add bleach --add softener
+user,Support string and enum types,wash start --mode delicate --temp warm
+user,Support number types,wash start --mode normal --spin 1200
 user,Support URL or URI types,wash alarm --report https://website.com
 admin,Validate character counts,schema string --min-chars >- 10 --max-chars < 20
 admin,Reserve a command for admins,schema wash start --admin-only

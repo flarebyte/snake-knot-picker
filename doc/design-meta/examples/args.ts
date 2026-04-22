@@ -4,13 +4,11 @@ export interface ArgsCommandSchema {
   commandPath: readonly string[];
   flags: readonly ArgsFlagSchema[];
   adminOnly: boolean;
-  positionals: readonly StringValidation[];
 }
 
 export interface ArgsParsedCommand {
   commandPath: readonly string[];
   flags: readonly ArgsParsedFlag[];
-  positionals: readonly string[];
 }
 
 export type ArgsParsedFlag =
@@ -49,26 +47,22 @@ export type ArgsFlagSchema =
   | {
       kind: "boolean";
       name: string;
-      valueArity: 0;
     }
   | {
       kind: "list";
       name: string;
       validation: ListValidation;
       repeatable: true;
-      valueArity: 1;
     }
   | {
       kind: "string";
       name: string;
       validation: StringValidation;
-      valueArity: 1;
     }
   | {
       kind: "tuple";
       name: string;
       validations: readonly StringValidation[];
-      valueArity: number;
     };
 
 export interface AdminArgsFactory {
@@ -79,7 +73,6 @@ export interface AdminArgsCommandBuilder {
   adminOnly(): AdminArgsCommandBuilder;
   boolean(name: string): AdminArgsCommandBuilder;
   list(name: string, validation: ListValidation): AdminArgsCommandBuilder;
-  positional(validation: StringValidation): AdminArgsCommandBuilder;
   string(name: string, validation: StringValidation): AdminArgsCommandBuilder;
   tuple(name: string, validations: readonly StringValidation[]): AdminArgsCommandBuilder;
   build(): ArgsCommandSchema;
