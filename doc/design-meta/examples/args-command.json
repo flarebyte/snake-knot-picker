@@ -21,8 +21,8 @@
       "kind": "tuple",
       "name": "range",
       "schemas": [
-        ["schema", "string", "--tuple", "0", "--number", "schema number --int"],
-        ["schema", "string", "--tuple", "1", "--number", "schema number --int"]
+        ["schema", "number", "--tuple", "0", "--int"],
+        ["schema", "number", "--tuple", "1", "--int"]
       ]
     },
     {
@@ -30,6 +30,17 @@
       "name": "add",
       "repeatable": true,
       "schema": ["schema", "string", "--list", "--alpha"]
+    },
+    {
+      "kind": "list",
+      "name": "pair",
+      "repeatable": true,
+      "schemas": [
+        [
+          ["schema", "string", "--alpha"],
+          ["schema", "string", "--hex"]
+        ]
+      ]
     },
     {
       "kind": "string",

@@ -12,6 +12,7 @@ admin,Reserve a command for admins,schema wash start --admin-only
 admin,Validate word counts,schema string --min-words >- 10 --max-words < 20
 admin,Validate numeric values,schema number --min >- 10 --max < 20
 admin,Expect a numeric value,schema number --eq 10
+admin,Expect a tuple numeric value,schema number --tuple 0 --int
 admin,Expect a string value,schema string --eq blue
 admin,Expect an enum,"schema string --enum green,orange,red"
 admin,Expect an enum with custom separator,"schema string --enum green;orange;red" --enum-separator ;
