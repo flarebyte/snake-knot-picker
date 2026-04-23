@@ -49,6 +49,41 @@
     },
     {
       "kind": "string",
+      "name": "accent",
+      "schema": ["schema", "string", "--color"]
+    },
+    {
+      "kind": "string",
+      "name": "contact-email",
+      "schema": ["schema", "string", "--email"]
+    },
+    {
+      "kind": "string",
+      "name": "release-date-time",
+      "schema": ["schema", "string", "--datetime"]
+    },
+    {
+      "kind": "string",
+      "name": "retry-duration",
+      "schema": ["schema", "string", "--duration"]
+    },
+    {
+      "kind": "string",
+      "name": "checksum",
+      "schema": ["schema", "string", "--base64"]
+    },
+    {
+      "kind": "string",
+      "name": "starts-with",
+      "schema": ["schema", "string", "--starts-with", "wash-"]
+    },
+    {
+      "kind": "string",
+      "name": "codepoints",
+      "schema": ["schema", "string", "--codepoint-range", "U+3040", "U+309F"]
+    },
+    {
+      "kind": "string",
       "name": "hex",
       "schema": ["schema", "string", "--hex"]
     },
@@ -61,6 +96,11 @@
       "kind": "string",
       "name": "due-date",
       "schema": ["schema", "string", "--date"]
+    },
+    {
+      "kind": "string",
+      "name": "enabled",
+      "schema": ["schema", "string", "--boolean"]
     },
     {
       "kind": "string",
