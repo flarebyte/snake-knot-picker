@@ -15,10 +15,16 @@ export declare const washStartSchema: ArgsCommandSchema;
 //   .adminOnly()
 //   .string("mode", stringValidations.enum(["normal", "delicate", "whites"]))
 //   .boolean("extra-rinse")
-//   .string("temp", stringValidations.enum(["cold", "warm", "hot"]))
+//   .number("spin", numberValidations.int())
 //   .tuple("range", [
-//     stringValidations.number(numberValidations.int()),
-//     stringValidations.number(numberValidations.int()),
+//     numberValidations.int(),
+//     numberValidations.int(),
 //   ])
-//   .list("add", listValidations.of(stringValidations.alpha()))
+//   .string("add", stringValidations.alpha(), { repeatable: true })
+//   .tuple(
+//     "pair",
+//     [stringValidations.alpha(), stringValidations.hex()],
+//     { repeatable: true },
+//   )
+//   .string("temp", stringValidations.enum(["cold", "warm", "hot"]))
 //   .build();

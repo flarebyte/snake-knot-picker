@@ -13,7 +13,7 @@
       "schema": ["schema", "string", "--enum", "normal,delicate,whites"]
     },
     {
-      "kind": "string",
+      "kind": "number",
       "name": "spin",
       "schema": ["schema", "number", "--int"]
     },
@@ -26,13 +26,13 @@
       ]
     },
     {
-      "kind": "list",
+      "kind": "string",
       "name": "add",
       "repeatable": true,
-      "schema": ["schema", "string", "--list", "--alpha"]
+      "schema": ["schema", "string", "--alpha"]
     },
     {
-      "kind": "list",
+      "kind": "tuple",
       "name": "pair",
       "repeatable": true,
       "schemas": [

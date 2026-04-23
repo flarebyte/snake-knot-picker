@@ -1,4 +1,4 @@
-import type { ListValidation, StringValidation, ValidationError } from "./common";
+import type { NumberValidation, StringValidation, ValidationError } from "./common";
 
 export interface ArgsCommandSchema {
   commandPath: readonly string[];
@@ -18,9 +18,9 @@ export type ArgsParsedFlag =
       value: true;
     }
   | {
-      kind: "list";
+      kind: "number";
       name: string;
-      values: readonly string[];
+      value: number;
     }
   | {
       kind: "string";
@@ -49,21 +49,27 @@ export type ArgsFlagSchema =
       name: string;
     }
   | {
-      kind: "list";
+      kind: "number";
       name: string;
-      validation: ListValidation;
-      repeatable: true;
+      validation: NumberValidation;
+      repeatable?: true;
     }
   | {
       kind: "string";
       name: string;
       validation: StringValidation;
+      repeatable?: true;
     }
   | {
       kind: "tuple";
       name: string;
       validations: readonly StringValidation[];
+      repeatable?: true;
     };
+
+export interface ArgsRepeatableOptions {
+  repeatable?: true;
+}
 
 export interface AdminArgsFactory {
   command(commandPath: readonly string[]): AdminArgsCommandBuilder;
@@ -72,9 +78,9 @@ export interface AdminArgsFactory {
 export interface AdminArgsCommandBuilder {
   adminOnly(): AdminArgsCommandBuilder;
   boolean(name: string): AdminArgsCommandBuilder;
-  list(name: string, validation: ListValidation): AdminArgsCommandBuilder;
-  string(name: string, validation: StringValidation): AdminArgsCommandBuilder;
-  tuple(name: string, validations: readonly StringValidation[]): AdminArgsCommandBuilder;
+  number(name: string, validation: NumberValidation, options?: ArgsRepeatableOptions): AdminArgsCommandBuilder;
+  string(name: string, validation: StringValidation, options?: ArgsRepeatableOptions): AdminArgsCommandBuilder;
+  tuple(name: string, validations: readonly StringValidation[], options?: ArgsRepeatableOptions): AdminArgsCommandBuilder;
   build(): ArgsCommandSchema;
 }
 

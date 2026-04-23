@@ -3,7 +3,8 @@ user,Support only named values,wash start --mode heavy-duty
 user,Support boolean flags,wash start --mode bedding --extra-rinse
 user,Support single-parameter flags,wash start --mode normal --spin 1200
 user,Support n-tuple flags,wash start --mode normal --range 800 1200
-user,Support list flags by repetition,wash start --mode whites --add bleach --add softener
+user,Support repeated string flags by repetition,wash start --mode whites --add bleach --add softener
+user,Support repeated number flags by repetition,wash start --mode normal --spin 1200 --spin 1400
 user,Support string and enum types,wash start --mode delicate --temp warm
 user,Support number types,wash start --mode normal --spin 1200
 user,Support URL or URI types,wash alarm --report https://website.com
@@ -12,6 +13,7 @@ admin,Reserve a command for admins,schema wash start --admin-only
 admin,Validate word counts,schema string --min-words >- 10 --max-words < 20
 admin,Validate numeric values,schema number --min >- 10 --max < 20
 admin,Expect a numeric value,schema number --eq 10
+admin,Expect a repeated numeric flag,"schema number --int --repeatable"
 admin,Expect a tuple numeric value,schema number --tuple 0 --int
 admin,Expect a string value,schema string --eq blue
 admin,Expect an enum,"schema string --enum green,orange,red"
@@ -22,8 +24,8 @@ admin,Expect an RGB color,"schema color --rgb"
 admin,Expect an HSL color,"schema color --hsl"
 admin,Expect the first tuple element,"schema string --tuple 0 --enum monday,tuesday"
 admin,Expect the second tuple element,"schema color --tuple 1 --hex"
-admin,Expect a list of strings,"schema string --list --max-chars < 20 --max-length <= 5"
-admin,Expect a list of tuple elements,"schema string --list --tuple 0 --enum monday,tuesday --max-length <= 5"
+admin,Expect a repeated string flag,"schema string --alpha --repeatable"
+admin,Expect a repeated tuple flag,"schema tuple --tuple 0 --enum monday,tuesday --tuple 1 --hex --repeatable"
 admin,Expect a string with digits,"schema string --digit"
 admin,Expect a string with hex digits,"schema string --hex"
 admin,Expect a string with alphabetic characters,"schema string --alpha"
