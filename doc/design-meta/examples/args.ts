@@ -52,23 +52,24 @@ export type ArgsFlagSchema =
       kind: "number";
       name: string;
       validation: NumberValidation;
-      repeatable?: true;
+      repeatable?: ArgsRepeatableOptions;
     }
   | {
       kind: "string";
       name: string;
       validation: StringValidation;
-      repeatable?: true;
+      repeatable?: ArgsRepeatableOptions;
     }
   | {
       kind: "tuple";
       name: string;
       validations: readonly StringValidation[];
-      repeatable?: true;
+      repeatable?: ArgsRepeatableOptions;
     };
 
 export interface ArgsRepeatableOptions {
-  repeatable?: true;
+  minLength?: number;
+  maxLength?: number;
 }
 
 export interface AdminArgsFactory {

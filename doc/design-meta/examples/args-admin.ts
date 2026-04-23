@@ -20,11 +20,16 @@ export declare const washStartSchema: ArgsCommandSchema;
 //     numberValidations.int(),
 //     numberValidations.int(),
 //   ])
-//   .string("add", stringValidations.alpha(), { repeatable: true })
+//   .string("add", stringValidations.alpha(), { minLength: 1, maxLength: 5 })
 //   .tuple(
 //     "pair",
 //     [stringValidations.alpha(), stringValidations.hex()],
-//     { repeatable: true },
+//     { minLength: 1, maxLength: 5 },
+//   )
+//   .number(
+//     "dose",
+//     numberValidations.int(),
+//     { minLength: 1, maxLength: 3 },
 //   )
 //   .string("temp", stringValidations.enum(["cold", "warm", "hot"]))
 //   .build();

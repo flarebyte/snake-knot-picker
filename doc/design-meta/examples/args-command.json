@@ -29,17 +29,28 @@
       "kind": "string",
       "name": "add",
       "repeatable": true,
-      "schema": ["schema", "string", "--alpha"]
+      "schemas": [
+        ["schema", "string", "--alpha"],
+        ["schema", "repeatable", "--min-length", "1", "--max-length", "5"]
+      ]
     },
     {
       "kind": "tuple",
       "name": "pair",
       "repeatable": true,
       "schemas": [
-        [
-          ["schema", "string", "--alpha"],
-          ["schema", "string", "--hex"]
-        ]
+        ["schema", "string", "--tuple", "0", "--alpha"],
+        ["schema", "string", "--tuple", "1", "--hex"],
+        ["schema", "repeatable", "--min-length", "1", "--max-length", "5"]
+      ]
+    },
+    {
+      "kind": "number",
+      "name": "dose",
+      "repeatable": true,
+      "schemas": [
+        ["schema", "number", "--int"],
+        ["schema", "repeatable", "--min-length", "1", "--max-length", "3"]
       ]
     },
     {
