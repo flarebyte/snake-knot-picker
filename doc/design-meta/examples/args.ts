@@ -1,5 +1,7 @@
 import type { NumberValidation, StringValidation, ValidationError } from "./common";
 
+export type ArgsSchemaCommand = readonly string[];
+
 export interface ArgsCommandSchema {
   commandPath: readonly string[];
   flags: readonly ArgsFlagSchema[];
@@ -51,26 +53,24 @@ export type ArgsFlagSchema =
   | {
       kind: "number";
       name: string;
+      schema: ArgsSchemaCommand;
+      schemas?: readonly ArgsSchemaCommand[];
       validation: NumberValidation;
-      repeatable?: ArgsRepeatableOptions;
     }
   | {
       kind: "string";
       name: string;
+      schema: ArgsSchemaCommand;
+      schemas?: readonly ArgsSchemaCommand[];
       validation: StringValidation;
-      repeatable?: ArgsRepeatableOptions;
     }
   | {
       kind: "tuple";
       name: string;
+      schema: ArgsSchemaCommand;
+      schemas?: readonly ArgsSchemaCommand[];
       validations: readonly StringValidation[];
-      repeatable?: ArgsRepeatableOptions;
     };
-
-export interface ArgsRepeatableOptions {
-  minLength?: number;
-  maxLength?: number;
-}
 
 export interface AdminArgsFactory {
   command(commandPath: readonly string[]): AdminArgsCommandBuilder;
@@ -79,9 +79,9 @@ export interface AdminArgsFactory {
 export interface AdminArgsCommandBuilder {
   adminOnly(): AdminArgsCommandBuilder;
   boolean(name: string): AdminArgsCommandBuilder;
-  number(name: string, validation: NumberValidation, options?: ArgsRepeatableOptions): AdminArgsCommandBuilder;
-  string(name: string, validation: StringValidation, options?: ArgsRepeatableOptions): AdminArgsCommandBuilder;
-  tuple(name: string, validations: readonly StringValidation[], options?: ArgsRepeatableOptions): AdminArgsCommandBuilder;
+  number(name: string, validation: NumberValidation, schemas?: readonly ArgsSchemaCommand[]): AdminArgsCommandBuilder;
+  string(name: string, validation: StringValidation, schemas?: readonly ArgsSchemaCommand[]): AdminArgsCommandBuilder;
+  tuple(name: string, validations: readonly StringValidation[], schemas?: readonly ArgsSchemaCommand[]): AdminArgsCommandBuilder;
   build(): ArgsCommandSchema;
 }
 
