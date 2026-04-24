@@ -61,6 +61,11 @@
     },
     {
       "kind": "string",
+      "name": "postal-code",
+      "schema": ["schema", "string", "--postal-code", "--country", "US"]
+    },
+    {
+      "kind": "string",
       "name": "contact-email",
       "schema": ["schema", "string", "--email"]
     },

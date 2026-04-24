@@ -20,6 +20,7 @@ admin,Expect an enum,"schema string --enum green,orange,red"
 admin,Expect an enum with custom separator,"schema string --enum green;orange;red" --enum-separator ;
 admin,Expect a URI,"schema uri --https --allow-fragment --allow-query --allow-ip --reject-port"
 admin,Expect a color like #F54927,schema color --hex
+admin,Expect a postal code,"schema string --postal-code --country US"
 admin,Expect an RGB color,"schema color --rgb"
 admin,Expect an HSL color,"schema color --hsl"
 admin,Expect the first tuple element,"schema string --tuple 0 --enum monday,tuesday"
