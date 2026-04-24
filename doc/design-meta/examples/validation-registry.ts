@@ -1,5 +1,4 @@
 import type {
-  ListValidation,
   NumberConversion,
   NumberValidation,
   StringFormatter,
@@ -7,13 +6,7 @@ import type {
   TupleValidation,
 } from "./common";
 
-export type ValidationOperatorDomain =
-  | "string"
-  | "number"
-  | "formatter"
-  | "conversion"
-  | "tuple"
-  | "list";
+export type ValidationOperatorDomain = "string" | "number" | "formatter" | "conversion" | "tuple";
 
 export type ValidationSchemaCommand = readonly string[];
 
@@ -47,12 +40,6 @@ export type ValidationOperator =
       name: string;
       schema: ValidationSchemaCommand;
       validation: TupleValidation;
-    }
-  | {
-      domain: "list";
-      name: string;
-      schema: ValidationSchemaCommand;
-      validation: ListValidation;
     };
 
 export interface ValidationRegistry {
@@ -62,18 +49,3 @@ export interface ValidationRegistry {
 }
 
 export declare const validationRegistry: ValidationRegistry;
-
-// Example registry shapes:
-// validationRegistry.register({
-//   domain: "string",
-//   name: "postal-code",
-//   validation: stringValidations.enum(["US", "CA"]),
-//   schema: ["custom", "postal-code", "--country", "US"],
-// })
-//
-// validationRegistry.register({
-//   domain: "number",
-//   name: "odometer",
-//   validation: numberValidations.min(0),
-//   schema: ["schema", "number", "--odometer", "--min", "0"],
-// })
