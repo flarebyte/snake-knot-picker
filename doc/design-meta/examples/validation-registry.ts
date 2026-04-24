@@ -68,7 +68,7 @@ export declare const validationRegistry: ValidationRegistry;
 //   domain: "string",
 //   name: "postal-code",
 //   validation: stringValidations.enum(["US", "CA"]),
-//   schema: ["schema", "string", "--postal-code", "--country", "US"],
+//   schema: ["custom", "postal-code", "--country", "US"],
 // })
 //
 // validationRegistry.register({

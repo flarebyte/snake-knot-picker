@@ -62,7 +62,7 @@
     {
       "kind": "string",
       "name": "postal-code",
-      "schema": ["schema", "string", "--postal-code", "--country", "US"]
+      "schema": ["custom", "postal-code", "--country", "US"]
     },
     {
       "kind": "string",
