@@ -33,6 +33,7 @@ export const washStartUserSchema: ArgsCommandSchema = {
     {
       kind: 'boolean',
       name: 'extra-rinse',
+      schema: ['schema', 'boolean'],
     },
     {
       kind: 'number',

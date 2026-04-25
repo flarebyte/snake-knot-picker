@@ -53,6 +53,8 @@ export type ArgsFlagSchema =
   | {
       kind: 'boolean';
       name: string;
+      schema: ArgsSchemaCommand;
+      schemas?: readonly ArgsSchemaCommand[];
     }
   | {
       kind: 'number';
@@ -82,7 +84,10 @@ export interface AdminArgsFactory {
 
 export interface AdminArgsCommandBuilder {
   adminOnly(): AdminArgsCommandBuilder;
-  boolean(name: string): AdminArgsCommandBuilder;
+  boolean(
+    name: string,
+    schemas?: readonly ArgsSchemaCommand[],
+  ): AdminArgsCommandBuilder;
   number(
     name: string,
     validation: NumberValidation,

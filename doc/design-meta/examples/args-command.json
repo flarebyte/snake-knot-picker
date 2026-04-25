@@ -5,7 +5,8 @@
   "flags": [
     {
       "kind": "boolean",
-      "name": "extra-rinse"
+      "name": "extra-rinse",
+      "schema": ["schema", "boolean"]
     },
     {
       "kind": "string",
