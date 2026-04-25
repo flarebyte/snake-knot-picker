@@ -44,7 +44,7 @@ export const tuplePairRegistration: ValidationRegistry =
     schema: ['schema', 'tuple', '--pair'],
     validation: tupleValidations.of([
       stringValidations.alphabetic(),
-      stringValidations.hexadecimalDigit(),
+      stringValidations.hexa(),
     ]),
   });
 

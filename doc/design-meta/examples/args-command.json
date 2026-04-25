@@ -52,7 +52,7 @@
         "--alphabetic",
         "--tuple",
         "1",
-        "--hexadecimal-digit"
+        "--hexa"
       ],
       "schemas": [
         ["schema", "repeatable", "--min-length", "1", "--max-length", "5"]
@@ -218,8 +218,8 @@
     },
     {
       "kind": "string",
-      "name": "hexadecimal-digit",
-      "schema": ["schema", "string", "--hexadecimal-digit"]
+      "name": "hexa",
+      "schema": ["schema", "string", "--hexa"]
     },
     {
       "kind": "string",

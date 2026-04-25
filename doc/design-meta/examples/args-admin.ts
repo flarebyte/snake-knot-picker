@@ -45,7 +45,7 @@ export const washStartSchema: ArgsCommandSchema = adminArgs
   ])
   .tuple(
     'pair',
-    [stringValidations.alphabetic(), stringValidations.hexadecimalDigit()],
+    [stringValidations.alphabetic(), stringValidations.hexa()],
     [['schema', 'repeatable', '--min-length', '1', '--max-length', '5']],
   )
   .number('dose', numberValidations.int(), [

@@ -10,8 +10,7 @@ export const lowercaseString: StringValidation = stringValidations.lowercase();
 export const uppercaseString: StringValidation = stringValidations.uppercase();
 export const punctuationString: StringValidation =
   stringValidations.punctuation();
-export const hexadecimalDigitString: StringValidation =
-  stringValidations.hexadecimalDigit();
+export const hexaString: StringValidation = stringValidations.hexa();
 export const blankString: StringValidation = stringValidations.blank();
 export const unicodeLetterString: StringValidation =
   stringValidations.unicodeLetter();

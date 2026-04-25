@@ -27,7 +27,7 @@ export interface StringValidationFactory {
   ethiopic(): StringValidation;
   email(): StringValidation;
   enum(allowedValues: readonly string[]): StringValidation;
-  hexadecimalDigit(): StringValidation;
+  hexa(): StringValidation;
   gurmukhi(): StringValidation;
   han(): StringValidation;
   hangul(): StringValidation;
@@ -127,7 +127,7 @@ export declare class Bengali implements StringValidation {
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }
 
-export declare class HexadecimalDigit implements StringValidation {
+export declare class Hexa implements StringValidation {
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }
 

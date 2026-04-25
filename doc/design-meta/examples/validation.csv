@@ -11,7 +11,7 @@ string,lowercase,Lowercase,Require lowercase letters only
 string,uppercase,Uppercase,Require uppercase letters only
 string,punctuation,Punctuation,Require punctuation characters only
 string,base64,Base64,Require base64 encoded text
-string,hexadecimal-digit,HexadecimalDigit,Require hexadecimal digits only
+string,hexa,Hexa,Require hexadecimal digits only
 string,blank,Blank,Require spaces and tabs only
 string,latin,Latin,Require Latin-script letters only
 string,han,Han,Require Han characters only

@@ -5,7 +5,7 @@ alphabetic,Matches any alphabetic letter (A-Z, a-z),Alphabetic
 lowercase,Matches any lowercase letter,Lowercase
 uppercase,Matches any uppercase letter,Uppercase
 punctuation,Matches punctuation characters,Punctuation
-hexadecimal_digit,Matches hexadecimal digits (0-9, A-F, a-f),HexadecimalDigit
+hexa,Matches hexadecimal digits (0-9, A-F, a-f),Hexa
 blank,Matches space and tab characters only,Blank
 unicode_letter,Matches any Unicode letter (any language),UnicodeLetter
 unicode_number,Matches any Unicode number,UnicodeNumber
