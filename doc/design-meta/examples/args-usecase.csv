@@ -13,14 +13,15 @@ admin,Reserve a command for admins,schema wash start --admin-only
 admin,Validate word counts,schema string --min-words >- 10 --max-words < 20
 admin,Validate numeric values,schema number --min >- 10 --max < 20
 admin,Expect a numeric value,schema number --eq 10
+admin,Require a numeric value,"schema number --int --required"
 admin,Expect a repeated numeric flag,"schema number --int --repeatable"
-admin,Expect a tuple numeric value,schema number --tuple 0 --int
+admin,Expect a tuple numeric value,"schema number --tuple 0 --int --tuple 1 --int --required"
 admin,Expect a string value,schema string --eq blue
 admin,Expect an enum,"schema string --enum green,orange,red"
 admin,Expect an enum with custom separator,"schema string --enum green;orange;red" --enum-separator ;
-admin,Expect a URI,"schema uri --https --allow-fragment --allow-query --allow-ip --reject-port"
-admin,Expect a color like #F54927,schema color --hex
-admin,Expect a postal code,"custom postal-code --country US"
+admin,Expect a URI,"schema uri --https --allow-fragment --allow-query --allow-ip --reject-port --required"
+admin,Expect a color like #F54927,"schema color --hex --required"
+admin,Expect a postal code,"custom postal-code --country US --required"
 admin,Expect an RGB color,"schema color --rgb"
 admin,Expect an HSL color,"schema color --hsl"
 admin,Expect the first tuple element,"schema string --tuple 0 --enum monday,tuesday"
@@ -28,9 +29,9 @@ admin,Expect the second tuple element,"schema color --tuple 1 --hex"
 admin,Expect a repeated string flag with length bounds,"schema string --alpha --repeatable --min-length 1 --max-length 5"
 admin,Expect a repeated tuple flag with length bounds,"schema tuple --tuple 0 --enum monday,tuesday --tuple 1 --hex --repeatable --min-length 1 --max-length 5"
 admin,Expect a repeated numeric flag with length bounds,"schema number --int --repeatable --min-length 1 --max-length 3"
-admin,Expect a string with digits,"schema string --digit"
-admin,Expect a string with hex digits,"schema string --hex"
-admin,Expect a string with alphabetic characters,"schema string --alpha"
-admin,Expect a lowercase string,"schema string --lowercase"
-admin,Expect an uppercase string,"schema string --uppercase"
-admin,Expect a string from the Japanese Hiragana alphabet,"schema string --codepoint-range U+3040 U+309F"
+admin,Expect a string with digits,"schema string --digit --required"
+admin,Expect a string with hex digits,"schema string --hex --required"
+admin,Expect a string with alphabetic characters,"schema string --alpha --required"
+admin,Expect a lowercase string,"schema string --lowercase --required"
+admin,Expect an uppercase string,"schema string --uppercase --required"
+admin,Expect a string from the Japanese Hiragana alphabet,"schema string --codepoint-range U+3040 U+309F --required"

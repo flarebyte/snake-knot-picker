@@ -51,3 +51,4 @@ list,chain,ListValidationChain.pipe(...).build(),Compose list validators
 registry,register,ValidationRegistry.register(operator),Register built-in or custom validators and reject collisions
 registry,resolve,ValidationRegistry.resolve(domain,name),Look up a registered operator by domain and name
 registry,collision,ValidationRegistry.has(domain,name),Detect duplicate registrations before adding a validator
+registry,required,Schema modifier --required,Mark value-bearing or custom flags as mandatory
