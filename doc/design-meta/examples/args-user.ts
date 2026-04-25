@@ -22,7 +22,6 @@ export const washStartUserSchema: ArgsCommandSchema = {
       kind: 'string',
       name: 'mode',
       schema: ['schema', 'string', '--enum', 'normal,delicate,whites'],
-      schemas: [['schema', 'required']],
       validation: stringValidations.enum(['normal', 'delicate', 'whites']),
     },
     {
@@ -33,7 +32,6 @@ export const washStartUserSchema: ArgsCommandSchema = {
       kind: 'number',
       name: 'spin',
       schema: ['schema', 'number', '--int'],
-      schemas: [['schema', 'required']],
       validation: numberValidations.int(),
     },
   ],

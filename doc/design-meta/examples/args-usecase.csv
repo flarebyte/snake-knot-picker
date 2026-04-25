@@ -17,7 +17,6 @@ admin,Expect a repeated numeric flag,"schema number --int --repeatable"
 admin,Expect a tuple numeric value,schema number --tuple 0 --int
 admin,Expect a string value,schema string --eq blue
 admin,Expect an enum,"schema string --enum green,orange,red"
-admin,Require an enum value,"schema string --enum green,orange,red --required"
 admin,Expect an enum with custom separator,"schema string --enum green;orange;red" --enum-separator ;
 admin,Expect a URI,"schema uri --https --allow-fragment --allow-query --allow-ip --reject-port"
 admin,Expect a color like #F54927,schema color --hex
@@ -29,7 +28,6 @@ admin,Expect the second tuple element,"schema color --tuple 1 --hex"
 admin,Expect a repeated string flag with length bounds,"schema string --alpha --repeatable --min-length 1 --max-length 5"
 admin,Expect a repeated tuple flag with length bounds,"schema tuple --tuple 0 --enum monday,tuesday --tuple 1 --hex --repeatable --min-length 1 --max-length 5"
 admin,Expect a repeated numeric flag with length bounds,"schema number --int --repeatable --min-length 1 --max-length 3"
-admin,Require a repeated flag to appear,"schema string --alpha --repeatable --required"
 admin,Expect a string with digits,"schema string --digit"
 admin,Expect a string with hex digits,"schema string --hex"
 admin,Expect a string with alphabetic characters,"schema string --alpha"
