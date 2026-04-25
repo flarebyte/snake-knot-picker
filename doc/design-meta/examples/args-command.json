@@ -10,12 +10,14 @@
     {
       "kind": "string",
       "name": "mode",
-      "schema": ["schema", "string", "--enum", "normal,delicate,whites"]
+      "schema": ["schema", "string", "--enum", "normal,delicate,whites"],
+      "schemas": [["schema", "required"]]
     },
     {
       "kind": "number",
       "name": "spin",
-      "schema": ["schema", "number", "--int"]
+      "schema": ["schema", "number", "--int"],
+      "schemas": [["schema", "required"]]
     },
     {
       "kind": "tuple",
@@ -52,7 +54,8 @@
     {
       "kind": "string",
       "name": "report",
-      "schema": ["schema", "string", "--uri"]
+      "schema": ["schema", "string", "--uri"],
+      "schemas": [["schema", "required"]]
     },
     {
       "kind": "string",
@@ -62,7 +65,8 @@
     {
       "kind": "string",
       "name": "postal-code",
-      "schema": ["custom", "postal-code", "--country", "US"]
+      "schema": ["custom", "postal-code", "--country", "US"],
+      "schemas": [["schema", "required"]]
     },
     {
       "kind": "string",
@@ -102,22 +106,26 @@
     {
       "kind": "string",
       "name": "temp",
-      "schema": ["schema", "string", "--enum", "cold,warm,hot"]
+      "schema": ["schema", "string", "--enum", "cold,warm,hot"],
+      "schemas": [["schema", "required"]]
     },
     {
       "kind": "string",
       "name": "due-date",
-      "schema": ["schema", "string", "--date"]
+      "schema": ["schema", "string", "--date"],
+      "schemas": [["schema", "required"]]
     },
     {
       "kind": "string",
       "name": "enabled",
-      "schema": ["schema", "string", "--boolean"]
+      "schema": ["schema", "string", "--boolean"],
+      "schemas": [["schema", "required"]]
     },
     {
       "kind": "string",
       "name": "alarm-time",
-      "schema": ["schema", "string", "--time"]
+      "schema": ["schema", "string", "--time"],
+      "schemas": [["schema", "required"]]
     }
   ]
 }
