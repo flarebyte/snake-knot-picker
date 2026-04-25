@@ -1,19 +1,7 @@
+import { stringValidations } from "./string";
 import type { StringValidation } from "./common";
-import type { ExampleBlock } from "./example";
 
-export declare const dateString: StringValidation;
-export declare const dateTimeString: StringValidation;
-export declare const timeString: StringValidation;
-export declare const durationString: StringValidation;
-
-export const stringDateTimeExamples: readonly ExampleBlock[] = [
-  {
-    name: "Temporal string validations",
-    code: [
-      "stringValidations.date()",
-      "stringValidations.datetime()",
-      "stringValidations.time()",
-      "stringValidations.duration()",
-    ],
-  },
-];
+export const dateString: StringValidation = stringValidations.date();
+export const dateTimeString: StringValidation = stringValidations.datetime();
+export const timeString: StringValidation = stringValidations.time();
+export const durationString: StringValidation = stringValidations.duration();

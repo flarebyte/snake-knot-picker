@@ -1,27 +1,48 @@
+import { userArgs } from "./args";
+import { numberValidations } from "./number";
+import { stringValidations } from "./string";
 import type { ArgsCommandSchema, ArgsParseResult } from "./args";
 import type { ValidationError } from "./common";
-import type { ExampleBlock } from "./example";
 
-export declare const washStartArgs: readonly string[];
-export declare const washStartParseResult: ArgsParseResult;
-export declare const washStartValidation: ValidationError | null;
-export declare const washStartUserSchema: ArgsCommandSchema;
+export const washStartArgs = [
+  "wash",
+  "start",
+  "--mode",
+  "normal",
+  "--spin",
+  "1200",
+  "--extra-rinse",
+] as const;
 
-export const argsUserExamples: readonly ExampleBlock[] = [
-  {
-    name: "Parse user args",
-    code: [
-      'userArgs.parse([',
-      '  "wash", "start", "--mode", "normal", "--spin", "1200", "--extra-rinse",',
-      "], washStartUserSchema);",
-    ],
-  },
-  {
-    name: "Validate user args",
-    code: [
-      'userArgs.validate([',
-      '  "wash", "start", "--mode", "normal", "--spin", "1200", "--extra-rinse",',
-      "], washStartUserSchema);",
-    ],
-  },
-];
+export const washStartUserSchema: ArgsCommandSchema = {
+  commandPath: ["wash", "start"],
+  adminOnly: true,
+  flags: [
+    {
+      kind: "string",
+      name: "mode",
+      schema: ["schema", "string", "--enum", "normal,delicate,whites"],
+      validation: stringValidations.enum(["normal", "delicate", "whites"]),
+    },
+    {
+      kind: "boolean",
+      name: "extra-rinse",
+    },
+    {
+      kind: "number",
+      name: "spin",
+      schema: ["schema", "number", "--int"],
+      validation: numberValidations.int(),
+    },
+  ],
+};
+
+export const washStartParseResult: ArgsParseResult = userArgs.parse(
+  washStartArgs,
+  washStartUserSchema,
+);
+
+export const washStartValidation: ValidationError | null = userArgs.validate(
+  washStartArgs,
+  washStartUserSchema,
+);

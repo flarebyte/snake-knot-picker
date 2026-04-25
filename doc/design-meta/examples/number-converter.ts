@@ -1,15 +1,5 @@
+import { numberConversions } from "./number";
 import type { NumberConversion } from "./common";
-import type { ExampleBlock } from "./example";
 
-export declare const parseIntConversion: NumberConversion;
-export declare const parseFloatConversion: NumberConversion;
-
-export const numberConversionExamples: readonly ExampleBlock[] = [
-  {
-    name: "String to number conversions",
-    code: [
-      "numberConversions.int()",
-      "numberConversions.float()",
-    ],
-  },
-];
+export const parseIntConversion: NumberConversion = numberConversions.int();
+export const parseFloatConversion: NumberConversion = numberConversions.float();
