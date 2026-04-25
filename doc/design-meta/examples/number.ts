@@ -4,7 +4,7 @@ import type {
   NumberValidationChain,
   ValidationError,
   ValidatorOptions,
-} from "./common";
+} from './common';
 
 export interface NumberConversionFactory {
   float(): NumberConversion;

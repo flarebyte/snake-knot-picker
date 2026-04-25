@@ -1,37 +1,37 @@
-import { userArgs } from "./args";
-import { numberValidations } from "./number";
-import { stringValidations } from "./string";
-import type { ArgsCommandSchema, ArgsParseResult } from "./args";
-import type { ValidationError } from "./common";
+import type { ArgsCommandSchema, ArgsParseResult } from './args';
+import { userArgs } from './args';
+import type { ValidationError } from './common';
+import { numberValidations } from './number';
+import { stringValidations } from './string';
 
 export const washStartArgs = [
-  "wash",
-  "start",
-  "--mode",
-  "normal",
-  "--spin",
-  "1200",
-  "--extra-rinse",
+  'wash',
+  'start',
+  '--mode',
+  'normal',
+  '--spin',
+  '1200',
+  '--extra-rinse',
 ] as const;
 
 export const washStartUserSchema: ArgsCommandSchema = {
-  commandPath: ["wash", "start"],
+  commandPath: ['wash', 'start'],
   adminOnly: true,
   flags: [
     {
-      kind: "string",
-      name: "mode",
-      schema: ["schema", "string", "--enum", "normal,delicate,whites"],
-      validation: stringValidations.enum(["normal", "delicate", "whites"]),
+      kind: 'string',
+      name: 'mode',
+      schema: ['schema', 'string', '--enum', 'normal,delicate,whites'],
+      validation: stringValidations.enum(['normal', 'delicate', 'whites']),
     },
     {
-      kind: "boolean",
-      name: "extra-rinse",
+      kind: 'boolean',
+      name: 'extra-rinse',
     },
     {
-      kind: "number",
-      name: "spin",
-      schema: ["schema", "number", "--int"],
+      kind: 'number',
+      name: 'spin',
+      schema: ['schema', 'number', '--int'],
       validation: numberValidations.int(),
     },
   ],

@@ -1,4 +1,8 @@
-import type { NumberValidation, StringValidation, ValidationError } from "./common";
+import type {
+  NumberValidation,
+  StringValidation,
+  ValidationError,
+} from './common';
 
 export type ArgsSchemaCommand = readonly string[];
 
@@ -15,22 +19,22 @@ export interface ArgsParsedCommand {
 
 export type ArgsParsedFlag =
   | {
-      kind: "boolean";
+      kind: 'boolean';
       name: string;
       value: true;
     }
   | {
-      kind: "number";
+      kind: 'number';
       name: string;
       value: number;
     }
   | {
-      kind: "string";
+      kind: 'string';
       name: string;
       value: string;
     }
   | {
-      kind: "tuple";
+      kind: 'tuple';
       name: string;
       values: readonly string[];
     };
@@ -47,29 +51,29 @@ export type ArgsParseResult =
 
 export type ArgsFlagSchema =
   | {
-      kind: "boolean";
+      kind: 'boolean';
       name: string;
     }
   | {
-      kind: "number";
+      kind: 'number';
       name: string;
       schema: ArgsSchemaCommand;
       schemas?: readonly ArgsSchemaCommand[];
       validation: NumberValidation;
     }
   | {
-      kind: "string";
+      kind: 'string';
       name: string;
       schema: ArgsSchemaCommand;
       schemas?: readonly ArgsSchemaCommand[];
       validation: StringValidation;
     }
   | {
-      kind: "tuple";
+      kind: 'tuple';
       name: string;
       schema: ArgsSchemaCommand;
       schemas?: readonly ArgsSchemaCommand[];
-      validations: readonly StringValidation[];
+      validations: readonly (StringValidation | NumberValidation)[];
     };
 
 export interface AdminArgsFactory {
@@ -79,15 +83,30 @@ export interface AdminArgsFactory {
 export interface AdminArgsCommandBuilder {
   adminOnly(): AdminArgsCommandBuilder;
   boolean(name: string): AdminArgsCommandBuilder;
-  number(name: string, validation: NumberValidation, schemas?: readonly ArgsSchemaCommand[]): AdminArgsCommandBuilder;
-  string(name: string, validation: StringValidation, schemas?: readonly ArgsSchemaCommand[]): AdminArgsCommandBuilder;
-  tuple(name: string, validations: readonly StringValidation[], schemas?: readonly ArgsSchemaCommand[]): AdminArgsCommandBuilder;
+  number(
+    name: string,
+    validation: NumberValidation,
+    schemas?: readonly ArgsSchemaCommand[],
+  ): AdminArgsCommandBuilder;
+  string(
+    name: string,
+    validation: StringValidation,
+    schemas?: readonly ArgsSchemaCommand[],
+  ): AdminArgsCommandBuilder;
+  tuple(
+    name: string,
+    validations: readonly (StringValidation | NumberValidation)[],
+    schemas?: readonly ArgsSchemaCommand[],
+  ): AdminArgsCommandBuilder;
   build(): ArgsCommandSchema;
 }
 
 export interface UserArgsValidator {
   parse(argv: readonly string[], schema: ArgsCommandSchema): ArgsParseResult;
-  validate(argv: readonly string[], schema: ArgsCommandSchema): ValidationError | null;
+  validate(
+    argv: readonly string[],
+    schema: ArgsCommandSchema,
+  ): ValidationError | null;
 }
 
 export declare const adminArgs: AdminArgsFactory;

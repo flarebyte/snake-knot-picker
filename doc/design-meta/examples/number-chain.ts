@@ -1,5 +1,5 @@
-import { numberValidations } from "./number";
-import type { NumberValidation, NumberValidationChain } from "./common";
+import type { NumberValidation, NumberValidationChain } from './common';
+import { numberValidations } from './number';
 
 export const boundedIntChain: NumberValidationChain = numberValidations
   .chain()

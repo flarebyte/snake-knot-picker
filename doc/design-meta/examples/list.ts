@@ -1,10 +1,10 @@
 import type {
+  ListItemValidation,
   ListValidation,
   ListValidationChain,
-  ListItemValidation,
   ValidationError,
   ValidatorOptions,
-} from "./common";
+} from './common';
 
 export interface ListValidationFactory {
   chain(): ListValidationChain;
@@ -20,7 +20,10 @@ export declare class ListOf implements ListValidation {
 
   constructor(itemValidation: ListItemValidation);
 
-  validate(input: readonly unknown[], opts: ValidatorOptions): ValidationError | null;
+  validate(
+    input: readonly unknown[],
+    opts: ValidatorOptions,
+  ): ValidationError | null;
 }
 
 export declare class MinLength implements ListValidation {
@@ -28,7 +31,10 @@ export declare class MinLength implements ListValidation {
 
   constructor(minLength: number);
 
-  validate(input: readonly unknown[], opts: ValidatorOptions): ValidationError | null;
+  validate(
+    input: readonly unknown[],
+    opts: ValidatorOptions,
+  ): ValidationError | null;
 }
 
 export declare class MaxLength implements ListValidation {
@@ -36,5 +42,8 @@ export declare class MaxLength implements ListValidation {
 
   constructor(maxLength: number);
 
-  validate(input: readonly unknown[], opts: ValidatorOptions): ValidationError | null;
+  validate(
+    input: readonly unknown[],
+    opts: ValidatorOptions,
+  ): ValidationError | null;
 }

@@ -1,4 +1,4 @@
-import type { StringFormatter, StringFormatterChain } from "./common";
+import type { StringFormatter, StringFormatterChain } from './common';
 
 export interface StringFormatterFactory {
   chain(): StringFormatterChain;

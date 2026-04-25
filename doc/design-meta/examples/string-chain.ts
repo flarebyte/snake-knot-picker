@@ -1,7 +1,7 @@
-import { numberValidations } from "./number";
-import { stringFormatters } from "./formatters";
-import { stringValidations } from "./string";
-import type { StringValidation, StringValidationChain } from "./common";
+import type { StringValidation, StringValidationChain } from './common';
+import { stringFormatters } from './formatters';
+import { numberValidations } from './number';
+import { stringValidations } from './string';
 
 export const normalizedEmailChain: StringValidationChain = stringValidations
   .chain()

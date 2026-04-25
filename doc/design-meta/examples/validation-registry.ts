@@ -4,39 +4,44 @@ import type {
   StringFormatter,
   StringValidation,
   TupleValidation,
-} from "./common";
+} from './common';
 
-export type ValidationOperatorDomain = "string" | "number" | "formatter" | "conversion" | "tuple";
+export type ValidationOperatorDomain =
+  | 'string'
+  | 'number'
+  | 'formatter'
+  | 'conversion'
+  | 'tuple';
 
 export type ValidationSchemaCommand = readonly string[];
 
 export type ValidationOperator =
   | {
-      domain: "string";
+      domain: 'string';
       name: string;
       schema: ValidationSchemaCommand;
       validation: StringValidation;
     }
   | {
-      domain: "number";
+      domain: 'number';
       name: string;
       schema: ValidationSchemaCommand;
       validation: NumberValidation;
     }
   | {
-      domain: "formatter";
+      domain: 'formatter';
       name: string;
       schema: ValidationSchemaCommand;
       formatter: StringFormatter;
     }
   | {
-      domain: "conversion";
+      domain: 'conversion';
       name: string;
       schema: ValidationSchemaCommand;
       conversion: NumberConversion;
     }
   | {
-      domain: "tuple";
+      domain: 'tuple';
       name: string;
       schema: ValidationSchemaCommand;
       validation: TupleValidation;
@@ -45,7 +50,10 @@ export type ValidationOperator =
 export interface ValidationRegistry {
   has(domain: ValidationOperatorDomain, name: string): boolean;
   register(operator: ValidationOperator): ValidationRegistry;
-  resolve(domain: ValidationOperatorDomain, name: string): ValidationOperator | null;
+  resolve(
+    domain: ValidationOperatorDomain,
+    name: string,
+  ): ValidationOperator | null;
 }
 
 export declare const validationRegistry: ValidationRegistry;

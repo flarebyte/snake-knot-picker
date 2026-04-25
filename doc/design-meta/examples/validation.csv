@@ -9,7 +9,7 @@ string,alpha,Alpha,Require alphabetic characters only
 string,base64,Base64,Require base64 encoded text
 string,hex,Hex,Require hexadecimal text
 string,codepoint-range,CodepointRange(from,to),Restrict characters to a codepoint span
-string,boolean,Boolean,Accept only string booleans
+string,boolean,Bool,Accept only string booleans
 string,color,Color,Accept only string colors
 string,date,DateString,Accept only string dates
 string,datetime,DateTimeString,Accept only string date-times

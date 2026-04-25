@@ -4,7 +4,7 @@ import type {
   TupleValidationChain,
   ValidationError,
   ValidatorOptions,
-} from "./common";
+} from './common';
 
 export interface TupleValidationFactory {
   chain(): TupleValidationChain;
@@ -18,5 +18,8 @@ export declare class TupleOf implements TupleValidation {
 
   constructor(validations: readonly StringValidation[]);
 
-  validate(input: readonly unknown[], opts: ValidatorOptions): ValidationError | null;
+  validate(
+    input: readonly unknown[],
+    opts: ValidatorOptions,
+  ): ValidationError | null;
 }

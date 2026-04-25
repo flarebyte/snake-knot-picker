@@ -5,7 +5,7 @@ import type {
   StringValidationChain,
   ValidationError,
   ValidatorOptions,
-} from "./common";
+} from './common';
 
 export interface StringValidationFactory {
   alpha(): StringValidation;
@@ -101,7 +101,7 @@ export declare class CodepointRange implements StringValidation {
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }
 
-export declare class Boolean implements StringValidation {
+export declare class Bool implements StringValidation {
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }
 

@@ -1,6 +1,6 @@
-import { listValidations } from "./list";
-import { stringValidations } from "./string";
-import type { ListValidation, ListValidationChain } from "./common";
+import type { ListValidation, ListValidationChain } from './common';
+import { listValidations } from './list';
+import { stringValidations } from './string';
 
 export const boundedListChain: ListValidationChain = listValidations
   .chain()

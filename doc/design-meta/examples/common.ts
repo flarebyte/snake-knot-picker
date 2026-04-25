@@ -39,7 +39,10 @@ export interface NumberConversion {
 }
 
 export interface TupleValidation {
-  validate(input: readonly unknown[], opts: ValidatorOptions): ValidationError | null;
+  validate(
+    input: readonly unknown[],
+    opts: ValidatorOptions,
+  ): ValidationError | null;
 }
 
 export interface TupleValidationChain {
@@ -48,7 +51,10 @@ export interface TupleValidationChain {
 }
 
 export interface ListValidation {
-  validate(input: readonly unknown[], opts: ValidatorOptions): ValidationError | null;
+  validate(
+    input: readonly unknown[],
+    opts: ValidatorOptions,
+  ): ValidationError | null;
 }
 
 export interface ListValidationChain {

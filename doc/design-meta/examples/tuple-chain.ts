@@ -1,7 +1,7 @@
-import { stringFormatters } from "./formatters";
-import { stringValidations } from "./string";
-import { tupleValidations } from "./tuple";
-import type { TupleValidation, TupleValidationChain } from "./common";
+import type { TupleValidation, TupleValidationChain } from './common';
+import { stringFormatters } from './formatters';
+import { stringValidations } from './string';
+import { tupleValidations } from './tuple';
 
 export const constrainedTupleChain: TupleValidationChain = tupleValidations
   .chain()
