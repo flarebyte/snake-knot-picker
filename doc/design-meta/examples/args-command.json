@@ -36,7 +36,7 @@
     {
       "kind": "string",
       "name": "add",
-      "schema": ["schema", "string", "--alpha"],
+      "schema": ["schema", "string", "--alphabetic"],
       "schemas": [
         ["schema", "repeatable", "--min-length", "1", "--max-length", "5"]
       ]
@@ -44,7 +44,16 @@
     {
       "kind": "tuple",
       "name": "pair",
-      "schema": ["schema", "tuple", "--tuple", "0", "--alpha", "--tuple", "1", "--hex"],
+      "schema": [
+        "schema",
+        "tuple",
+        "--tuple",
+        "0",
+        "--alphabetic",
+        "--tuple",
+        "1",
+        "--hexadecimal-digit"
+      ],
       "schemas": [
         ["schema", "repeatable", "--min-length", "1", "--max-length", "5"]
       ]
@@ -66,6 +75,61 @@
       "kind": "string",
       "name": "accent",
       "schema": ["schema", "string", "--color"]
+    },
+    {
+      "kind": "string",
+      "name": "whitespace",
+      "schema": ["schema", "string", "--whitespace", "--required"]
+    },
+    {
+      "kind": "string",
+      "name": "alphabetic",
+      "schema": ["schema", "string", "--alphabetic", "--required"]
+    },
+    {
+      "kind": "string",
+      "name": "lowercase",
+      "schema": ["schema", "string", "--lowercase", "--required"]
+    },
+    {
+      "kind": "string",
+      "name": "uppercase",
+      "schema": ["schema", "string", "--uppercase", "--required"]
+    },
+    {
+      "kind": "string",
+      "name": "punctuation",
+      "schema": ["schema", "string", "--punctuation", "--required"]
+    },
+    {
+      "kind": "string",
+      "name": "blank",
+      "schema": ["schema", "string", "--blank", "--required"]
+    },
+    {
+      "kind": "string",
+      "name": "unicode-letter",
+      "schema": ["schema", "string", "--unicode-letter", "--required"]
+    },
+    {
+      "kind": "string",
+      "name": "unicode-number",
+      "schema": ["schema", "string", "--unicode-number", "--required"]
+    },
+    {
+      "kind": "string",
+      "name": "unicode-punctuation",
+      "schema": ["schema", "string", "--unicode-punctuation", "--required"]
+    },
+    {
+      "kind": "string",
+      "name": "unicode-symbol",
+      "schema": ["schema", "string", "--unicode-symbol", "--required"]
+    },
+    {
+      "kind": "string",
+      "name": "unicode-separator",
+      "schema": ["schema", "string", "--unicode-separator", "--required"]
     },
     {
       "kind": "string",
@@ -104,8 +168,8 @@
     },
     {
       "kind": "string",
-      "name": "hex",
-      "schema": ["schema", "string", "--hex"]
+      "name": "hexadecimal-digit",
+      "schema": ["schema", "string", "--hexadecimal-digit"]
     },
     {
       "kind": "string",

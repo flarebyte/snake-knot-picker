@@ -40,12 +40,12 @@ export const washStartSchema: ArgsCommandSchema = adminArgs
       ],
     ],
   )
-  .string('add', stringValidations.alpha(), [
+  .string('add', stringValidations.alphabetic(), [
     ['schema', 'repeatable', '--min-length', '1', '--max-length', '5'],
   ])
   .tuple(
     'pair',
-    [stringValidations.alpha(), stringValidations.hex()],
+    [stringValidations.alphabetic(), stringValidations.hexadecimalDigit()],
     [['schema', 'repeatable', '--min-length', '1', '--max-length', '5']],
   )
   .number('dose', numberValidations.int(), [

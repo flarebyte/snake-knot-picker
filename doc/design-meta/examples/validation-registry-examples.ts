@@ -43,8 +43,8 @@ export const tuplePairRegistration: ValidationRegistry =
     name: 'pair',
     schema: ['schema', 'tuple', '--pair'],
     validation: tupleValidations.of([
-      stringValidations.alpha(),
-      stringValidations.hex(),
+      stringValidations.alphabetic(),
+      stringValidations.hexadecimalDigit(),
     ]),
   });
 

@@ -8,9 +8,10 @@ import type {
 } from './common';
 
 export interface StringValidationFactory {
-  alpha(): StringValidation;
   arn(): StringValidation;
   base64(): StringValidation;
+  alphabetic(): StringValidation;
+  blank(): StringValidation;
   boolean(): StringValidation;
   date(): StringValidation;
   datetime(): StringValidation;
@@ -21,16 +22,25 @@ export interface StringValidationFactory {
   digit(): StringValidation;
   email(): StringValidation;
   enum(allowedValues: readonly string[]): StringValidation;
-  hex(): StringValidation;
+  hexadecimalDigit(): StringValidation;
+  lowercase(): StringValidation;
   maxChars(maxChars: number): StringValidation;
   maxWords(maxWords: number): StringValidation;
   matchesFormatter(formatter: StringFormatter): StringValidation;
   minChars(minChars: number): StringValidation;
   minWords(minWords: number): StringValidation;
   number(numberValidation: NumberValidation): StringValidation;
+  punctuation(): StringValidation;
   time(): StringValidation;
   startsWith(prefix: string): StringValidation;
+  unicodeLetter(): StringValidation;
+  unicodeNumber(): StringValidation;
+  unicodePunctuation(): StringValidation;
+  unicodeSeparator(): StringValidation;
+  unicodeSymbol(): StringValidation;
   uri(): StringValidation;
+  uppercase(): StringValidation;
+  whitespace(): StringValidation;
   uuid(): StringValidation;
 }
 
@@ -80,7 +90,7 @@ export declare class Digit implements StringValidation {
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }
 
-export declare class Alpha implements StringValidation {
+export declare class Alphabetic implements StringValidation {
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }
 
@@ -88,7 +98,11 @@ export declare class Base64 implements StringValidation {
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }
 
-export declare class Hex implements StringValidation {
+export declare class Blank implements StringValidation {
+  validate(input: string, opts: ValidatorOptions): ValidationError | null;
+}
+
+export declare class HexadecimalDigit implements StringValidation {
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }
 
@@ -106,6 +120,10 @@ export declare class Bool implements StringValidation {
 }
 
 export declare class Color implements StringValidation {
+  validate(input: string, opts: ValidatorOptions): ValidationError | null;
+}
+
+export declare class Lowercase implements StringValidation {
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }
 
@@ -153,7 +171,39 @@ export declare class NumberStringValidation implements StringValidation {
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }
 
+export declare class Punctuation implements StringValidation {
+  validate(input: string, opts: ValidatorOptions): ValidationError | null;
+}
+
 export declare class TimeString implements StringValidation {
+  validate(input: string, opts: ValidatorOptions): ValidationError | null;
+}
+
+export declare class UnicodeLetter implements StringValidation {
+  validate(input: string, opts: ValidatorOptions): ValidationError | null;
+}
+
+export declare class UnicodeNumber implements StringValidation {
+  validate(input: string, opts: ValidatorOptions): ValidationError | null;
+}
+
+export declare class UnicodePunctuation implements StringValidation {
+  validate(input: string, opts: ValidatorOptions): ValidationError | null;
+}
+
+export declare class UnicodeSeparator implements StringValidation {
+  validate(input: string, opts: ValidatorOptions): ValidationError | null;
+}
+
+export declare class UnicodeSymbol implements StringValidation {
+  validate(input: string, opts: ValidatorOptions): ValidationError | null;
+}
+
+export declare class Uppercase implements StringValidation {
+  validate(input: string, opts: ValidatorOptions): ValidationError | null;
+}
+
+export declare class Whitespace implements StringValidation {
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }
 

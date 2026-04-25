@@ -5,15 +5,25 @@ string,min-words,MinWords(minWords),Require a minimum word count
 string,max-words,MaxWords(maxWords),Limit a maximum word count
 string,enum,Enum(allowedValues),Allow only values from a fixed set
 string,digit,Digit,Require decimal digits only
-string,alpha,Alpha,Require alphabetic characters only
+string,whitespace,Whitespace,Require whitespace characters only
+string,alphabetic,Alphabetic,Require ASCII alphabetic characters only
+string,lowercase,Lowercase,Require lowercase letters only
+string,uppercase,Uppercase,Require uppercase letters only
+string,punctuation,Punctuation,Require punctuation characters only
 string,base64,Base64,Require base64 encoded text
-string,hex,Hex,Require hexadecimal text
+string,hexadecimal-digit,HexadecimalDigit,Require hexadecimal digits only
+string,blank,Blank,Require spaces and tabs only
 string,codepoint-range,CodepointRange(from,to),Restrict characters to a codepoint span
 string,boolean,Bool,Accept only string booleans
 string,color,Color,Accept only string colors
 string,date,DateString,Accept only string dates
 string,datetime,DateTimeString,Accept only string date-times
 string,duration,DurationString,Accept only string durations
+string,unicode-letter,UnicodeLetter,Require Unicode letters only
+string,unicode-number,UnicodeNumber,Require Unicode numbers only
+string,unicode-punctuation,UnicodePunctuation,Require Unicode punctuation only
+string,unicode-symbol,UnicodeSymbol,Require Unicode symbols only
+string,unicode-separator,UnicodeSeparator,Require Unicode separators only
 string,uri,Uri,Accept only string URIs
 string,arn,Arn,Accept only string ARNs
 string,email,Email,Accept only string email addresses

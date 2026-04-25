@@ -1,0 +1,14 @@
+class,description,api
+digit,Matches any digit (0-9),Digit
+whitespace,Matches any whitespace (space, tab, newline, etc.),Whitespace
+alphabetic,Matches any alphabetic letter (A-Z, a-z),Alphabetic
+lowercase,Matches any lowercase letter,Lowercase
+uppercase,Matches any uppercase letter,Uppercase
+punctuation,Matches punctuation characters,Punctuation
+hexadecimal_digit,Matches hexadecimal digits (0-9, A-F, a-f),HexadecimalDigit
+blank,Matches space and tab characters only,Blank
+unicode_letter,Matches any Unicode letter (any language),UnicodeLetter
+unicode_number,Matches any Unicode number,UnicodeNumber
+unicode_punctuation,Matches any Unicode punctuation,UnicodePunctuation
+unicode_symbol,Matches any Unicode symbol,UnicodeSymbol
+unicode_separator,Matches Unicode separator characters (spaces, etc.),UnicodeSeparator
