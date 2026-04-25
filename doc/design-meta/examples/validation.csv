@@ -13,6 +13,23 @@ string,punctuation,Punctuation,Require punctuation characters only
 string,base64,Base64,Require base64 encoded text
 string,hexadecimal-digit,HexadecimalDigit,Require hexadecimal digits only
 string,blank,Blank,Require spaces and tabs only
+string,latin,Latin,Require Latin-script letters only
+string,han,Han,Require Han characters only
+string,devanagari,Devanagari,Require Devanagari script characters only
+string,arabic,Arabic,Require Arabic-script characters only
+string,bengali,Bengali,Require Bengali script characters only
+string,cyrillic,Cyrillic,Require Cyrillic-script characters only
+string,hiragana,Hiragana,Require Hiragana characters only
+string,katakana,Katakana,Require Katakana characters only
+string,hangul,Hangul,Require Hangul characters only
+string,telugu,Telugu,Require Telugu script characters only
+string,gurmukhi,Gurmukhi,Require Gurmukhi characters only
+string,tamil,Tamil,Require Tamil script characters only
+string,thai,Thai,Require Thai script characters only
+string,javanese,Javanese,Require Javanese script characters only
+string,gujarati,Gujarati,Require Gujarati script characters only
+string,ethiopic,Ethiopic,Require Ethiopic-script characters only
+string,kannada,Kannada,Require Kannada script characters only
 string,codepoint-range,CodepointRange(from,to),Restrict characters to a codepoint span
 string,boolean,Bool,Accept only string booleans
 string,color,Color,Accept only string colors

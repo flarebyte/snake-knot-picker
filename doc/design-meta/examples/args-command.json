@@ -133,6 +133,56 @@
     },
     {
       "kind": "string",
+      "name": "latin",
+      "schema": ["schema", "string", "--latin", "--required"]
+    },
+    {
+      "kind": "string",
+      "name": "han",
+      "schema": ["schema", "string", "--han", "--required"]
+    },
+    {
+      "kind": "string",
+      "name": "devanagari",
+      "schema": ["schema", "string", "--devanagari", "--required"]
+    },
+    {
+      "kind": "string",
+      "name": "arabic",
+      "schema": ["schema", "string", "--arabic", "--required"]
+    },
+    {
+      "kind": "string",
+      "name": "hiragana",
+      "schema": ["schema", "string", "--hiragana", "--required"]
+    },
+    {
+      "kind": "string",
+      "name": "katakana",
+      "schema": ["schema", "string", "--katakana", "--required"]
+    },
+    {
+      "kind": "string",
+      "name": "hangul",
+      "schema": ["schema", "string", "--hangul", "--required"]
+    },
+    {
+      "kind": "string",
+      "name": "tamil",
+      "schema": ["schema", "string", "--tamil", "--required"]
+    },
+    {
+      "kind": "string",
+      "name": "gujarati",
+      "schema": ["schema", "string", "--gujarati", "--required"]
+    },
+    {
+      "kind": "string",
+      "name": "ethiopic",
+      "schema": ["schema", "string", "--ethiopic", "--required"]
+    },
+    {
+      "kind": "string",
       "name": "postal-code",
       "schema": ["custom", "postal-code", "--country", "US", "--required"]
     },

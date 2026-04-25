@@ -12,7 +12,10 @@ export interface StringValidationFactory {
   base64(): StringValidation;
   alphabetic(): StringValidation;
   blank(): StringValidation;
+  arabic(): StringValidation;
+  bengali(): StringValidation;
   boolean(): StringValidation;
+  cyrillic(): StringValidation;
   date(): StringValidation;
   datetime(): StringValidation;
   duration(): StringValidation;
@@ -20,9 +23,20 @@ export interface StringValidationFactory {
   codepointRange(from: string, to: string): StringValidation;
   color(): StringValidation;
   digit(): StringValidation;
+  devanagari(): StringValidation;
+  ethiopic(): StringValidation;
   email(): StringValidation;
   enum(allowedValues: readonly string[]): StringValidation;
   hexadecimalDigit(): StringValidation;
+  gurmukhi(): StringValidation;
+  han(): StringValidation;
+  hangul(): StringValidation;
+  hiragana(): StringValidation;
+  javanese(): StringValidation;
+  gujarati(): StringValidation;
+  kannada(): StringValidation;
+  latin(): StringValidation;
+  katakana(): StringValidation;
   lowercase(): StringValidation;
   maxChars(maxChars: number): StringValidation;
   maxWords(maxWords: number): StringValidation;
@@ -31,6 +45,9 @@ export interface StringValidationFactory {
   minWords(minWords: number): StringValidation;
   number(numberValidation: NumberValidation): StringValidation;
   punctuation(): StringValidation;
+  tamil(): StringValidation;
+  telugu(): StringValidation;
+  thai(): StringValidation;
   time(): StringValidation;
   startsWith(prefix: string): StringValidation;
   unicodeLetter(): StringValidation;
@@ -102,7 +119,19 @@ export declare class Blank implements StringValidation {
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }
 
+export declare class Arabic implements StringValidation {
+  validate(input: string, opts: ValidatorOptions): ValidationError | null;
+}
+
+export declare class Bengali implements StringValidation {
+  validate(input: string, opts: ValidatorOptions): ValidationError | null;
+}
+
 export declare class HexadecimalDigit implements StringValidation {
+  validate(input: string, opts: ValidatorOptions): ValidationError | null;
+}
+
+export declare class Cyrillic implements StringValidation {
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }
 
@@ -123,7 +152,51 @@ export declare class Color implements StringValidation {
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }
 
+export declare class Devanagari implements StringValidation {
+  validate(input: string, opts: ValidatorOptions): ValidationError | null;
+}
+
+export declare class Ethiopic implements StringValidation {
+  validate(input: string, opts: ValidatorOptions): ValidationError | null;
+}
+
 export declare class Lowercase implements StringValidation {
+  validate(input: string, opts: ValidatorOptions): ValidationError | null;
+}
+
+export declare class Gurmukhi implements StringValidation {
+  validate(input: string, opts: ValidatorOptions): ValidationError | null;
+}
+
+export declare class Han implements StringValidation {
+  validate(input: string, opts: ValidatorOptions): ValidationError | null;
+}
+
+export declare class Hangul implements StringValidation {
+  validate(input: string, opts: ValidatorOptions): ValidationError | null;
+}
+
+export declare class Hiragana implements StringValidation {
+  validate(input: string, opts: ValidatorOptions): ValidationError | null;
+}
+
+export declare class Javanese implements StringValidation {
+  validate(input: string, opts: ValidatorOptions): ValidationError | null;
+}
+
+export declare class Gujarati implements StringValidation {
+  validate(input: string, opts: ValidatorOptions): ValidationError | null;
+}
+
+export declare class Kannada implements StringValidation {
+  validate(input: string, opts: ValidatorOptions): ValidationError | null;
+}
+
+export declare class Latin implements StringValidation {
+  validate(input: string, opts: ValidatorOptions): ValidationError | null;
+}
+
+export declare class Katakana implements StringValidation {
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }
 
@@ -172,6 +245,18 @@ export declare class NumberStringValidation implements StringValidation {
 }
 
 export declare class Punctuation implements StringValidation {
+  validate(input: string, opts: ValidatorOptions): ValidationError | null;
+}
+
+export declare class Tamil implements StringValidation {
+  validate(input: string, opts: ValidatorOptions): ValidationError | null;
+}
+
+export declare class Telugu implements StringValidation {
+  validate(input: string, opts: ValidatorOptions): ValidationError | null;
+}
+
+export declare class Thai implements StringValidation {
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }
 
