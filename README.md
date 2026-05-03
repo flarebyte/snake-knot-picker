@@ -62,6 +62,12 @@ Number validation supports:
 - `tuple` validates fixed-position values
 - `list` validates homogeneous collections
 
+Tuple schema authoring guideline:
+
+- Put tuple-level directives in `schema` (for example `schema tuple --size 2 --required`)
+- Put each tuple slot validation in `schemas` as separate commands
+- Make `--tuple <index>` mandatory in every tuple slot command
+
 ### Formatters
 
 Formatters transform strings without being validations themselves.
@@ -90,4 +96,3 @@ That means a validator like `postal-code` can be treated as a first-class schema
 
 - `doc/design-meta/examples/` contains the source-of-truth examples
 - `doc/snake-knot-picker-hero.png` is the README illustration
-

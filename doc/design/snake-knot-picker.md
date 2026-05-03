@@ -60,14 +60,14 @@ JSON-compatible command representation.
       "name": "range",
       "schema": [
         "schema",
-        "number",
-        "--tuple",
-        "0",
-        "--int",
-        "--tuple",
-        "1",
-        "--int",
+        "tuple",
+        "--size",
+        "2",
         "--required"
+      ],
+      "schemas": [
+        ["schema", "number", "--tuple", "0", "--int"],
+        ["schema", "number", "--tuple", "1", "--int"]
       ]
     },
     {
@@ -84,14 +84,12 @@ JSON-compatible command representation.
       "schema": [
         "schema",
         "tuple",
-        "--tuple",
-        "0",
-        "--alphabetic",
-        "--tuple",
-        "1",
-        "--hexa"
+        "--size",
+        "2"
       ],
       "schemas": [
+        ["schema", "string", "--tuple", "0", "--alphabetic"],
+        ["schema", "string", "--tuple", "1", "--hexa"],
         ["schema", "repeatable", "--min-length", "1", "--max-length", "5"]
       ]
     },
@@ -328,6 +326,11 @@ import type {
 
 export type ArgsSchemaCommand = readonly string[];
 
+// Tuple schema convention:
+// - `schema` holds tuple-level directives (for example size/required/repeatable).
+// - `schemas` holds per-slot validations, one command per tuple index.
+// - each slot command must include `--tuple <index>`.
+
 export interface ArgsCommandSchema {
   commandPath: readonly string[];
   flags: readonly ArgsFlagSchema[];
@@ -472,17 +475,9 @@ export const washStartSchema: ArgsCommandSchema = adminArgs
     'range',
     [numberValidations.int(), numberValidations.int()],
     [
-      [
-        'schema',
-        'number',
-        '--tuple',
-        '0',
-        '--int',
-        '--tuple',
-        '1',
-        '--int',
-        '--required',
-      ],
+      ['schema', 'tuple', '--size', '2', '--required'],
+      ['schema', 'number', '--tuple', '0', '--int'],
+      ['schema', 'number', '--tuple', '1', '--int'],
     ],
   )
   .string('add', stringValidations.alphabetic(), [
@@ -491,7 +486,12 @@ export const washStartSchema: ArgsCommandSchema = adminArgs
   .tuple(
     'pair',
     [stringValidations.alphabetic(), stringValidations.hexa()],
-    [['schema', 'repeatable', '--min-length', '1', '--max-length', '5']],
+    [
+      ['schema', 'tuple', '--size', '2'],
+      ['schema', 'string', '--tuple', '0', '--alphabetic'],
+      ['schema', 'string', '--tuple', '1', '--hexa'],
+      ['schema', 'repeatable', '--min-length', '1', '--max-length', '5'],
+    ],
   )
   .number('dose', numberValidations.int(), [
     ['schema', 'repeatable', '--min-length', '1', '--max-length', '3'],
@@ -1646,7 +1646,7 @@ Admin and user scenarios captured in CSV.
 | Expect a numeric value | schema number --eq 10 | admin |
 | Require a numeric value | schema number --int --required | admin |
 | Expect a repeated numeric flag | schema number --int --repeatable | admin |
-| Expect a tuple numeric value | schema number --tuple 0 --int --tuple 1 --int --required | admin |
+| Expect a tuple numeric value | schema tuple --size 2 --required + schema number --tuple 0 --int + schema number --tuple 1 --int | admin |
 | Expect a string value | schema string --eq blue | admin |
 | Expect an enum | schema string --enum green,orange,red | admin |
 | Expect an enum with custom separator | schema string --enum green;orange;red --enum-separator ; | admin |
@@ -1658,7 +1658,7 @@ Admin and user scenarios captured in CSV.
 | Expect the first tuple element | schema string --tuple 0 --enum monday,tuesday | admin |
 | Expect the second tuple element | schema color --tuple 1 --hex | admin |
 | Expect a repeated string flag with length bounds | schema string --alphabetic --repeatable --min-length 1 --max-length 5 | admin |
-| Expect a repeated tuple flag with length bounds | schema tuple --tuple 0 --enum monday,tuesday --tuple 1 --hexa --repeatable --min-length 1 --max-length 5 | admin |
+| Expect a repeated tuple flag with length bounds | schema tuple --size 2 + schema string --tuple 0 --enum monday,tuesday + schema string --tuple 1 --hexa + schema repeatable --min-length 1 --max-length 5 | admin |
 | Expect a repeated numeric flag with length bounds | schema number --int --repeatable --min-length 1 --max-length 3 | admin |
 | Expect a string with digits | schema string --digit --required | admin |
 | Expect a string with whitespace | schema string --whitespace --required | admin |

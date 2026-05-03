@@ -6,6 +6,11 @@ import type {
 
 export type ArgsSchemaCommand = readonly string[];
 
+// Tuple schema convention:
+// - `schema` holds tuple-level directives (for example size/required/repeatable).
+// - `schemas` holds per-slot validations, one command per tuple index.
+// - each slot command must include `--tuple <index>`.
+
 export interface ArgsCommandSchema {
   commandPath: readonly string[];
   flags: readonly ArgsFlagSchema[];

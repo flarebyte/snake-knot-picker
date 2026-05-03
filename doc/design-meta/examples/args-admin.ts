@@ -27,17 +27,9 @@ export const washStartSchema: ArgsCommandSchema = adminArgs
     'range',
     [numberValidations.int(), numberValidations.int()],
     [
-      [
-        'schema',
-        'number',
-        '--tuple',
-        '0',
-        '--int',
-        '--tuple',
-        '1',
-        '--int',
-        '--required',
-      ],
+      ['schema', 'tuple', '--size', '2', '--required'],
+      ['schema', 'number', '--tuple', '0', '--int'],
+      ['schema', 'number', '--tuple', '1', '--int'],
     ],
   )
   .string('add', stringValidations.alphabetic(), [
@@ -46,7 +38,12 @@ export const washStartSchema: ArgsCommandSchema = adminArgs
   .tuple(
     'pair',
     [stringValidations.alphabetic(), stringValidations.hexa()],
-    [['schema', 'repeatable', '--min-length', '1', '--max-length', '5']],
+    [
+      ['schema', 'tuple', '--size', '2'],
+      ['schema', 'string', '--tuple', '0', '--alphabetic'],
+      ['schema', 'string', '--tuple', '1', '--hexa'],
+      ['schema', 'repeatable', '--min-length', '1', '--max-length', '5'],
+    ],
   )
   .number('dose', numberValidations.int(), [
     ['schema', 'repeatable', '--min-length', '1', '--max-length', '3'],

@@ -23,14 +23,14 @@
       "name": "range",
       "schema": [
         "schema",
-        "number",
-        "--tuple",
-        "0",
-        "--int",
-        "--tuple",
-        "1",
-        "--int",
+        "tuple",
+        "--size",
+        "2",
         "--required"
+      ],
+      "schemas": [
+        ["schema", "number", "--tuple", "0", "--int"],
+        ["schema", "number", "--tuple", "1", "--int"]
       ]
     },
     {
@@ -47,14 +47,12 @@
       "schema": [
         "schema",
         "tuple",
-        "--tuple",
-        "0",
-        "--alphabetic",
-        "--tuple",
-        "1",
-        "--hexa"
+        "--size",
+        "2"
       ],
       "schemas": [
+        ["schema", "string", "--tuple", "0", "--alphabetic"],
+        ["schema", "string", "--tuple", "1", "--hexa"],
         ["schema", "repeatable", "--min-length", "1", "--max-length", "5"]
       ]
     },
