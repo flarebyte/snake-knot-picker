@@ -6,9 +6,18 @@ import type {
 
 export type ArgsSchemaCommand = readonly string[];
 
+// Persisted documents carry only schema commands. Runtime schemas carry
+// resolved validation objects for direct user input validation.
+export interface ArgsCommandDocument {
+  version: string;
+  commandPath: readonly string[];
+  flags: readonly ArgsDocumentFlag[];
+  adminOnly: boolean;
+}
+
 // Tuple schema convention:
-// - `schema` holds tuple-level directives (for example size/required/repeatable).
-// - `schemas` holds per-slot validations, one command per tuple index.
+// - `schema` holds tuple-level shape and requiredness.
+// - `schemas` holds per-slot validations and extra flag modifiers.
 // - each slot command must include `--tuple <index>`.
 
 export interface ArgsCommandSchema {
@@ -16,6 +25,32 @@ export interface ArgsCommandSchema {
   flags: readonly ArgsFlagSchema[];
   adminOnly: boolean;
 }
+
+export type ArgsDocumentFlag =
+  | {
+      kind: 'boolean';
+      name: string;
+      schema: ArgsSchemaCommand;
+      schemas?: readonly ArgsSchemaCommand[];
+    }
+  | {
+      kind: 'number';
+      name: string;
+      schema: ArgsSchemaCommand;
+      schemas?: readonly ArgsSchemaCommand[];
+    }
+  | {
+      kind: 'string';
+      name: string;
+      schema: ArgsSchemaCommand;
+      schemas?: readonly ArgsSchemaCommand[];
+    }
+  | {
+      kind: 'tuple';
+      name: string;
+      schema: ArgsSchemaCommand;
+      schemas?: readonly ArgsSchemaCommand[];
+    };
 
 export interface ArgsParsedCommand {
   commandPath: readonly string[];

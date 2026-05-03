@@ -38,7 +38,7 @@ JSON-compatible command representation.
 {
   "version": "1",
   "commandPath": ["wash", "start"],
-  "adminOnly": true,
+  "adminOnly": false,
   "flags": [
     {
       "kind": "boolean",
@@ -326,9 +326,18 @@ import type {
 
 export type ArgsSchemaCommand = readonly string[];
 
+// Persisted documents carry only schema commands. Runtime schemas carry
+// resolved validation objects for direct user input validation.
+export interface ArgsCommandDocument {
+  version: string;
+  commandPath: readonly string[];
+  flags: readonly ArgsDocumentFlag[];
+  adminOnly: boolean;
+}
+
 // Tuple schema convention:
-// - `schema` holds tuple-level directives (for example size/required/repeatable).
-// - `schemas` holds per-slot validations, one command per tuple index.
+// - `schema` holds tuple-level shape and requiredness.
+// - `schemas` holds per-slot validations and extra flag modifiers.
 // - each slot command must include `--tuple <index>`.
 
 export interface ArgsCommandSchema {
@@ -336,6 +345,32 @@ export interface ArgsCommandSchema {
   flags: readonly ArgsFlagSchema[];
   adminOnly: boolean;
 }
+
+export type ArgsDocumentFlag =
+  | {
+      kind: 'boolean';
+      name: string;
+      schema: ArgsSchemaCommand;
+      schemas?: readonly ArgsSchemaCommand[];
+    }
+  | {
+      kind: 'number';
+      name: string;
+      schema: ArgsSchemaCommand;
+      schemas?: readonly ArgsSchemaCommand[];
+    }
+  | {
+      kind: 'string';
+      name: string;
+      schema: ArgsSchemaCommand;
+      schemas?: readonly ArgsSchemaCommand[];
+    }
+  | {
+      kind: 'tuple';
+      name: string;
+      schema: ArgsSchemaCommand;
+      schemas?: readonly ArgsSchemaCommand[];
+    };
 
 export interface ArgsParsedCommand {
   commandPath: readonly string[];
@@ -463,7 +498,6 @@ export const schemaString: ArgsCommandSchema = adminArgs
 
 export const washStartSchema: ArgsCommandSchema = adminArgs
   .command(['wash', 'start'])
-  .adminOnly()
   .string('mode', stringValidations.enum(['normal', 'delicate', 'whites']), [
     ['schema', 'string', '--enum', 'normal,delicate,whites', '--required'],
   ])
@@ -523,7 +557,7 @@ export const washStartArgs = [
 
 export const washStartUserSchema: ArgsCommandSchema = {
   commandPath: ['wash', 'start'],
-  adminOnly: true,
+  adminOnly: false,
   flags: [
     {
       kind: 'string',
@@ -633,7 +667,7 @@ Feature inventory grouped by domain.
 | StringFormatterChain.pipe(...).build() | formatter | chain | Compose string formatters |
 | Min(min) | number | min | Require a minimum numeric value |
 | Max(max) | number | max | Require a maximum numeric value |
-| MultipleOf(factor) | number | multiple of | Require a numeric multiple |
+| MultipleOf(factor) | number | multiple-of | Require a numeric multiple |
 | Int | number | int | Require an integer value |
 | Float | number | float | Require a floating-point value |
 | ParseInt | number | parse-int | Convert string input to an integer |
@@ -654,6 +688,7 @@ Feature inventory grouped by domain.
 | ValidationRegistry.resolve(domain,name) | registry | resolve | Look up a registered operator by domain and name |
 | ValidationRegistry.has(domain,name) | registry | collision | Detect duplicate registrations before adding a validator |
 | Schema modifier --required | registry | required | Mark value-bearing or custom flags as mandatory |
+| Schema modifier `schema repeatable` | registry | repeatable | Mark flags as repeatable and constrain occurrence count |
 
 ### 02 String Validation Examples
 
@@ -1596,7 +1631,7 @@ export const postalCodeRegistration: ValidationRegistry =
 | StringFormatterChain.pipe(...).build() | formatter | chain | Compose string formatters |
 | Min(min) | number | min | Require a minimum numeric value |
 | Max(max) | number | max | Require a maximum numeric value |
-| MultipleOf(factor) | number | multiple of | Require a numeric multiple |
+| MultipleOf(factor) | number | multiple-of | Require a numeric multiple |
 | Int | number | int | Require an integer value |
 | Float | number | float | Require a floating-point value |
 | ParseInt | number | parse-int | Convert string input to an integer |
@@ -1617,6 +1652,7 @@ export const postalCodeRegistration: ValidationRegistry =
 | ValidationRegistry.resolve(domain,name) | registry | resolve | Look up a registered operator by domain and name |
 | ValidationRegistry.has(domain,name) | registry | collision | Detect duplicate registrations before adding a validator |
 | Schema modifier --required | registry | required | Mark value-bearing or custom flags as mandatory |
+| Schema modifier `schema repeatable` | registry | repeatable | Mark flags as repeatable and constrain occurrence count |
 
 ## 04 Use Cases and Limits
 
@@ -1639,27 +1675,27 @@ Admin and user scenarios captured in CSV.
 | Support string and enum types | wash start --mode delicate --temp warm | user |
 | Support number types | wash start --mode normal --spin 1200 | user |
 | Support URL or URI types | wash alarm --report https://website.com | user |
-| Validate character counts | schema string --min-chars >- 10 --max-chars < 20 | admin |
-| Reserve a command for admins | schema wash start --admin-only | admin |
-| Validate word counts | schema string --min-words >- 10 --max-words < 20 | admin |
-| Validate numeric values | schema number --min >- 10 --max < 20 | admin |
-| Expect a numeric value | schema number --eq 10 | admin |
+| Validate character counts | schema string --min-chars 10 --max-chars 20 | admin |
+| Reserve a command for admins | schema admin report --admin-only | admin |
+| Validate word counts | schema string --min-words 10 --max-words 20 | admin |
+| Validate numeric values | schema number --min 10 --max 20 | admin |
+| Expect a numeric multiple | schema number --multiple-of 10 | admin |
 | Require a numeric value | schema number --int --required | admin |
-| Expect a repeated numeric flag | schema number --int --repeatable | admin |
+| Expect a repeated numeric flag | schema number --int + schema repeatable | admin |
 | Expect a tuple numeric value | schema tuple --size 2 --required + schema number --tuple 0 --int + schema number --tuple 1 --int | admin |
-| Expect a string value | schema string --eq blue | admin |
+| Expect a prefixed string value | schema string --starts-with blue | admin |
 | Expect an enum | schema string --enum green,orange,red | admin |
 | Expect an enum with custom separator | schema string --enum green;orange;red --enum-separator ; | admin |
-| Expect a URI | schema uri --https --allow-fragment --allow-query --allow-ip --reject-port --required | admin |
-| Expect a color like #F54927 | schema color --hex --required | admin |
+| Expect a URI | schema string --uri --required | admin |
+| Expect a color like #F54927 | schema string --color --required | admin |
 | Expect a postal code | custom postal-code --country US --required | admin |
-| Expect an RGB color | schema color --rgb | admin |
-| Expect an HSL color | schema color --hsl | admin |
+| Expect a boolean-like string | schema string --boolean | admin |
+| Expect a UUID string | schema string --uuid | admin |
 | Expect the first tuple element | schema string --tuple 0 --enum monday,tuesday | admin |
-| Expect the second tuple element | schema color --tuple 1 --hex | admin |
-| Expect a repeated string flag with length bounds | schema string --alphabetic --repeatable --min-length 1 --max-length 5 | admin |
+| Expect the second tuple element | schema string --tuple 1 --color | admin |
+| Expect a repeated string flag with length bounds | schema string --alphabetic + schema repeatable --min-length 1 --max-length 5 | admin |
 | Expect a repeated tuple flag with length bounds | schema tuple --size 2 + schema string --tuple 0 --enum monday,tuesday + schema string --tuple 1 --hexa + schema repeatable --min-length 1 --max-length 5 | admin |
-| Expect a repeated numeric flag with length bounds | schema number --int --repeatable --min-length 1 --max-length 3 | admin |
+| Expect a repeated numeric flag with length bounds | schema number --int + schema repeatable --min-length 1 --max-length 3 | admin |
 | Expect a string with digits | schema string --digit --required | admin |
 | Expect a string with whitespace | schema string --whitespace --required | admin |
 | Expect a string with alphabetic characters | schema string --alphabetic --required | admin |

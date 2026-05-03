@@ -65,7 +65,7 @@ Number validation supports:
 Tuple schema authoring guideline:
 
 - Put tuple-level directives in `schema` (for example `schema tuple --size 2 --required`)
-- Put each tuple slot validation in `schemas` as separate commands
+- Put each tuple slot validation and extra flag modifier in `schemas` as separate commands
 - Make `--tuple <index>` mandatory in every tuple slot command
 
 ### Formatters

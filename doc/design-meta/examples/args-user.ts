@@ -16,7 +16,7 @@ export const washStartArgs = [
 
 export const washStartUserSchema: ArgsCommandSchema = {
   commandPath: ['wash', 'start'],
-  adminOnly: true,
+  adminOnly: false,
   flags: [
     {
       kind: 'string',

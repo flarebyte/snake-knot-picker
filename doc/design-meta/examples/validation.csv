@@ -58,7 +58,7 @@ formatter,factory,stringFormatters,Create string formatters from the factory API
 formatter,chain,StringFormatterChain.pipe(...).build(),Compose string formatters
 number,min,Min(min),Require a minimum numeric value
 number,max,Max(max),Require a maximum numeric value
-number,multiple of,MultipleOf(factor),Require a numeric multiple
+number,multiple-of,MultipleOf(factor),Require a numeric multiple
 number,int,Int,Require an integer value
 number,float,Float,Require a floating-point value
 number,parse-int,ParseInt,Convert string input to an integer
@@ -79,3 +79,4 @@ registry,register,ValidationRegistry.register(operator),Register built-in or cus
 registry,resolve,"ValidationRegistry.resolve(domain,name)",Look up a registered operator by domain and name
 registry,collision,"ValidationRegistry.has(domain,name)",Detect duplicate registrations before adding a validator
 registry,required,Schema modifier --required,Mark value-bearing or custom flags as mandatory
+registry,repeatable,Schema modifier `schema repeatable`,Mark flags as repeatable and constrain occurrence count
