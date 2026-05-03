@@ -9,6 +9,8 @@ It is designed for two use cases:
 1. trusted admin-authored schemas that define what is allowed
 2. strict user-side validation for untrusted input
 
+Users only provide command argv. They never define schemas or register new commands.
+
 ## What it supports
 
 - String validation for character sets, scripts, formats, prefixes, and custom rules

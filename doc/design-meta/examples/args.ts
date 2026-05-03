@@ -6,8 +6,9 @@ import type {
 
 export type ArgsSchemaCommand = readonly string[];
 
-// Persisted documents carry only schema commands. Runtime schemas carry
-// resolved validation objects for direct user input validation.
+// Persisted documents carry only admin-authored schema commands.
+// Runtime schemas carry resolved validation objects for direct user input
+// validation. Users only provide argv; they never register commands.
 export interface ArgsCommandDocument {
   version: string;
   commandPath: readonly string[];
@@ -23,6 +24,7 @@ export interface ArgsCommandDocument {
 export interface ArgsCommandSchema {
   commandPath: readonly string[];
   flags: readonly ArgsFlagSchema[];
+  // Marks schemas that are controlled by the admin authoring flow.
   adminOnly: boolean;
 }
 
@@ -147,6 +149,7 @@ export interface AdminArgsCommandBuilder {
 }
 
 export interface UserArgsValidator {
+  // `schema` must come from the trusted admin flow, never from user argv.
   parse(argv: readonly string[], schema: ArgsCommandSchema): ArgsParseResult;
   validate(
     argv: readonly string[],

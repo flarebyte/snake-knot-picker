@@ -38,7 +38,7 @@ JSON-compatible command representation.
 {
   "version": "1",
   "commandPath": ["wash", "start"],
-  "adminOnly": false,
+  "adminOnly": true,
   "flags": [
     {
       "kind": "boolean",
@@ -326,8 +326,9 @@ import type {
 
 export type ArgsSchemaCommand = readonly string[];
 
-// Persisted documents carry only schema commands. Runtime schemas carry
-// resolved validation objects for direct user input validation.
+// Persisted documents carry only admin-authored schema commands.
+// Runtime schemas carry resolved validation objects for direct user input
+// validation. Users only provide argv; they never register commands.
 export interface ArgsCommandDocument {
   version: string;
   commandPath: readonly string[];
@@ -343,6 +344,7 @@ export interface ArgsCommandDocument {
 export interface ArgsCommandSchema {
   commandPath: readonly string[];
   flags: readonly ArgsFlagSchema[];
+  // Marks schemas that are controlled by the admin authoring flow.
   adminOnly: boolean;
 }
 
@@ -467,6 +469,7 @@ export interface AdminArgsCommandBuilder {
 }
 
 export interface UserArgsValidator {
+  // `schema` must come from the trusted admin flow, never from user argv.
   parse(argv: readonly string[], schema: ArgsCommandSchema): ArgsParseResult;
   validate(
     argv: readonly string[],
@@ -498,6 +501,7 @@ export const schemaString: ArgsCommandSchema = adminArgs
 
 export const washStartSchema: ArgsCommandSchema = adminArgs
   .command(['wash', 'start'])
+  .adminOnly()
   .string('mode', stringValidations.enum(['normal', 'delicate', 'whites']), [
     ['schema', 'string', '--enum', 'normal,delicate,whites', '--required'],
   ])
@@ -557,7 +561,7 @@ export const washStartArgs = [
 
 export const washStartUserSchema: ArgsCommandSchema = {
   commandPath: ['wash', 'start'],
-  adminOnly: false,
+  adminOnly: true,
   flags: [
     {
       kind: 'string',
@@ -1742,7 +1746,8 @@ Flow intent and boundaries.
 #### Flow Boundaries
 
 Admin flow covers schema composition and registry registration.
-User flow covers argv parsing, operator resolution, and value validation against a pre-defined command schema.
+User flow covers argv parsing, operator resolution, and value validation against a pre-defined admin-authored command schema.
+Users must not submit schema commands or register new commands.
 
 #### Flow-Specific Specification Intent
 

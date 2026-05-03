@@ -15,6 +15,7 @@ export const schemaString: ArgsCommandSchema = adminArgs
 
 export const washStartSchema: ArgsCommandSchema = adminArgs
   .command(['wash', 'start'])
+  .adminOnly()
   .string('mode', stringValidations.enum(['normal', 'delicate', 'whites']), [
     ['schema', 'string', '--enum', 'normal,delicate,whites', '--required'],
   ])

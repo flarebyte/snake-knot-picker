@@ -383,7 +383,8 @@ These flow specs make step order explicit for trusted admin schema authoring and
 		title: "Flow Boundaries"
 		markdown: """
 Admin flow covers schema composition and registry registration.
-User flow covers argv parsing, operator resolution, and value validation against a pre-defined command schema.
+User flow covers argv parsing, operator resolution, and value validation against a pre-defined admin-authored command schema.
+Users must not submit schema commands or register new commands.
 """
 		labels: ["overview", "flow", "boundary"]
 	},
