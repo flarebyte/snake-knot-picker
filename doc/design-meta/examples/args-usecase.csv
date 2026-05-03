@@ -18,7 +18,7 @@ admin,Expect a repeated numeric flag,"schema number --int --repeatable"
 admin,Expect a tuple numeric value,"schema number --tuple 0 --int --tuple 1 --int --required"
 admin,Expect a string value,schema string --eq blue
 admin,Expect an enum,"schema string --enum green,orange,red"
-admin,Expect an enum with custom separator,"schema string --enum green;orange;red" --enum-separator ;
+admin,Expect an enum with custom separator,"schema string --enum green;orange;red --enum-separator ;"
 admin,Expect a URI,"schema uri --https --allow-fragment --allow-query --allow-ip --reject-port --required"
 admin,Expect a color like #F54927,"schema color --hex --required"
 admin,Expect a postal code,"custom postal-code --country US --required"
