@@ -41,7 +41,7 @@ export const tuplePairRegistration: ValidationRegistry =
   validationRegistry.register({
     domain: 'tuple',
     name: 'pair',
-    schema: ['schema', 'tuple', '--pair'],
+    schema: ['schema', 'tuple', '--size', '2'],
     validation: tupleValidations.of([
       stringValidations.alphabetic(),
       stringValidations.hexa(),

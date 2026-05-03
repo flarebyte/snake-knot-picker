@@ -63,7 +63,7 @@ number,int,Int,Require an integer value
 number,float,Float,Require a floating-point value
 number,parse-int,ParseInt,Convert string input to an integer
 number,parse-float,ParseFloat,Convert string input to a float
-number,tuple,NumberValidation --tuple(index),Apply a number validation to a tuple slot
+number,tuple,schema number --tuple(index),Apply a number schema command to one tuple slot
 number,converter,numberConversions,Create number converters from the factory API
 number,factory,numberValidations,Create number validators from the factory API
 number,chain,NumberValidationChain.pipe(...).build(),Compose number validators

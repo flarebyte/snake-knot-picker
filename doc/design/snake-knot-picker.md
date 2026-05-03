@@ -638,7 +638,7 @@ Feature inventory grouped by domain.
 | Float | number | float | Require a floating-point value |
 | ParseInt | number | parse-int | Convert string input to an integer |
 | ParseFloat | number | parse-float | Convert string input to a float |
-| NumberValidation --tuple(index) | number | tuple | Apply a number validation to a tuple slot |
+| schema number --tuple(index) | number | tuple | Apply a number schema command to one tuple slot |
 | numberConversions | number | converter | Create number converters from the factory API |
 | numberValidations | number | factory | Create number validators from the factory API |
 | NumberValidationChain.pipe(...).build() | number | chain | Compose number validators |
@@ -1517,7 +1517,7 @@ export const tuplePairRegistration: ValidationRegistry =
   validationRegistry.register({
     domain: 'tuple',
     name: 'pair',
-    schema: ['schema', 'tuple', '--pair'],
+    schema: ['schema', 'tuple', '--size', '2'],
     validation: tupleValidations.of([
       stringValidations.alphabetic(),
       stringValidations.hexa(),
@@ -1601,7 +1601,7 @@ export const postalCodeRegistration: ValidationRegistry =
 | Float | number | float | Require a floating-point value |
 | ParseInt | number | parse-int | Convert string input to an integer |
 | ParseFloat | number | parse-float | Convert string input to a float |
-| NumberValidation --tuple(index) | number | tuple | Apply a number validation to a tuple slot |
+| schema number --tuple(index) | number | tuple | Apply a number schema command to one tuple slot |
 | numberConversions | number | converter | Create number converters from the factory API |
 | numberValidations | number | factory | Create number validators from the factory API |
 | NumberValidationChain.pipe(...).build() | number | chain | Compose number validators |
