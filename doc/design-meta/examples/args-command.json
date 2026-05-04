@@ -225,7 +225,16 @@
     {
       "kind": "string",
       "name": "release-date-time",
-      "schema": ["schema", "string", "--datetime"]
+      "schema": [
+        "schema",
+        "string",
+        "--datetime",
+        "--layout",
+        "RFC3339",
+        "--allow-timezone",
+        "--location",
+        "America/New_York"
+      ]
     },
     {
       "kind": "string",

@@ -262,7 +262,16 @@ JSON-compatible command representation.
     {
       "kind": "string",
       "name": "release-date-time",
-      "schema": ["schema", "string", "--datetime"]
+      "schema": [
+        "schema",
+        "string",
+        "--datetime",
+        "--layout",
+        "RFC3339",
+        "--allow-timezone",
+        "--location",
+        "America/New_York"
+      ]
     },
     {
       "kind": "string",
@@ -711,6 +720,7 @@ Feature inventory grouped by domain.
 | Color | string | color | Accept only string colors |
 | DateString | string | date | Accept only string dates |
 | DateTimeString | string | datetime | Accept only string date-times |
+| DateTimeOptions | string | datetime-options | Configure datetime layout timezone and location policy |
 | DurationString | string | duration | Accept only string durations |
 | UnicodeLetter | string | unicode-letter | Require Unicode letters only |
 | UnicodeNumber | string | unicode-number | Require Unicode numbers only |
@@ -785,7 +795,7 @@ export interface StringValidationFactory {
   boolean(): StringValidation;
   cyrillic(): StringValidation;
   date(): StringValidation;
-  datetime(): StringValidation;
+  datetime(options?: DateTimeOptions): StringValidation;
   duration(): StringValidation;
   chain(): StringValidationChain;
   codepointRange(from: string, to: string): StringValidation;
@@ -836,6 +846,14 @@ export interface EnumOptions {
   separator?: string;
   rejectWhitespacePaddedValues?: true;
   rejectEmptyValues?: true;
+}
+
+export type DateTimeLayout = 'RFC3339' | 'RFC1123Z' | 'Unix';
+
+export interface DateTimeOptions {
+  layout?: DateTimeLayout;
+  allowTimezone?: boolean;
+  location?: string;
 }
 
 export interface UriOptions {
@@ -1003,6 +1021,10 @@ export declare class DateString implements StringValidation {
 }
 
 export declare class DateTimeString implements StringValidation {
+  readonly options?: DateTimeOptions;
+
+  constructor(options?: DateTimeOptions);
+
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }
 
@@ -1202,9 +1224,29 @@ import { stringValidations } from './string';
 
 export const dateString: StringValidation = stringValidations.date();
 export const dateTimeString: StringValidation = stringValidations.datetime();
+export const newYorkDateTimeString: StringValidation =
+  stringValidations.datetime({
+    layout: 'RFC3339',
+    allowTimezone: true,
+    location: 'America/New_York',
+  });
 export const timeString: StringValidation = stringValidations.time();
 export const durationString: StringValidation = stringValidations.duration();
 ```
+
+#### Datetime Validation Logic
+
+| feature | flag | rule |
+| --- | --- | --- |
+| parsing |  | Parse datetime strings with Go standard library time package before applying policy checks |
+| layout | --layout | Select a named layout parser; supported values are RFC3339 RFC1123Z and Unix |
+| rfc3339 | RFC3339 | Parse with time.RFC3339 and require timezone-bearing input |
+| rfc1123z | RFC1123Z | Parse with time.RFC1123Z and require timezone-bearing input |
+| unix | Unix | Parse numeric Unix epoch seconds and do not consume a timezone from the input |
+| timezone | --allow-timezone | Permit datetime input containing an explicit timezone or numeric offset |
+| location | --location | Load the expected IANA timezone with time.LoadLocation such as America/New_York |
+| location-without-timezone | --location | Use the loaded location when parsing timezone-less datetime input |
+| location-with-timezone | --allow-timezone + --location | When input contains a timezone require it to be consistent with the configured location |
 
 #### Enum Validation Logic
 
@@ -1756,6 +1798,7 @@ export const postalCodeRegistration: ValidationRegistry =
 | Color | string | color | Accept only string colors |
 | DateString | string | date | Accept only string dates |
 | DateTimeString | string | datetime | Accept only string date-times |
+| DateTimeOptions | string | datetime-options | Configure datetime layout timezone and location policy |
 | DurationString | string | duration | Accept only string durations |
 | UnicodeLetter | string | unicode-letter | Require Unicode letters only |
 | UnicodeNumber | string | unicode-number | Require Unicode numbers only |
@@ -1842,6 +1885,7 @@ Admin and user scenarios captured in CSV.
 | Expect a postal code | custom postal-code --country US --required | admin |
 | Expect a boolean-like string | schema string --boolean | admin |
 | Expect a UUID string | schema string --uuid | admin |
+| Expect a zoned datetime | schema string --datetime --layout RFC3339 --allow-timezone --location America/New_York --required | admin |
 | Expect the first tuple element | schema string --tuple 0 --enum monday,tuesday | admin |
 | Expect the second tuple element | schema string --tuple 1 --color | admin |
 | Expect a repeated string flag with length bounds | schema string --alphabetic + schema repeatable --min-length 1 --max-length 5 | admin |

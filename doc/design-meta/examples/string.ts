@@ -17,7 +17,7 @@ export interface StringValidationFactory {
   boolean(): StringValidation;
   cyrillic(): StringValidation;
   date(): StringValidation;
-  datetime(): StringValidation;
+  datetime(options?: DateTimeOptions): StringValidation;
   duration(): StringValidation;
   chain(): StringValidationChain;
   codepointRange(from: string, to: string): StringValidation;
@@ -68,6 +68,14 @@ export interface EnumOptions {
   separator?: string;
   rejectWhitespacePaddedValues?: true;
   rejectEmptyValues?: true;
+}
+
+export type DateTimeLayout = 'RFC3339' | 'RFC1123Z' | 'Unix';
+
+export interface DateTimeOptions {
+  layout?: DateTimeLayout;
+  allowTimezone?: boolean;
+  location?: string;
 }
 
 export interface UriOptions {
@@ -235,6 +243,10 @@ export declare class DateString implements StringValidation {
 }
 
 export declare class DateTimeString implements StringValidation {
+  readonly options?: DateTimeOptions;
+
+  constructor(options?: DateTimeOptions);
+
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }
 

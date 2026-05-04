@@ -48,6 +48,7 @@ reports: [{
 				"snk.validation.string.chain",
 				"snk.validation.string.number",
 				"snk.validation.string.datetime",
+				"snk.validation.string.datetime.csv",
 				"snk.validation.string.url.csv",
 				"snk.validation.string.arn.csv",
 				"snk.validation.string.formatter-check",
@@ -255,6 +256,13 @@ wash start --options delicate,extra-rinse --options pre-wash
 		title:    "String Date and Time Validation"
 		filepath: "examples/string-date-time.ts"
 		labels:   ["validation", "string", "datetime"]
+	},
+	{
+		name:      "snk.validation.string.datetime.csv"
+		title:     "Datetime Validation Logic"
+		filepath:  "examples/datetime-validation.csv"
+		arguments: ["format-csv=table"]
+		labels:    ["validation", "string", "datetime", "csv"]
 	},
 	{
 		name:      "snk.validation.string.url.csv"

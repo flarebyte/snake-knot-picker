@@ -38,6 +38,7 @@ string,boolean,Bool,Accept only string booleans
 string,color,Color,Accept only string colors
 string,date,DateString,Accept only string dates
 string,datetime,DateTimeString,Accept only string date-times
+string,datetime-options,DateTimeOptions,Configure datetime layout timezone and location policy
 string,duration,DurationString,Accept only string durations
 string,unicode-letter,UnicodeLetter,Require Unicode letters only
 string,unicode-number,UnicodeNumber,Require Unicode numbers only

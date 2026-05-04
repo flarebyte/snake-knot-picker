@@ -1,0 +1,10 @@
+feature,flag,rule
+parsing,,Parse datetime strings with Go standard library time package before applying policy checks
+layout,--layout,Select a named layout parser; supported values are RFC3339 RFC1123Z and Unix
+rfc3339,RFC3339,Parse with time.RFC3339 and require timezone-bearing input
+rfc1123z,RFC1123Z,Parse with time.RFC1123Z and require timezone-bearing input
+unix,Unix,Parse numeric Unix epoch seconds and do not consume a timezone from the input
+timezone,--allow-timezone,Permit datetime input containing an explicit timezone or numeric offset
+location,--location,Load the expected IANA timezone with time.LoadLocation such as America/New_York
+location-without-timezone,--location,Use the loaded location when parsing timezone-less datetime input
+location-with-timezone,"--allow-timezone + --location",When input contains a timezone require it to be consistent with the configured location

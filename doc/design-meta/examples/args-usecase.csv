@@ -25,6 +25,7 @@ admin,Expect a color like #F54927,schema string --color --required
 admin,Expect a postal code,"custom postal-code --country US --required"
 admin,Expect a boolean-like string,schema string --boolean
 admin,Expect a UUID string,schema string --uuid
+admin,Expect a zoned datetime,"schema string --datetime --layout RFC3339 --allow-timezone --location America/New_York --required"
 admin,Expect the first tuple element,"schema string --tuple 0 --enum monday,tuesday"
 admin,Expect the second tuple element,"schema string --tuple 1 --color"
 admin,Expect a repeated string flag with length bounds,"schema string --alphabetic + schema repeatable --min-length 1 --max-length 5"
