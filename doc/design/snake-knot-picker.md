@@ -1781,6 +1781,34 @@ export declare class Uppercase implements StringFormatter {
 
 Operator registration, custom validators, and collision handling.
 
+#### Error Strategy and IDs
+
+| area | error_id | message |
+| --- | --- | --- |
+| strategy | error.id.stable | Error IDs are stable public API and must not change once released |
+| strategy | error.message.template | Messages are templates rendered from params and should not be used for program control |
+| strategy | error.collect.all | Collect all validation failures for a field when practical instead of failing at the first validator |
+| strategy | error.admin.kind | Admin schema parsing and registration failures use kind schema |
+| strategy | error.user.kind | Runtime argv parsing and value validation failures use kind validation |
+| strategy | error.path | Use path for command path flag name tuple index or list index context |
+| schema | schema.unknown_operator | Unknown schema operator |
+| schema | schema.unknown_flag | Unknown schema flag for the selected operator |
+| schema | schema.missing_value | Schema flag requires a following value |
+| schema | schema.invalid_value | Schema flag value is malformed |
+| schema | schema.invalid_combination | Schema flags cannot be used together |
+| schema | schema.duplicate_registration | Validation operator is already registered |
+| schema | schema.enum_whitespace | Enum value has leading or trailing whitespace |
+| schema | schema.enum_empty | Enum value is empty after trimming |
+| validation | validation.required | Required value is missing |
+| validation | validation.unexpected_flag | User argv contains an unknown flag |
+| validation | validation.invalid_type | User argv value cannot be parsed as the expected type |
+| validation | validation.string | Value failed string validation |
+| validation | validation.number | Value failed number validation |
+| validation | validation.tuple | Tuple value failed validation |
+| validation | validation.list | List value failed validation |
+| validation | validation.format | Value failed format validation |
+| validation | validation.range | Value is outside the allowed range |
+
 #### Validation Registry API
 
 ```ts

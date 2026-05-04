@@ -1,10 +1,26 @@
+export type ValidationErrorKind = 'schema' | 'validation';
+
+export interface ValidationErrorDetail {
+  id: string;
+  message: string;
+  params?: Readonly<Record<string, string | number | boolean>>;
+}
+
 export interface ValidationError {
+  kind: ValidationErrorKind;
   errorMessageIds: string[];
+  details: readonly ValidationErrorDetail[];
   field?: string;
+  path?: readonly (string | number)[];
+  operator?: string;
+  flag?: string;
+  tupleIndex?: number;
 }
 
 export interface ValidatorOptions {
   field?: string;
+  path?: readonly (string | number)[];
+  operator?: string;
 }
 
 export interface StringValidation {

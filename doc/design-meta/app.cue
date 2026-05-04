@@ -78,7 +78,7 @@ reports: [{
 		}, {
 			title:       "06 Registry and Extensibility"
 			description: "Operator registration, custom validators, and collision handling."
-			notes:       ["snk.registry.api", "snk.registry.examples", "snk.validation.csv"]
+			notes:       ["snk.registry.api", "snk.registry.examples", "snk.errors.csv", "snk.validation.csv"]
 		}]
 	}, {
 		title:       "04 Use Cases and Limits"
@@ -428,6 +428,13 @@ wash start --options delicate,extra-rinse --options pre-wash
 		title:    "Validation Registry Examples"
 		filepath: "examples/validation-registry-examples.ts"
 		labels:   ["registry", "examples", "typescript"]
+	},
+	{
+		name:      "snk.errors.csv"
+		title:     "Error Strategy and IDs"
+		filepath:  "examples/errors.csv"
+		arguments: ["format-csv=table"]
+		labels:    ["error", "csv"]
 	},
 	{
 		name:      "snk.validation.csv"
