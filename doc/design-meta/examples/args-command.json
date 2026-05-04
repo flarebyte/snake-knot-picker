@@ -1,0 +1,311 @@
+{
+  "version": "1",
+  "commandPath": ["wash", "start"],
+  "adminOnly": true,
+  "flags": [
+    {
+      "kind": "boolean",
+      "name": "extra-rinse",
+      "schema": ["schema", "boolean"]
+    },
+    {
+      "kind": "string",
+      "name": "mode",
+      "schema": ["schema", "string", "--enum", "normal,delicate,whites", "--required"]
+    },
+    {
+      "kind": "number",
+      "name": "spin",
+      "schema": ["schema", "number", "--int", "--required"]
+    },
+    {
+      "kind": "tuple",
+      "name": "range",
+      "schema": [
+        "schema",
+        "tuple",
+        "--size",
+        "2",
+        "--required"
+      ],
+      "schemas": [
+        ["schema", "number", "--tuple", "0", "--int"],
+        ["schema", "number", "--tuple", "1", "--int"]
+      ]
+    },
+    {
+      "kind": "string",
+      "name": "add",
+      "schema": ["schema", "string", "--alphabetic"],
+      "schemas": [
+        ["schema", "repeatable", "--min-length", "1", "--max-length", "5"]
+      ]
+    },
+    {
+      "kind": "tuple",
+      "name": "pair",
+      "schema": [
+        "schema",
+        "tuple",
+        "--size",
+        "2"
+      ],
+      "schemas": [
+        ["schema", "string", "--tuple", "0", "--alphabetic"],
+        ["schema", "string", "--tuple", "1", "--hexa"],
+        ["schema", "repeatable", "--min-length", "1", "--max-length", "5"]
+      ]
+    },
+    {
+      "kind": "number",
+      "name": "dose",
+      "schema": ["schema", "number", "--int"],
+      "schemas": [
+        ["schema", "repeatable", "--min-length", "1", "--max-length", "3"]
+      ]
+    },
+    {
+      "kind": "string",
+      "name": "report",
+      "schema": [
+        "schema",
+        "string",
+        "--uri",
+        "--scheme",
+        "https",
+        "--secure",
+        "--allow-query",
+        "--allow-domains",
+        "example.com",
+        "--required"
+      ]
+    },
+    {
+      "kind": "string",
+      "name": "accent",
+      "schema": ["schema", "string", "--color", "--format", "hex", "--allow-alpha"]
+    },
+    {
+      "kind": "string",
+      "name": "target-arn",
+      "schema": [
+        "schema",
+        "string",
+        "--arn",
+        "--allow-partition",
+        "aws",
+        "--allow-service",
+        "s3",
+        "--allow-service",
+        "sns",
+        "--allow-region",
+        "us-east-2",
+        "--allow-account-id",
+        "123456789012",
+        "--allow-resource",
+        "example-sns-topic-name",
+        "--required"
+      ]
+    },
+    {
+      "kind": "string",
+      "name": "whitespace",
+      "schema": ["schema", "string", "--whitespace", "--required"]
+    },
+    {
+      "kind": "string",
+      "name": "alphabetic",
+      "schema": ["schema", "string", "--alphabetic", "--required"]
+    },
+    {
+      "kind": "string",
+      "name": "lowercase",
+      "schema": ["schema", "string", "--lowercase", "--required"]
+    },
+    {
+      "kind": "string",
+      "name": "uppercase",
+      "schema": ["schema", "string", "--uppercase", "--required"]
+    },
+    {
+      "kind": "string",
+      "name": "punctuation",
+      "schema": ["schema", "string", "--punctuation", "--required"]
+    },
+    {
+      "kind": "string",
+      "name": "blank",
+      "schema": ["schema", "string", "--blank", "--required"]
+    },
+    {
+      "kind": "string",
+      "name": "unicode-letter",
+      "schema": ["schema", "string", "--unicode-letter", "--required"]
+    },
+    {
+      "kind": "string",
+      "name": "unicode-number",
+      "schema": ["schema", "string", "--unicode-number", "--required"]
+    },
+    {
+      "kind": "string",
+      "name": "unicode-punctuation",
+      "schema": ["schema", "string", "--unicode-punctuation", "--required"]
+    },
+    {
+      "kind": "string",
+      "name": "unicode-symbol",
+      "schema": ["schema", "string", "--unicode-symbol", "--required"]
+    },
+    {
+      "kind": "string",
+      "name": "unicode-separator",
+      "schema": ["schema", "string", "--unicode-separator", "--required"]
+    },
+    {
+      "kind": "string",
+      "name": "latin",
+      "schema": ["schema", "string", "--latin", "--required"]
+    },
+    {
+      "kind": "string",
+      "name": "han",
+      "schema": ["schema", "string", "--han", "--required"]
+    },
+    {
+      "kind": "string",
+      "name": "devanagari",
+      "schema": ["schema", "string", "--devanagari", "--required"]
+    },
+    {
+      "kind": "string",
+      "name": "arabic",
+      "schema": ["schema", "string", "--arabic", "--required"]
+    },
+    {
+      "kind": "string",
+      "name": "hiragana",
+      "schema": ["schema", "string", "--hiragana", "--required"]
+    },
+    {
+      "kind": "string",
+      "name": "katakana",
+      "schema": ["schema", "string", "--katakana", "--required"]
+    },
+    {
+      "kind": "string",
+      "name": "hangul",
+      "schema": ["schema", "string", "--hangul", "--required"]
+    },
+    {
+      "kind": "string",
+      "name": "tamil",
+      "schema": ["schema", "string", "--tamil", "--required"]
+    },
+    {
+      "kind": "string",
+      "name": "gujarati",
+      "schema": ["schema", "string", "--gujarati", "--required"]
+    },
+    {
+      "kind": "string",
+      "name": "ethiopic",
+      "schema": ["schema", "string", "--ethiopic", "--required"]
+    },
+    {
+      "kind": "string",
+      "name": "postal-code",
+      "schema": ["custom", "postal-code", "--country", "US", "--required"]
+    },
+    {
+      "kind": "string",
+      "name": "contact-email",
+      "schema": [
+        "schema",
+        "string",
+        "--email",
+        "--allow-domains",
+        "example.com"
+      ]
+    },
+    {
+      "kind": "string",
+      "name": "release-date-time",
+      "schema": [
+        "schema",
+        "string",
+        "--datetime",
+        "--layout",
+        "RFC3339",
+        "--allow-timezone",
+        "--location",
+        "America/New_York"
+      ]
+    },
+    {
+      "kind": "string",
+      "name": "retry-duration",
+      "schema": [
+        "schema",
+        "string",
+        "--duration",
+        "--min-duration",
+        "5m",
+        "--max-duration",
+        "2h"
+      ]
+    },
+    {
+      "kind": "string",
+      "name": "checksum",
+      "schema": ["schema", "string", "--base64"]
+    },
+    {
+      "kind": "string",
+      "name": "starts-with",
+      "schema": ["schema", "string", "--starts-with", "wash-"]
+    },
+    {
+      "kind": "string",
+      "name": "codepoints",
+      "schema": ["schema", "string", "--codepoint-range", "U+3040", "U+309F"]
+    },
+    {
+      "kind": "string",
+      "name": "hexa",
+      "schema": ["schema", "string", "--hexa"]
+    },
+    {
+      "kind": "string",
+      "name": "temp",
+      "schema": ["schema", "string", "--enum", "cold,warm,hot", "--required"]
+    },
+    {
+      "kind": "string",
+      "name": "accent-choice",
+      "schema": [
+        "schema",
+        "string",
+        "--enum",
+        "red;green;blue",
+        "--enum-separator",
+        ";"
+      ]
+    },
+    {
+      "kind": "string",
+      "name": "due-date",
+      "schema": ["schema", "string", "--date", "--layout", "ISO8601", "--required"]
+    },
+    {
+      "kind": "string",
+      "name": "enabled",
+      "schema": ["schema", "string", "--boolean"]
+    },
+    {
+      "kind": "string",
+      "name": "alarm-time",
+      "schema": ["schema", "string", "--time", "--layout", "HHMMSS", "--required"]
+    }
+  ]
+}

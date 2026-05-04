@@ -1,0 +1,9 @@
+feature,flag,rule
+format,--format,Supported value is hex and it is the default color format
+leading-hash,,Require a leading # character
+short-hex,hex,Accept #RGB
+long-hex,hex,Accept #RRGGBB
+alpha,--allow-alpha,Permit #RGBA and #RRGGBBAA forms only when this flag is present
+case,,Accept hexadecimal digits case-insensitively
+runtime-trim,,Do not implicitly trim runtime user input before color validation
+unsupported-formats,,Reject rgb hsl named colors and CSS color functions

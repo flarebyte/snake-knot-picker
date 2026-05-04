@@ -1,0 +1,7 @@
+feature,flag,rule
+parsing,,Parse date strings with Go standard library time package before applying policy checks
+layout,--layout,Select a named date-only layout parser; supported value is ISO8601
+iso8601,ISO8601,Parse with Go layout 2006-01-02
+timezone,,Reject timezone-bearing date input
+location,,Do not accept --location for date-only validation
+date-only,,Reject input containing time-of-day fields

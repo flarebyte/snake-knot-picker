@@ -1,0 +1,2 @@
+note
+Cobra's CSV parsing is limited when the underlying data contains commas

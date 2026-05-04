@@ -1,0 +1,61 @@
+mode,description,example
+user,Support only named values,wash start --mode heavy-duty
+user,Support boolean flags,wash start --mode bedding --extra-rinse
+user,Support single-parameter flags,wash start --mode normal --spin 1200
+user,Support n-tuple flags,wash start --mode normal --range 800 1200
+user,Support repeated string flags by repetition,wash start --mode whites --add bleach --add softener
+user,Support repeated number flags by repetition,wash start --mode normal --spin 1200 --spin 1400
+user,Support string and enum types,wash start --mode delicate --temp warm
+user,Support number types,wash start --mode normal --spin 1200
+user,Support URL or URI types,wash alarm --report https://website.com
+admin,Validate character counts,schema string --min-chars 10 --max-chars 20
+admin,Reserve a command for admins,schema admin report --admin-only
+admin,Validate word counts,schema string --min-words 10 --max-words 20
+admin,Validate numeric values,schema number --min 10 --max 20
+admin,Expect a numeric multiple,schema number --multiple-of 10
+admin,Require a numeric value,"schema number --int --required"
+admin,Expect a repeated numeric flag,"schema number --int + schema repeatable"
+admin,Expect a tuple numeric value,"schema tuple --size 2 --required + schema number --tuple 0 --int + schema number --tuple 1 --int"
+admin,Expect a prefixed string value,schema string --starts-with blue
+admin,Expect an enum,"schema string --enum green,orange,red"
+admin,Expect an enum with custom separator,"schema string --enum green;orange;red --enum-separator ;"
+admin,Expect a secure URL,"schema string --uri --scheme https --secure --allow-query --allow-domains example.com --required"
+admin,Expect an AWS ARN,"schema string --arn --allow-partition aws --allow-service s3 --allow-service sns --allow-region us-east-2 --allow-account-id 123456789012 --allow-resource example-sns-topic-name --required"
+admin,Expect an email from allowed domains,"schema string --email --allow-domains example.com --allow-domains example.org --required"
+admin,Expect a color like #F54927,schema string --color --format hex --required
+admin,Expect a postal code,"custom postal-code --country US --required"
+admin,Expect a boolean-like string,schema string --boolean
+admin,Expect a UUID string,schema string --uuid
+admin,Expect a zoned datetime,"schema string --datetime --layout RFC3339 --allow-timezone --location America/New_York --required"
+admin,Expect a date-only value,schema string --date --layout ISO8601 --required
+admin,Expect a time-only value,schema string --time --layout HHMMSS --required
+admin,Expect a bounded duration,schema string --duration --min-duration 5m --max-duration 2h
+admin,Expect the first tuple element,"schema string --tuple 0 --enum monday,tuesday"
+admin,Expect the second tuple element,"schema string --tuple 1 --color"
+admin,Expect a repeated string flag with length bounds,"schema string --alphabetic + schema repeatable --min-length 1 --max-length 5"
+admin,Expect a repeated tuple flag with length bounds,"schema tuple --size 2 + schema string --tuple 0 --enum monday,tuesday + schema string --tuple 1 --hexa + schema repeatable --min-length 1 --max-length 5"
+admin,Expect a repeated numeric flag with length bounds,"schema number --int + schema repeatable --min-length 1 --max-length 3"
+admin,Expect a string with digits,"schema string --digit --required"
+admin,Expect a string with whitespace,"schema string --whitespace --required"
+admin,Expect a string with alphabetic characters,"schema string --alphabetic --required"
+admin,Expect a lowercase string,"schema string --lowercase --required"
+admin,Expect an uppercase string,"schema string --uppercase --required"
+admin,Expect a string with punctuation,"schema string --punctuation --required"
+admin,Expect a string with blank characters,"schema string --blank --required"
+admin,Expect a Unicode letter string,"schema string --unicode-letter --required"
+admin,Expect a Unicode number string,"schema string --unicode-number --required"
+admin,Expect a Unicode punctuation string,"schema string --unicode-punctuation --required"
+admin,Expect a Unicode symbol string,"schema string --unicode-symbol --required"
+admin,Expect a Unicode separator string,"schema string --unicode-separator --required"
+admin,Expect a Latin-script string,"schema string --latin --required"
+admin,Expect a Han-script string,"schema string --han --required"
+admin,Expect a Devanagari-script string,"schema string --devanagari --required"
+admin,Expect an Arabic-script string,"schema string --arabic --required"
+admin,Expect a Hiragana string,"schema string --hiragana --required"
+admin,Expect a Katakana string,"schema string --katakana --required"
+admin,Expect a Hangul string,"schema string --hangul --required"
+admin,Expect a Tamil string,"schema string --tamil --required"
+admin,Expect a Gujarati string,"schema string --gujarati --required"
+admin,Expect an Ethiopic-script string,"schema string --ethiopic --required"
+admin,Expect a string with hex digits,"schema string --hexa --required"
+admin,Expect a string from the Japanese Hiragana alphabet,"schema string --codepoint-range U+3040 U+309F --required"

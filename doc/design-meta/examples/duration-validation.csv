@@ -1,0 +1,8 @@
+feature,flag,rule
+parsing,,Parse duration strings with Go standard library time.ParseDuration before applying policy checks
+syntax,,Accept Go duration syntax such as 300ms 1.5h and 2h45m
+iso8601,,Reject ISO8601 duration syntax such as P1DT2H
+minimum,--min-duration,Parse the bound with time.ParseDuration and require input duration to be greater than or equal to it
+maximum,--max-duration,Parse the bound with time.ParseDuration and require input duration to be less than or equal to it
+negative,--allow-negative,By default reject negative durations; permit them only when this flag is present
+empty,,Reject empty duration strings

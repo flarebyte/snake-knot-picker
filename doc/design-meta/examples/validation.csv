@@ -1,0 +1,93 @@
+domain,feature,api,purpose
+string,min-chars,MinChars(minChars),Require a minimum character count
+string,max-chars,MaxChars(maxChars),Limit a maximum character count
+string,min-words,MinWords(minWords),Require a minimum word count
+string,max-words,MaxWords(maxWords),Limit a maximum word count
+string,enum,Enum(allowedValues),Allow only values from a fixed set
+string,enum-separator,EnumOptions(separator),Split schema enum values with a custom separator
+string,enum-trim-check,EnumOptions rejectWhitespacePaddedValues,Reject enum definitions with leading or trailing whitespace
+string,enum-empty-check,EnumOptions rejectEmptyValues,Reject enum definitions with empty values after trimming
+string,digit,Digit,Require decimal digits only
+string,whitespace,Whitespace,Require whitespace characters only
+string,alphabetic,Alphabetic,Require ASCII alphabetic characters only
+string,lowercase,Lowercase,Require lowercase letters only
+string,uppercase,Uppercase,Require uppercase letters only
+string,punctuation,Punctuation,Require punctuation characters only
+string,base64,Base64,Require base64 encoded text
+string,hexa,Hexa,Require hexadecimal digits only
+string,blank,Blank,Require spaces and tabs only
+string,latin,Latin,Require Latin-script letters only
+string,han,Han,Require Han characters only
+string,devanagari,Devanagari,Require Devanagari script characters only
+string,arabic,Arabic,Require Arabic-script characters only
+string,bengali,Bengali,Require Bengali script characters only
+string,cyrillic,Cyrillic,Require Cyrillic-script characters only
+string,hiragana,Hiragana,Require Hiragana characters only
+string,katakana,Katakana,Require Katakana characters only
+string,hangul,Hangul,Require Hangul characters only
+string,telugu,Telugu,Require Telugu script characters only
+string,gurmukhi,Gurmukhi,Require Gurmukhi characters only
+string,tamil,Tamil,Require Tamil script characters only
+string,thai,Thai,Require Thai script characters only
+string,javanese,Javanese,Require Javanese script characters only
+string,gujarati,Gujarati,Require Gujarati script characters only
+string,ethiopic,Ethiopic,Require Ethiopic-script characters only
+string,kannada,Kannada,Require Kannada script characters only
+string,codepoint-range,"CodepointRange(from,to)",Restrict characters to a codepoint span
+string,boolean,Bool,Accept only string booleans
+string,color,Color,Accept only string colors
+string,color-options,ColorOptions,Configure color format and alpha channel policy
+string,date,DateString,Accept only string dates
+string,date-options,DateOptions,Configure date-only layout policy
+string,datetime,DateTimeString,Accept only string date-times
+string,datetime-options,DateTimeOptions,Configure datetime layout timezone and location policy
+string,duration,DurationString,Accept only string durations
+string,duration-options,DurationOptions,Configure duration bounds and negative duration policy
+string,unicode-letter,UnicodeLetter,Require Unicode letters only
+string,unicode-number,UnicodeNumber,Require Unicode numbers only
+string,unicode-punctuation,UnicodePunctuation,Require Unicode punctuation only
+string,unicode-symbol,UnicodeSymbol,Require Unicode symbols only
+string,unicode-separator,UnicodeSeparator,Require Unicode separators only
+string,uri,Uri,Accept only string URIs
+string,uri-options,UriOptions,Configure URL scheme component and host policy checks
+string,arn,Arn,Accept only string ARNs
+string,arn-options,ArnOptions,Configure ARN partition service region account and resource allow lists
+string,email,Email,Accept only string email addresses
+string,email-options,EmailOptions,Configure email domain allow lists
+string,matches-formatter,MatchesFormatter(formatter),Fail if formatting changes the value
+string,number,NumberStringValidation(numberValidation),Parse a string to number then validate it
+string,starts-with,StartsWith(prefix),Require a specific prefix
+string,time,TimeString,Accept only string times
+string,time-options,TimeOptions,Configure time-only layout fraction and timezone policy
+string,uuid,Uuid,Accept only string UUIDs
+string,factory,stringValidations,Create string validators from the factory API
+string,chain,StringValidationChain.pipe(...).build(),Compose string validators and formatters
+formatter,trim,Trim,Trim surrounding whitespace
+formatter,lowercase,Lowercase,Convert text to lowercase
+formatter,uppercase,Uppercase,Convert text to uppercase
+formatter,factory,stringFormatters,Create string formatters from the factory API
+formatter,chain,StringFormatterChain.pipe(...).build(),Compose string formatters
+number,min,Min(min),Require a minimum numeric value
+number,max,Max(max),Require a maximum numeric value
+number,multiple-of,MultipleOf(factor),Require a numeric multiple
+number,int,Int,Require an integer value
+number,float,Float,Require a floating-point value
+number,parse-int,ParseInt,Convert string input to an integer
+number,parse-float,ParseFloat,Convert string input to a float
+number,tuple,schema number --tuple(index),Apply a number schema command to one tuple slot
+number,converter,numberConversions,Create number converters from the factory API
+number,factory,numberValidations,Create number validators from the factory API
+number,chain,NumberValidationChain.pipe(...).build(),Compose number validators
+tuple,of,TupleOf(validations:StringValidation[]),Validate tuple items with ordered string validations
+tuple,factory,tupleValidations,Create tuple validators from the factory API
+tuple,chain,TupleValidationChain.pipe(...).build(),Compose tuple validators
+list,of,ListOf(itemValidation:StringValidation|TupleValidation),Validate every list item with one validation shape
+list,min-length,MinLength(minLength),Require a minimum list length
+list,max-length,MaxLength(maxLength),Require a maximum list length
+list,factory,listValidations,Create list validators from the factory API
+list,chain,ListValidationChain.pipe(...).build(),Compose list validators
+registry,register,ValidationRegistry.register(operator),Register built-in or custom validators and reject collisions
+registry,resolve,"ValidationRegistry.resolve(domain,name)",Look up a registered operator by domain and name
+registry,collision,"ValidationRegistry.has(domain,name)",Detect duplicate registrations before adding a validator
+registry,required,Schema modifier --required,Mark value-bearing or custom flags as mandatory
+registry,repeatable,Schema modifier `schema repeatable`,Mark flags as repeatable and constrain occurrence count

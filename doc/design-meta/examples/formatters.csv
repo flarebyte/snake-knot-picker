@@ -1,0 +1,5 @@
+string,trim,Trim
+string,lowercase,Lowercase
+string,uppercase,Uppercase
+string,factory,stringFormatters
+string,formatter-chain,StringFormatterChain.pipe(...).build()

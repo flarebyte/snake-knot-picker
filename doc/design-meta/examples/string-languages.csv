@@ -1,0 +1,18 @@
+class,description,api
+latin,Covers Latin-script languages like English and Spanish,Latin
+han,Covers Han characters used in Chinese and Japanese Kanji,Han
+devanagari,Covers Hindi and related Indo-Aryan languages,Devanagari
+arabic,Covers Arabic-script languages such as Arabic and Urdu,Arabic
+bengali,Covers Bengali/Bangla script,Bengali
+cyrillic,Covers Russian and other Cyrillic-script languages,Cyrillic
+hiragana,Covers Japanese Hiragana,Hiragana
+katakana,Covers Japanese Katakana,Katakana
+hangul,Covers Korean Hangul,Hangul
+telugu,Covers Telugu script,Telugu
+gurmukhi,Covers Punjabi when written in Gurmukhi,Gurmukhi
+tamil,Covers Tamil script,Tamil
+thai,Covers Thai script,Thai
+javanese,Covers traditional Javanese script,Javanese
+gujarati,Covers Gujarati script,Gujarati
+ethiopic,Covers Amharic and related Ethiopic-script languages,Ethiopic
+kannada,Covers Kannada script,Kannada

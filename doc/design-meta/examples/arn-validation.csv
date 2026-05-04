@@ -1,0 +1,9 @@
+feature,flag,rule
+parsing,,Parse ARNs with github.com/aws/aws-sdk-go-v2/aws/arn arn.Parse before applying policy checks
+partition,--allow-partition,If any partition allow-list entries are present require arn.Partition to equal one of them
+service,--allow-service,If any service allow-list entries are present require arn.Service to equal one of them
+region,--allow-region,If any region allow-list entries are present require arn.Region to equal one of them
+account-id,--allow-account-id,If any account ID allow-list entries are present require arn.AccountID to equal one of them
+resource,--allow-resource,If any resource allow-list entries are present require arn.Resource to equal one of them
+repeatable-allow-flags,,Allow-list flags are repeatable so admins can authorize multiple values per ARN component
+absent-allow-list,,If no allow-list entries are provided for a component then all values for that component are allowed
