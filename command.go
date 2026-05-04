@@ -21,8 +21,10 @@ type CompiledCommand struct {
 }
 
 type CompiledFlag struct {
-	Kind string
-	Name string
+	Kind       string
+	Name       string
+	TupleSize  int
+	Repeatable bool
 }
 
 type ParseResult struct {
@@ -37,4 +39,3 @@ type Value struct {
 	List   []Value
 	Tuple  []Value
 }
-

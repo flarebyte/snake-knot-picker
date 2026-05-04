@@ -87,3 +87,51 @@ func TestParseRejectsSchemaCommandsAtRuntime(t *testing.T) {
 	}
 }
 
+func TestParseRuntimeArgvPatterns(t *testing.T) {
+	cmd := CompiledCommand{
+		CommandPath: []string{"wash", "start"},
+		Flags: []CompiledFlag{
+			{Kind: "boolean", Name: "extra-rinse"},
+			{Kind: "string", Name: "mode"},
+			{Kind: "number", Name: "spin"},
+			{Kind: "tuple", Name: "range", TupleSize: 2},
+			{Kind: "string", Name: "add", Repeatable: true},
+		},
+	}
+	got, err := Parse(cmd, []string{
+		"wash", "start",
+		"--extra-rinse",
+		"--mode=normal",
+		"--spin", "900",
+		"--range", "10,20",
+		"--add=soap",
+		"--add", "rinse,bleach",
+	})
+	if err != nil {
+		t.Fatalf("parse failed: %v", err)
+	}
+	if got.Values["mode"].String == nil || *got.Values["mode"].String != "normal" {
+		t.Fatalf("unexpected mode: %#v", got.Values["mode"])
+	}
+	if len(got.Values["range"].Tuple) != 2 {
+		t.Fatalf("unexpected tuple: %#v", got.Values["range"])
+	}
+	if len(got.Values["add"].List) != 3 {
+		t.Fatalf("unexpected repeatable: %#v", got.Values["add"])
+	}
+}
+
+func TestParseRejectsUnknownFlag(t *testing.T) {
+	cmd := CompiledCommand{
+		CommandPath: []string{"wash", "start"},
+		Flags:       []CompiledFlag{{Kind: "string", Name: "mode"}},
+	}
+	_, err := Parse(cmd, []string{"wash", "start", "--unknown", "x"})
+	verr, ok := err.(*ValidationError)
+	if !ok || len(verr.Details) == 0 {
+		t.Fatalf("expected structured error, got %T", err)
+	}
+	if verr.Details[0].ID != ErrorIDValidationUnexpectedFlag {
+		t.Fatalf("unexpected id: %s", verr.Details[0].ID)
+	}
+}

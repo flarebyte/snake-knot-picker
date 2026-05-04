@@ -1,4 +1,5 @@
 package argv
 
-type Values map[string]any
+import "github.com/flarebyte/snake-knot-picker"
 
+type Values map[string]picker.Value
