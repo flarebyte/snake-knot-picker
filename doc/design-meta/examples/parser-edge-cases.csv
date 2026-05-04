@@ -1,0 +1,16 @@
+case,stage,input,expected,error_id
+simple schema compile,schema-compile,"schema string --enum cold,warm,hot --required",Compile one required enum string validator,
+happy tuple compile,schema-compile,"schema tuple --size 2 + schema number --tuple 0 --int + schema number --tuple 1 --int",Compile tuple size validator and two indexed slot validators,
+happy repeatable compile,schema-compile,"schema string --alphabetic + schema repeatable --min-length 1 --max-length 5",Compile primary string validator plus repeatable modifier,
+happy enum separator,schema-compile,"schema string --enum red;green;blue --enum-separator ;",Split enum candidates with explicit separator,
+unknown operator,schema-compile,"schema frobnicate --required",Reject schema before command registration,schema.unknown_operator
+unknown schema flag,schema-compile,"schema string --bogus",Reject schema before command registration,schema.unknown_flag
+missing schema flag value,schema-tokenize,"schema string --enum",Reject malformed schema tokens,schema.missing_value
+enum whitespace definition,schema-compile,"schema string --enum cold, warm,hot",Reject admin enum candidates with leading or trailing whitespace,schema.enum_whitespace
+tuple slot without index,schema-compile,"schema number --int",Reject when command appears in tuple schemas without --tuple,schema.tuple_missing_index
+tuple index out of range,schema-compile,"schema number --tuple 2 --int for tuple size 2",Reject zero-based tuple index outside tuple size,schema.tuple_index_out_of_range
+duplicate tuple slot,schema-compile,"schema number --tuple 0 --int + schema string --tuple 0 --hexa",Reject ambiguous tuple slot ownership,schema.tuple_duplicate_slot
+missing tuple slot,schema-compile,"schema tuple --size 2 + schema number --tuple 0 --int",Reject tuple schema with uncovered slot,schema.tuple_missing_slot
+user unknown flag,user-argv-parse,"wash start --unknown value",Reject unregistered runtime flag,validation.unexpected_flag
+user schema command attempt,user-argv-parse,"schema string --email",Reject because users cannot define schemas or register commands,validation.schema_command_forbidden
+runtime invalid value,runtime-validate,"wash start --spin abc",Parse failure or validator failure with field path context,validation.invalid_type

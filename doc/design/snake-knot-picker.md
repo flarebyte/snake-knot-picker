@@ -683,6 +683,153 @@ export const washStartValidation: ValidationError | null = userArgs.validate(
 );
 ```
 
+### 04 Parser Architecture
+
+Internal parser and compiler boundaries from admin schema commands to runtime validators.
+
+#### Parser Architecture
+
+```ts
+import type { ValidationError } from './common';
+import type {
+  ValidationRegistry,
+  ValidationSchemaCommand,
+} from './validation-registry';
+
+export type FieldSchemaKind = 'boolean' | 'number' | 'string' | 'tuple';
+
+export type SchemaOperatorKind =
+  | FieldSchemaKind
+  | 'formatter'
+  | 'conversion'
+  | 'repeatable'
+  | 'custom';
+
+export type ParserStage =
+  | 'schema-tokenize'
+  | 'schema-compile'
+  | 'command-register'
+  | 'user-argv-parse'
+  | 'runtime-validate';
+
+export interface ParsedSchemaFlag {
+  name: string;
+  values: readonly string[];
+}
+
+export interface SchemaCommandAst {
+  head: 'schema' | 'custom';
+  operator: string;
+  flags: readonly ParsedSchemaFlag[];
+  raw: ValidationSchemaCommand;
+  path: readonly (string | number)[];
+  tupleIndex?: number;
+}
+
+export interface SchemaCompileContext {
+  registry: ValidationRegistry;
+  field: string;
+  kind: FieldSchemaKind;
+  tupleSize?: number;
+}
+
+export interface ValidatorSpec {
+  operator: string;
+  kind: SchemaOperatorKind;
+  required: boolean;
+  repeatable: boolean;
+  tupleIndex?: number;
+}
+
+export interface CompiledFieldSchema {
+  name: string;
+  kind: FieldSchemaKind;
+  primary: ValidatorSpec;
+  modifiers: readonly ValidatorSpec[];
+  tupleSlots: readonly ValidatorSpec[];
+}
+
+export type ParserResult<T> =
+  | { ok: true; value: T }
+  | { ok: false; errors: readonly ValidationError[] };
+
+export interface SchemaCommandParser {
+  parse(command: ValidationSchemaCommand): ParserResult<SchemaCommandAst>;
+}
+
+export interface SchemaCompiler {
+  compile(
+    ast: SchemaCommandAst,
+    context: SchemaCompileContext,
+  ): ParserResult<ValidatorSpec>;
+}
+
+export interface CommandSchemaCompiler {
+  compileField(field: {
+    name: string;
+    kind: FieldSchemaKind;
+    schema: ValidationSchemaCommand;
+    schemas?: readonly ValidationSchemaCommand[];
+  }): ParserResult<CompiledFieldSchema>;
+}
+
+export interface UserArgvParser {
+  parse(
+    argv: readonly string[],
+    command: readonly CompiledFieldSchema[],
+  ): ParserResult<Readonly<Record<string, unknown>>>;
+}
+
+export const parserPipeline = [
+  'admin schema commands are parsed into SchemaCommandAst',
+  'SchemaCommandAst is compiled with the admin-controlled registry',
+  'compiled field schemas are registered for a command path',
+  'user argv is parsed against compiled field schemas only',
+  'runtime validators return typed values or validation errors',
+] as const;
+
+export const tupleCompilerExample = {
+  field: 'range',
+  kind: 'tuple',
+  schema: ['schema', 'tuple', '--size', '2', '--required'],
+  schemas: [
+    ['schema', 'number', '--tuple', '0', '--int'],
+    ['schema', 'number', '--tuple', '1', '--int'],
+  ],
+  compilesTo: {
+    primary: 'TupleSize(required=true,size=2)',
+    tupleSlots: ['NumberInt(tupleIndex=0)', 'NumberInt(tupleIndex=1)'],
+  },
+} as const;
+
+export const runtimeBoundaryExample = {
+  argv: ['wash', 'start', '--range', '10', '20'],
+  uses: 'compiled range field schema',
+  forbidden:
+    'runtime argv must never compile schema commands or register operators',
+} as const;
+```
+
+#### Parser Examples and Edge Cases
+
+| case | error_id | expected | input | stage |
+| --- | --- | --- | --- | --- |
+| simple schema compile |  | Compile one required enum string validator | schema string --enum cold,warm,hot --required | schema-compile |
+| happy tuple compile |  | Compile tuple size validator and two indexed slot validators | schema tuple --size 2 + schema number --tuple 0 --int + schema number --tuple 1 --int | schema-compile |
+| happy repeatable compile |  | Compile primary string validator plus repeatable modifier | schema string --alphabetic + schema repeatable --min-length 1 --max-length 5 | schema-compile |
+| happy enum separator |  | Split enum candidates with explicit separator | schema string --enum red;green;blue --enum-separator ; | schema-compile |
+| unknown operator | schema.unknown_operator | Reject schema before command registration | schema frobnicate --required | schema-compile |
+| unknown schema flag | schema.unknown_flag | Reject schema before command registration | schema string --bogus | schema-compile |
+| missing schema flag value | schema.missing_value | Reject malformed schema tokens | schema string --enum | schema-tokenize |
+| enum whitespace definition | schema.enum_whitespace | Reject admin enum candidates with leading or trailing whitespace | schema string --enum cold, warm,hot | schema-compile |
+| tuple slot without index | schema.tuple_missing_index | Reject when command appears in tuple schemas without --tuple | schema number --int | schema-compile |
+| tuple index out of range | schema.tuple_index_out_of_range | Reject zero-based tuple index outside tuple size | schema number --tuple 2 --int for tuple size 2 | schema-compile |
+| duplicate tuple slot | schema.tuple_duplicate_slot | Reject ambiguous tuple slot ownership | schema number --tuple 0 --int + schema string --tuple 0 --hexa | schema-compile |
+| missing tuple slot | schema.tuple_missing_slot | Reject tuple schema with uncovered slot | schema tuple --size 2 + schema number --tuple 0 --int | schema-compile |
+| user unknown flag | validation.unexpected_flag | Reject unregistered runtime flag | wash start --unknown value | user-argv-parse |
+| user schema command attempt | validation.schema_command_forbidden | Reject because users cannot define schemas or register commands | schema string --email | user-argv-parse |
+| runtime invalid value | validation.invalid_type | Parse failure or validator failure with field path context | wash start --spin abc | runtime-validate |
+
 ## 03 Validation Domains
 
 Core validation capabilities across string, number, tuple, and list domains.
@@ -1799,8 +1946,13 @@ Operator registration, custom validators, and collision handling.
 | schema | schema.duplicate_registration | Validation operator is already registered |
 | schema | schema.enum_whitespace | Enum value has leading or trailing whitespace |
 | schema | schema.enum_empty | Enum value is empty after trimming |
+| schema | schema.tuple_missing_index | Tuple slot schema must include --tuple index |
+| schema | schema.tuple_index_out_of_range | Tuple slot index is outside tuple size |
+| schema | schema.tuple_duplicate_slot | Tuple slot index is defined more than once |
+| schema | schema.tuple_missing_slot | Tuple schema has at least one slot without validation |
 | validation | validation.required | Required value is missing |
 | validation | validation.unexpected_flag | User argv contains an unknown flag |
+| validation | validation.schema_command_forbidden | User argv must not contain schema authoring commands |
 | validation | validation.invalid_type | User argv value cannot be parsed as the expected type |
 | validation | validation.string | Value failed string validation |
 | validation | validation.number | Value failed number validation |

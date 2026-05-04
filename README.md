@@ -46,6 +46,8 @@ schema repeatable --min-length 1 --max-length 5
 The same shape is used for built-in validators and custom Go-registered validators.
 Enum definitions are split by their separator and must already be trimmed; whitespace-padded or empty enum entries are schema errors.
 Errors carry stable IDs for program control and rendered messages for humans.
+Admin schema commands are parsed and compiled into immutable validators before command registration.
+Runtime user argv is parsed only against compiled command schemas; it must never compile schema commands or register operators.
 
 ## Validation building blocks
 

@@ -13,8 +13,13 @@ schema,schema.invalid_combination,Schema flags cannot be used together
 schema,schema.duplicate_registration,Validation operator is already registered
 schema,schema.enum_whitespace,Enum value has leading or trailing whitespace
 schema,schema.enum_empty,Enum value is empty after trimming
+schema,schema.tuple_missing_index,Tuple slot schema must include --tuple index
+schema,schema.tuple_index_out_of_range,Tuple slot index is outside tuple size
+schema,schema.tuple_duplicate_slot,Tuple slot index is defined more than once
+schema,schema.tuple_missing_slot,Tuple schema has at least one slot without validation
 validation,validation.required,Required value is missing
 validation,validation.unexpected_flag,User argv contains an unknown flag
+validation,validation.schema_command_forbidden,User argv must not contain schema authoring commands
 validation,validation.invalid_type,User argv value cannot be parsed as the expected type
 validation,validation.string,Value failed string validation
 validation,validation.number,Value failed number validation

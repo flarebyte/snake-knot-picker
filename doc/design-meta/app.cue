@@ -31,6 +31,10 @@ reports: [{
 			title:       "03 Admin and User API Types"
 			description: "TypeScript examples for builders and runtime parsing."
 			notes:       ["snk.schema.args", "snk.schema.args.admin", "snk.schema.args.user"]
+		}, {
+			title:       "04 Parser Architecture"
+			description: "Internal parser and compiler boundaries from admin schema commands to runtime validators."
+			notes:       ["snk.parser.architecture", "snk.parser.edge-cases"]
 		}]
 	}, {
 		title:       "03 Validation Domains"
@@ -430,6 +434,19 @@ wash start --options delicate,extra-rinse --options pre-wash
 		labels:   ["registry", "examples", "typescript"]
 	},
 	{
+		name:     "snk.parser.architecture"
+		title:    "Parser Architecture"
+		filepath: "examples/parser-architecture.ts"
+		labels:   ["parser", "architecture", "typescript"]
+	},
+	{
+		name:      "snk.parser.edge-cases"
+		title:     "Parser Examples and Edge Cases"
+		filepath:  "examples/parser-edge-cases.csv"
+		arguments: ["format-csv=table"]
+		labels:    ["parser", "edge-case", "csv"]
+	},
+	{
 		name:      "snk.errors.csv"
 		title:     "Error Strategy and IDs"
 		filepath:  "examples/errors.csv"
@@ -577,6 +594,30 @@ relationships: [
 		to:     "snk.registry.examples"
 		label:  "demonstrated_by"
 		labels: ["demonstrated_by"]
+	},
+	{
+		from:   "snk.parser.architecture"
+		to:     "snk.schema.args"
+		label:  "compiles"
+		labels: ["compiles", "parser"]
+	},
+	{
+		from:   "snk.parser.architecture"
+		to:     "snk.registry.api"
+		label:  "uses"
+		labels: ["uses", "parser"]
+	},
+	{
+		from:   "snk.parser.edge-cases"
+		to:     "snk.errors.csv"
+		label:  "maps_to"
+		labels: ["maps_to", "error"]
+	},
+	{
+		from:   "snk.parser.architecture"
+		to:     "flow.user.parse-argv"
+		label:  "guards"
+		labels: ["guards", "user-flow"]
 	},
 	{
 		from:   "snk.registry.api"
