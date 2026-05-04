@@ -220,7 +220,13 @@
     {
       "kind": "string",
       "name": "contact-email",
-      "schema": ["schema", "string", "--email"]
+      "schema": [
+        "schema",
+        "string",
+        "--email",
+        "--allow-domains",
+        "example.com"
+      ]
     },
     {
       "kind": "string",

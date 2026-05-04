@@ -9,8 +9,8 @@ export const stringEmailRegistration: ValidationRegistry =
   validationRegistry.register({
     domain: 'string',
     name: 'email',
-    schema: ['schema', 'string', '--email'],
-    validation: stringValidations.email(),
+    schema: ['schema', 'string', '--email', '--allow-domains', 'example.com'],
+    validation: stringValidations.email({ allowDomains: ['example.com'] }),
   });
 
 export const numberIntRegistration: ValidationRegistry =

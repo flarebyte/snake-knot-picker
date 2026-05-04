@@ -1,0 +1,10 @@
+feature,flag,rule
+parsing,,Parse email addresses with Go standard library net/mail ParseAddress before applying policy checks
+single-address,,Require exactly one email address
+bare-address,,Reject display names comments and angle-address forms; accept only the bare addr-spec
+runtime-trim,,Do not implicitly trim runtime user input before email parsing
+domain-normalization,,Lowercase the domain before allow-list comparison
+domain-allow-list,--allow-domains,"If provided require the email domain to equal an allowed domain or end with ""."" plus an allowed domain"
+repeatable-domains,--allow-domains,Allow this flag to repeat so admins can authorize multiple domains
+absent-domain-list,,If no allowed domains are provided then all syntactically valid domains are allowed
+network-checks,,Do not perform MX DNS lookup SMTP validation or other network checks

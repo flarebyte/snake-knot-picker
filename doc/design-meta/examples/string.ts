@@ -25,7 +25,7 @@ export interface StringValidationFactory {
   digit(): StringValidation;
   devanagari(): StringValidation;
   ethiopic(): StringValidation;
-  email(): StringValidation;
+  email(options?: EmailOptions): StringValidation;
   enum(
     allowedValues: readonly string[],
     options?: EnumOptions,
@@ -96,6 +96,10 @@ export interface DurationOptions {
   minDuration?: string;
   maxDuration?: string;
   allowNegative?: boolean;
+}
+
+export interface EmailOptions {
+  allowDomains?: readonly string[];
 }
 
 export interface UriOptions {
@@ -291,6 +295,10 @@ export declare class Arn implements StringValidation {
 }
 
 export declare class Email implements StringValidation {
+  readonly options?: EmailOptions;
+
+  constructor(options?: EmailOptions);
+
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }
 

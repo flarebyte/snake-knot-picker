@@ -257,7 +257,13 @@ JSON-compatible command representation.
     {
       "kind": "string",
       "name": "contact-email",
-      "schema": ["schema", "string", "--email"]
+      "schema": [
+        "schema",
+        "string",
+        "--email",
+        "--allow-domains",
+        "example.com"
+      ]
     },
     {
       "kind": "string",
@@ -742,6 +748,7 @@ Feature inventory grouped by domain.
 | Arn | string | arn | Accept only string ARNs |
 | ArnOptions | string | arn-options | Configure ARN partition service region account and resource allow lists |
 | Email | string | email | Accept only string email addresses |
+| EmailOptions | string | email-options | Configure email domain allow lists |
 | MatchesFormatter(formatter) | string | matches-formatter | Fail if formatting changes the value |
 | NumberStringValidation(numberValidation) | string | number | Parse a string to number then validate it |
 | StartsWith(prefix) | string | starts-with | Require a specific prefix |
@@ -814,7 +821,7 @@ export interface StringValidationFactory {
   digit(): StringValidation;
   devanagari(): StringValidation;
   ethiopic(): StringValidation;
-  email(): StringValidation;
+  email(options?: EmailOptions): StringValidation;
   enum(
     allowedValues: readonly string[],
     options?: EnumOptions,
@@ -885,6 +892,10 @@ export interface DurationOptions {
   minDuration?: string;
   maxDuration?: string;
   allowNegative?: boolean;
+}
+
+export interface EmailOptions {
+  allowDomains?: readonly string[];
 }
 
 export interface UriOptions {
@@ -1080,6 +1091,10 @@ export declare class Arn implements StringValidation {
 }
 
 export declare class Email implements StringValidation {
+  readonly options?: EmailOptions;
+
+  constructor(options?: EmailOptions);
+
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }
 
@@ -1328,6 +1343,20 @@ export const boundedDurationString: StringValidation =
 | maximum | --max-duration | Parse the bound with time.ParseDuration and require input duration to be less than or equal to it |
 | negative | --allow-negative | By default reject negative durations; permit them only when this flag is present |
 | empty |  | Reject empty duration strings |
+
+#### Email Validation Logic
+
+| feature | flag | rule |
+| --- | --- | --- |
+| parsing |  | Parse email addresses with Go standard library net/mail ParseAddress before applying policy checks |
+| single-address |  | Require exactly one email address |
+| bare-address |  | Reject display names comments and angle-address forms; accept only the bare addr-spec |
+| runtime-trim |  | Do not implicitly trim runtime user input before email parsing |
+| domain-normalization |  | Lowercase the domain before allow-list comparison |
+| domain-allow-list | --allow-domains | If provided require the email domain to equal an allowed domain or end with "." plus an allowed domain |
+| repeatable-domains | --allow-domains | Allow this flag to repeat so admins can authorize multiple domains |
+| absent-domain-list |  | If no allowed domains are provided then all syntactically valid domains are allowed |
+| network-checks |  | Do not perform MX DNS lookup SMTP validation or other network checks |
 
 #### Enum Validation Logic
 
@@ -1801,8 +1830,8 @@ export const stringEmailRegistration: ValidationRegistry =
   validationRegistry.register({
     domain: 'string',
     name: 'email',
-    schema: ['schema', 'string', '--email'],
-    validation: stringValidations.email(),
+    schema: ['schema', 'string', '--email', '--allow-domains', 'example.com'],
+    validation: stringValidations.email({ allowDomains: ['example.com'] }),
   });
 
 export const numberIntRegistration: ValidationRegistry =
@@ -1906,6 +1935,7 @@ export const postalCodeRegistration: ValidationRegistry =
 | Arn | string | arn | Accept only string ARNs |
 | ArnOptions | string | arn-options | Configure ARN partition service region account and resource allow lists |
 | Email | string | email | Accept only string email addresses |
+| EmailOptions | string | email-options | Configure email domain allow lists |
 | MatchesFormatter(formatter) | string | matches-formatter | Fail if formatting changes the value |
 | NumberStringValidation(numberValidation) | string | number | Parse a string to number then validate it |
 | StartsWith(prefix) | string | starts-with | Require a specific prefix |
@@ -1978,6 +2008,7 @@ Admin and user scenarios captured in CSV.
 | Expect an enum with custom separator | schema string --enum green;orange;red --enum-separator ; | admin |
 | Expect a secure URL | schema string --uri --scheme https --secure --allow-query --allow-domains example.com --required | admin |
 | Expect an AWS ARN | schema string --arn --allow-partition aws --allow-service s3 --allow-service sns --allow-region us-east-2 --allow-account-id 123456789012 --allow-resource example-sns-topic-name --required | admin |
+| Expect an email from allowed domains | schema string --email --allow-domains example.com --allow-domains example.org --required | admin |
 | Expect a color like #F54927 | schema string --color --required | admin |
 | Expect a postal code | custom postal-code --country US --required | admin |
 | Expect a boolean-like string | schema string --boolean | admin |

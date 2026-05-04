@@ -52,6 +52,7 @@ string,uri-options,UriOptions,Configure URL scheme component and host policy che
 string,arn,Arn,Accept only string ARNs
 string,arn-options,ArnOptions,Configure ARN partition service region account and resource allow lists
 string,email,Email,Accept only string email addresses
+string,email-options,EmailOptions,Configure email domain allow lists
 string,matches-formatter,MatchesFormatter(formatter),Fail if formatting changes the value
 string,number,NumberStringValidation(numberValidation),Parse a string to number then validate it
 string,starts-with,StartsWith(prefix),Require a specific prefix
