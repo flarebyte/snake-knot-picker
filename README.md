@@ -37,6 +37,7 @@ schema string --datetime --layout RFC3339 --allow-timezone --location America/Ne
 schema string --time --layout HHMMSS
 schema string --duration --min-duration 5m --max-duration 2h
 schema string --email --allow-domains example.com
+schema string --color --format hex --allow-alpha
 schema number --int --required
 custom postal-code --country US --required
 schema repeatable --min-length 1 --max-length 5

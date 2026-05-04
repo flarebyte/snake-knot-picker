@@ -21,7 +21,7 @@ export interface StringValidationFactory {
   duration(options?: DurationOptions): StringValidation;
   chain(): StringValidationChain;
   codepointRange(from: string, to: string): StringValidation;
-  color(): StringValidation;
+  color(options?: ColorOptions): StringValidation;
   digit(): StringValidation;
   devanagari(): StringValidation;
   ethiopic(): StringValidation;
@@ -100,6 +100,13 @@ export interface DurationOptions {
 
 export interface EmailOptions {
   allowDomains?: readonly string[];
+}
+
+export type ColorFormat = 'hex';
+
+export interface ColorOptions {
+  format?: ColorFormat;
+  allowAlpha?: boolean;
 }
 
 export interface UriOptions {
@@ -211,6 +218,10 @@ export declare class Bool implements StringValidation {
 }
 
 export declare class Color implements StringValidation {
+  readonly options?: ColorOptions;
+
+  constructor(options?: ColorOptions);
+
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }
 

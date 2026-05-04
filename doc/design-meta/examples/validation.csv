@@ -36,6 +36,7 @@ string,kannada,Kannada,Require Kannada script characters only
 string,codepoint-range,"CodepointRange(from,to)",Restrict characters to a codepoint span
 string,boolean,Bool,Accept only string booleans
 string,color,Color,Accept only string colors
+string,color-options,ColorOptions,Configure color format and alpha channel policy
 string,date,DateString,Accept only string dates
 string,date-options,DateOptions,Configure date-only layout policy
 string,datetime,DateTimeString,Accept only string date-times

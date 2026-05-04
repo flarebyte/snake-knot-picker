@@ -120,7 +120,7 @@ JSON-compatible command representation.
     {
       "kind": "string",
       "name": "accent",
-      "schema": ["schema", "string", "--color"]
+      "schema": ["schema", "string", "--color", "--format", "hex", "--allow-alpha"]
     },
     {
       "kind": "string",
@@ -732,6 +732,7 @@ Feature inventory grouped by domain.
 | CodepointRange(from,to) | string | codepoint-range | Restrict characters to a codepoint span |
 | Bool | string | boolean | Accept only string booleans |
 | Color | string | color | Accept only string colors |
+| ColorOptions | string | color-options | Configure color format and alpha channel policy |
 | DateString | string | date | Accept only string dates |
 | DateOptions | string | date-options | Configure date-only layout policy |
 | DateTimeString | string | datetime | Accept only string date-times |
@@ -817,7 +818,7 @@ export interface StringValidationFactory {
   duration(options?: DurationOptions): StringValidation;
   chain(): StringValidationChain;
   codepointRange(from: string, to: string): StringValidation;
-  color(): StringValidation;
+  color(options?: ColorOptions): StringValidation;
   digit(): StringValidation;
   devanagari(): StringValidation;
   ethiopic(): StringValidation;
@@ -896,6 +897,13 @@ export interface DurationOptions {
 
 export interface EmailOptions {
   allowDomains?: readonly string[];
+}
+
+export type ColorFormat = 'hex';
+
+export interface ColorOptions {
+  format?: ColorFormat;
+  allowAlpha?: boolean;
 }
 
 export interface UriOptions {
@@ -1007,6 +1015,10 @@ export declare class Bool implements StringValidation {
 }
 
 export declare class Color implements StringValidation {
+  readonly options?: ColorOptions;
+
+  constructor(options?: ColorOptions);
+
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }
 
@@ -1208,6 +1220,10 @@ import { stringValidations } from './string';
 
 export const booleanString: StringValidation = stringValidations.boolean();
 export const colorString: StringValidation = stringValidations.color();
+export const alphaHexColorString: StringValidation = stringValidations.color({
+  format: 'hex',
+  allowAlpha: true,
+});
 ```
 
 #### String Validation Chain
@@ -1273,6 +1289,19 @@ export const unicodeSymbolString: StringValidation =
 export const unicodeSeparatorString: StringValidation =
   stringValidations.unicodeSeparator();
 ```
+
+#### Color Validation Logic
+
+| feature | flag | rule |
+| --- | --- | --- |
+| format | --format | Supported value is hex and it is the default color format |
+| leading-hash |  | Require a leading # character |
+| short-hex | hex | Accept #RGB |
+| long-hex | hex | Accept #RRGGBB |
+| alpha | --allow-alpha | Permit #RGBA and #RRGGBBAA forms only when this flag is present |
+| case |  | Accept hexadecimal digits case-insensitively |
+| runtime-trim |  | Do not implicitly trim runtime user input before color validation |
+| unsupported-formats |  | Reject rgb hsl named colors and CSS color functions |
 
 #### Date Validation Logic
 
@@ -1919,6 +1948,7 @@ export const postalCodeRegistration: ValidationRegistry =
 | CodepointRange(from,to) | string | codepoint-range | Restrict characters to a codepoint span |
 | Bool | string | boolean | Accept only string booleans |
 | Color | string | color | Accept only string colors |
+| ColorOptions | string | color-options | Configure color format and alpha channel policy |
 | DateString | string | date | Accept only string dates |
 | DateOptions | string | date-options | Configure date-only layout policy |
 | DateTimeString | string | datetime | Accept only string date-times |
@@ -2009,7 +2039,7 @@ Admin and user scenarios captured in CSV.
 | Expect a secure URL | schema string --uri --scheme https --secure --allow-query --allow-domains example.com --required | admin |
 | Expect an AWS ARN | schema string --arn --allow-partition aws --allow-service s3 --allow-service sns --allow-region us-east-2 --allow-account-id 123456789012 --allow-resource example-sns-topic-name --required | admin |
 | Expect an email from allowed domains | schema string --email --allow-domains example.com --allow-domains example.org --required | admin |
-| Expect a color like #F54927 | schema string --color --required | admin |
+| Expect a color like #F54927 | schema string --color --format hex --required | admin |
 | Expect a postal code | custom postal-code --country US --required | admin |
 | Expect a boolean-like string | schema string --boolean | admin |
 | Expect a UUID string | schema string --uuid | admin |

@@ -22,7 +22,7 @@ admin,Expect an enum with custom separator,"schema string --enum green;orange;re
 admin,Expect a secure URL,"schema string --uri --scheme https --secure --allow-query --allow-domains example.com --required"
 admin,Expect an AWS ARN,"schema string --arn --allow-partition aws --allow-service s3 --allow-service sns --allow-region us-east-2 --allow-account-id 123456789012 --allow-resource example-sns-topic-name --required"
 admin,Expect an email from allowed domains,"schema string --email --allow-domains example.com --allow-domains example.org --required"
-admin,Expect a color like #F54927,schema string --color --required
+admin,Expect a color like #F54927,schema string --color --format hex --required
 admin,Expect a postal code,"custom postal-code --country US --required"
 admin,Expect a boolean-like string,schema string --boolean
 admin,Expect a UUID string,schema string --uuid

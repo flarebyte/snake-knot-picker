@@ -83,7 +83,7 @@
     {
       "kind": "string",
       "name": "accent",
-      "schema": ["schema", "string", "--color"]
+      "schema": ["schema", "string", "--color", "--format", "hex", "--allow-alpha"]
     },
     {
       "kind": "string",

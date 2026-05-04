@@ -53,6 +53,7 @@ reports: [{
 				"snk.validation.string.time.csv",
 				"snk.validation.string.duration.csv",
 				"snk.validation.string.email.csv",
+				"snk.validation.string.color.csv",
 				"snk.validation.string.url.csv",
 				"snk.validation.string.arn.csv",
 				"snk.validation.string.formatter-check",
@@ -295,6 +296,13 @@ wash start --options delicate,extra-rinse --options pre-wash
 		filepath:  "examples/email-validation.csv"
 		arguments: ["format-csv=table"]
 		labels:    ["validation", "string", "email", "csv"]
+	},
+	{
+		name:      "snk.validation.string.color.csv"
+		title:     "Color Validation Logic"
+		filepath:  "examples/color-validation.csv"
+		arguments: ["format-csv=table"]
+		labels:    ["validation", "string", "color", "csv"]
 	},
 	{
 		name:      "snk.validation.string.url.csv"
