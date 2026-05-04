@@ -21,3 +21,8 @@ export const fractionalTimeString: StringValidation = stringValidations.time({
   allowFraction: true,
 });
 export const durationString: StringValidation = stringValidations.duration();
+export const boundedDurationString: StringValidation =
+  stringValidations.duration({
+    minDuration: '5m',
+    maxDuration: '2h',
+  });

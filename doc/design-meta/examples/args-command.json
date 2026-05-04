@@ -239,7 +239,15 @@
     {
       "kind": "string",
       "name": "retry-duration",
-      "schema": ["schema", "string", "--duration"]
+      "schema": [
+        "schema",
+        "string",
+        "--duration",
+        "--min-duration",
+        "5m",
+        "--max-duration",
+        "2h"
+      ]
     },
     {
       "kind": "string",

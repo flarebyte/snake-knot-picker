@@ -276,7 +276,15 @@ JSON-compatible command representation.
     {
       "kind": "string",
       "name": "retry-duration",
-      "schema": ["schema", "string", "--duration"]
+      "schema": [
+        "schema",
+        "string",
+        "--duration",
+        "--min-duration",
+        "5m",
+        "--max-duration",
+        "2h"
+      ]
     },
     {
       "kind": "string",
@@ -723,6 +731,7 @@ Feature inventory grouped by domain.
 | DateTimeString | string | datetime | Accept only string date-times |
 | DateTimeOptions | string | datetime-options | Configure datetime layout timezone and location policy |
 | DurationString | string | duration | Accept only string durations |
+| DurationOptions | string | duration-options | Configure duration bounds and negative duration policy |
 | UnicodeLetter | string | unicode-letter | Require Unicode letters only |
 | UnicodeNumber | string | unicode-number | Require Unicode numbers only |
 | UnicodePunctuation | string | unicode-punctuation | Require Unicode punctuation only |
@@ -798,7 +807,7 @@ export interface StringValidationFactory {
   cyrillic(): StringValidation;
   date(options?: DateOptions): StringValidation;
   datetime(options?: DateTimeOptions): StringValidation;
-  duration(): StringValidation;
+  duration(options?: DurationOptions): StringValidation;
   chain(): StringValidationChain;
   codepointRange(from: string, to: string): StringValidation;
   color(): StringValidation;
@@ -870,6 +879,12 @@ export interface TimeOptions {
   layout?: TimeLayout;
   allowFraction?: boolean;
   allowTimezone?: boolean;
+}
+
+export interface DurationOptions {
+  minDuration?: string;
+  maxDuration?: string;
+  allowNegative?: boolean;
 }
 
 export interface UriOptions {
@@ -1145,6 +1160,10 @@ export declare class Whitespace implements StringValidation {
 }
 
 export declare class DurationString implements StringValidation {
+  readonly options?: DurationOptions;
+
+  constructor(options?: DurationOptions);
+
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }
 
@@ -1277,6 +1296,11 @@ export const fractionalTimeString: StringValidation = stringValidations.time({
   allowFraction: true,
 });
 export const durationString: StringValidation = stringValidations.duration();
+export const boundedDurationString: StringValidation =
+  stringValidations.duration({
+    minDuration: '5m',
+    maxDuration: '2h',
+  });
 ```
 
 #### Datetime Validation Logic
@@ -1292,6 +1316,18 @@ export const durationString: StringValidation = stringValidations.duration();
 | location | --location | Load the expected IANA timezone with time.LoadLocation such as America/New_York |
 | location-without-timezone | --location | Use the loaded location when parsing timezone-less datetime input |
 | location-with-timezone | --allow-timezone + --location | When input contains a timezone require it to be consistent with the configured location |
+
+#### Duration Validation Logic
+
+| feature | flag | rule |
+| --- | --- | --- |
+| parsing |  | Parse duration strings with Go standard library time.ParseDuration before applying policy checks |
+| syntax |  | Accept Go duration syntax such as 300ms 1.5h and 2h45m |
+| iso8601 |  | Reject ISO8601 duration syntax such as P1DT2H |
+| minimum | --min-duration | Parse the bound with time.ParseDuration and require input duration to be greater than or equal to it |
+| maximum | --max-duration | Parse the bound with time.ParseDuration and require input duration to be less than or equal to it |
+| negative | --allow-negative | By default reject negative durations; permit them only when this flag is present |
+| empty |  | Reject empty duration strings |
 
 #### Enum Validation Logic
 
@@ -1859,6 +1895,7 @@ export const postalCodeRegistration: ValidationRegistry =
 | DateTimeString | string | datetime | Accept only string date-times |
 | DateTimeOptions | string | datetime-options | Configure datetime layout timezone and location policy |
 | DurationString | string | duration | Accept only string durations |
+| DurationOptions | string | duration-options | Configure duration bounds and negative duration policy |
 | UnicodeLetter | string | unicode-letter | Require Unicode letters only |
 | UnicodeNumber | string | unicode-number | Require Unicode numbers only |
 | UnicodePunctuation | string | unicode-punctuation | Require Unicode punctuation only |
@@ -1948,6 +1985,7 @@ Admin and user scenarios captured in CSV.
 | Expect a zoned datetime | schema string --datetime --layout RFC3339 --allow-timezone --location America/New_York --required | admin |
 | Expect a date-only value | schema string --date --layout ISO8601 --required | admin |
 | Expect a time-only value | schema string --time --layout HHMMSS --required | admin |
+| Expect a bounded duration | schema string --duration --min-duration 5m --max-duration 2h | admin |
 | Expect the first tuple element | schema string --tuple 0 --enum monday,tuesday | admin |
 | Expect the second tuple element | schema string --tuple 1 --color | admin |
 | Expect a repeated string flag with length bounds | schema string --alphabetic + schema repeatable --min-length 1 --max-length 5 | admin |

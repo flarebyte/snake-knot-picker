@@ -51,6 +51,7 @@ reports: [{
 				"snk.validation.string.date.csv",
 				"snk.validation.string.datetime.csv",
 				"snk.validation.string.time.csv",
+				"snk.validation.string.duration.csv",
 				"snk.validation.string.url.csv",
 				"snk.validation.string.arn.csv",
 				"snk.validation.string.formatter-check",
@@ -279,6 +280,13 @@ wash start --options delicate,extra-rinse --options pre-wash
 		filepath:  "examples/time-validation.csv"
 		arguments: ["format-csv=table"]
 		labels:    ["validation", "string", "time", "csv"]
+	},
+	{
+		name:      "snk.validation.string.duration.csv"
+		title:     "Duration Validation Logic"
+		filepath:  "examples/duration-validation.csv"
+		arguments: ["format-csv=table"]
+		labels:    ["validation", "string", "duration", "csv"]
 	},
 	{
 		name:      "snk.validation.string.url.csv"

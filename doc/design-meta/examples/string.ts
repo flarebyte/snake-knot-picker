@@ -18,7 +18,7 @@ export interface StringValidationFactory {
   cyrillic(): StringValidation;
   date(options?: DateOptions): StringValidation;
   datetime(options?: DateTimeOptions): StringValidation;
-  duration(): StringValidation;
+  duration(options?: DurationOptions): StringValidation;
   chain(): StringValidationChain;
   codepointRange(from: string, to: string): StringValidation;
   color(): StringValidation;
@@ -90,6 +90,12 @@ export interface TimeOptions {
   layout?: TimeLayout;
   allowFraction?: boolean;
   allowTimezone?: boolean;
+}
+
+export interface DurationOptions {
+  minDuration?: string;
+  maxDuration?: string;
+  allowNegative?: boolean;
 }
 
 export interface UriOptions {
@@ -365,6 +371,10 @@ export declare class Whitespace implements StringValidation {
 }
 
 export declare class DurationString implements StringValidation {
+  readonly options?: DurationOptions;
+
+  constructor(options?: DurationOptions);
+
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }
 

@@ -41,6 +41,7 @@ string,date-options,DateOptions,Configure date-only layout policy
 string,datetime,DateTimeString,Accept only string date-times
 string,datetime-options,DateTimeOptions,Configure datetime layout timezone and location policy
 string,duration,DurationString,Accept only string durations
+string,duration-options,DurationOptions,Configure duration bounds and negative duration policy
 string,unicode-letter,UnicodeLetter,Require Unicode letters only
 string,unicode-number,UnicodeNumber,Require Unicode numbers only
 string,unicode-punctuation,UnicodePunctuation,Require Unicode punctuation only
