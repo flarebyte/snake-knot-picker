@@ -8,7 +8,7 @@ import type {
 } from './common';
 
 export interface StringValidationFactory {
-  arn(): StringValidation;
+  arn(options?: ArnOptions): StringValidation;
   base64(): StringValidation;
   alphabetic(): StringValidation;
   blank(): StringValidation;
@@ -78,6 +78,14 @@ export interface UriOptions {
   allowDomains?: readonly string[];
   allowIp?: boolean;
   allowOpaque?: boolean;
+}
+
+export interface ArnOptions {
+  allowPartitions?: readonly string[];
+  allowServices?: readonly string[];
+  allowRegions?: readonly string[];
+  allowAccountIds?: readonly string[];
+  allowResources?: readonly string[];
 }
 
 export declare const stringValidations: StringValidationFactory;
@@ -237,6 +245,10 @@ export declare class Uri implements StringValidation {
 }
 
 export declare class Arn implements StringValidation {
+  readonly options?: ArnOptions;
+
+  constructor(options?: ArnOptions);
+
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }
 

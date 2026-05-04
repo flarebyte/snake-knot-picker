@@ -124,6 +124,28 @@ JSON-compatible command representation.
     },
     {
       "kind": "string",
+      "name": "target-arn",
+      "schema": [
+        "schema",
+        "string",
+        "--arn",
+        "--allow-partition",
+        "aws",
+        "--allow-service",
+        "s3",
+        "--allow-service",
+        "sns",
+        "--allow-region",
+        "us-east-2",
+        "--allow-account-id",
+        "123456789012",
+        "--allow-resource",
+        "example-sns-topic-name",
+        "--required"
+      ]
+    },
+    {
+      "kind": "string",
       "name": "whitespace",
       "schema": ["schema", "string", "--whitespace", "--required"]
     },
@@ -696,6 +718,7 @@ Feature inventory grouped by domain.
 | Uri | string | uri | Accept only string URIs |
 | UriOptions | string | uri-options | Configure URL scheme component and host policy checks |
 | Arn | string | arn | Accept only string ARNs |
+| ArnOptions | string | arn-options | Configure ARN partition service region account and resource allow lists |
 | Email | string | email | Accept only string email addresses |
 | MatchesFormatter(formatter) | string | matches-formatter | Fail if formatting changes the value |
 | NumberStringValidation(numberValidation) | string | number | Parse a string to number then validate it |
@@ -751,7 +774,7 @@ import type {
 } from './common';
 
 export interface StringValidationFactory {
-  arn(): StringValidation;
+  arn(options?: ArnOptions): StringValidation;
   base64(): StringValidation;
   alphabetic(): StringValidation;
   blank(): StringValidation;
@@ -821,6 +844,14 @@ export interface UriOptions {
   allowDomains?: readonly string[];
   allowIp?: boolean;
   allowOpaque?: boolean;
+}
+
+export interface ArnOptions {
+  allowPartitions?: readonly string[];
+  allowServices?: readonly string[];
+  allowRegions?: readonly string[];
+  allowAccountIds?: readonly string[];
+  allowResources?: readonly string[];
 }
 
 export declare const stringValidations: StringValidationFactory;
@@ -980,6 +1011,10 @@ export declare class Uri implements StringValidation {
 }
 
 export declare class Arn implements StringValidation {
+  readonly options?: ArnOptions;
+
+  constructor(options?: ArnOptions);
+
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }
 
@@ -1067,6 +1102,19 @@ export declare class Uuid implements StringValidation {
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }
 ```
+
+#### AWS ARN Validation Logic
+
+| feature | flag | rule |
+| --- | --- | --- |
+| parsing |  | Parse ARNs with github.com/aws/aws-sdk-go-v2/aws/arn arn.Parse before applying policy checks |
+| partition | --allow-partition | If any partition allow-list entries are present require arn.Partition to equal one of them |
+| service | --allow-service | If any service allow-list entries are present require arn.Service to equal one of them |
+| region | --allow-region | If any region allow-list entries are present require arn.Region to equal one of them |
+| account-id | --allow-account-id | If any account ID allow-list entries are present require arn.AccountID to equal one of them |
+| resource | --allow-resource | If any resource allow-list entries are present require arn.Resource to equal one of them |
+| repeatable-allow-flags |  | Allow-list flags are repeatable so admins can authorize multiple values per ARN component |
+| absent-allow-list |  | If no allow-list entries are provided for a component then all values for that component are allowed |
 
 #### String Boolean and Color Validation
 
@@ -1701,6 +1749,7 @@ export const postalCodeRegistration: ValidationRegistry =
 | Uri | string | uri | Accept only string URIs |
 | UriOptions | string | uri-options | Configure URL scheme component and host policy checks |
 | Arn | string | arn | Accept only string ARNs |
+| ArnOptions | string | arn-options | Configure ARN partition service region account and resource allow lists |
 | Email | string | email | Accept only string email addresses |
 | MatchesFormatter(formatter) | string | matches-formatter | Fail if formatting changes the value |
 | NumberStringValidation(numberValidation) | string | number | Parse a string to number then validate it |
@@ -1772,6 +1821,7 @@ Admin and user scenarios captured in CSV.
 | Expect an enum | schema string --enum green,orange,red | admin |
 | Expect an enum with custom separator | schema string --enum green;orange;red --enum-separator ; | admin |
 | Expect a secure URL | schema string --uri --scheme https --secure --allow-query --allow-domains example.com --required | admin |
+| Expect an AWS ARN | schema string --arn --allow-partition aws --allow-service s3 --allow-service sns --allow-region us-east-2 --allow-account-id 123456789012 --allow-resource example-sns-topic-name --required | admin |
 | Expect a color like #F54927 | schema string --color --required | admin |
 | Expect a postal code | custom postal-code --country US --required | admin |
 | Expect a boolean-like string | schema string --boolean | admin |

@@ -48,6 +48,7 @@ reports: [{
 				"snk.validation.string.number",
 				"snk.validation.string.datetime",
 				"snk.validation.string.url.csv",
+				"snk.validation.string.arn.csv",
 				"snk.validation.string.formatter-check",
 				"snk.validation.string.boolean-color",
 				"snk.validation.string.classes.csv",
@@ -253,6 +254,13 @@ wash start --options delicate,extra-rinse --options pre-wash
 		filepath:  "examples/url-validation.csv"
 		arguments: ["format-csv=table"]
 		labels:    ["validation", "string", "url", "csv"]
+	},
+	{
+		name:      "snk.validation.string.arn.csv"
+		title:     "AWS ARN Validation Logic"
+		filepath:  "examples/arn-validation.csv"
+		arguments: ["format-csv=table"]
+		labels:    ["validation", "string", "aws", "arn", "csv"]
 	},
 	{
 		name:     "snk.validation.string.formatter-check"

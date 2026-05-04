@@ -87,6 +87,28 @@
     },
     {
       "kind": "string",
+      "name": "target-arn",
+      "schema": [
+        "schema",
+        "string",
+        "--arn",
+        "--allow-partition",
+        "aws",
+        "--allow-service",
+        "s3",
+        "--allow-service",
+        "sns",
+        "--allow-region",
+        "us-east-2",
+        "--allow-account-id",
+        "123456789012",
+        "--allow-resource",
+        "example-sns-topic-name",
+        "--required"
+      ]
+    },
+    {
+      "kind": "string",
       "name": "whitespace",
       "schema": ["schema", "string", "--whitespace", "--required"]
     },

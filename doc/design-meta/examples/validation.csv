@@ -45,6 +45,7 @@ string,unicode-separator,UnicodeSeparator,Require Unicode separators only
 string,uri,Uri,Accept only string URIs
 string,uri-options,UriOptions,Configure URL scheme component and host policy checks
 string,arn,Arn,Accept only string ARNs
+string,arn-options,ArnOptions,Configure ARN partition service region account and resource allow lists
 string,email,Email,Accept only string email addresses
 string,matches-formatter,MatchesFormatter(formatter),Fail if formatting changes the value
 string,number,NumberStringValidation(numberValidation),Parse a string to number then validate it
