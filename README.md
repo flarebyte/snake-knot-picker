@@ -38,6 +38,7 @@ schema repeatable --min-length 1 --max-length 5
 ```
 
 The same shape is used for built-in validators and custom Go-registered validators.
+Enum definitions are split by their separator and must already be trimmed; whitespace-padded or empty enum entries are schema errors.
 
 ## Validation building blocks
 

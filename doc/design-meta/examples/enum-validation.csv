@@ -1,0 +1,6 @@
+feature,flag,rule
+separator,--enum-separator,Split the --enum value with the configured separator or comma by default
+trim-check,,Trim each split enum candidate during admin schema parsing
+whitespace-error,,Reject the admin schema if any enum candidate has leading or trailing whitespace
+empty-error,,Reject the admin schema if any enum candidate is empty after trimming
+runtime-values,,Runtime user values are matched against the validated enum values without implicit trimming

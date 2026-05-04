@@ -66,6 +66,8 @@ export interface StringValidationFactory {
 
 export interface EnumOptions {
   separator?: string;
+  rejectWhitespacePaddedValues?: true;
+  rejectEmptyValues?: true;
 }
 
 export interface UriOptions {

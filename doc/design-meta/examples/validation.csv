@@ -5,6 +5,8 @@ string,min-words,MinWords(minWords),Require a minimum word count
 string,max-words,MaxWords(maxWords),Limit a maximum word count
 string,enum,Enum(allowedValues),Allow only values from a fixed set
 string,enum-separator,EnumOptions(separator),Split schema enum values with a custom separator
+string,enum-trim-check,EnumOptions rejectWhitespacePaddedValues,Reject enum definitions with leading or trailing whitespace
+string,enum-empty-check,EnumOptions rejectEmptyValues,Reject enum definitions with empty values after trimming
 string,digit,Digit,Require decimal digits only
 string,whitespace,Whitespace,Require whitespace characters only
 string,alphabetic,Alphabetic,Require ASCII alphabetic characters only

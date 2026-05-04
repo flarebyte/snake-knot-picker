@@ -678,6 +678,8 @@ Feature inventory grouped by domain.
 | MaxWords(maxWords) | string | max-words | Limit a maximum word count |
 | Enum(allowedValues) | string | enum | Allow only values from a fixed set |
 | EnumOptions(separator) | string | enum-separator | Split schema enum values with a custom separator |
+| EnumOptions rejectWhitespacePaddedValues | string | enum-trim-check | Reject enum definitions with leading or trailing whitespace |
+| EnumOptions rejectEmptyValues | string | enum-empty-check | Reject enum definitions with empty values after trimming |
 | Digit | string | digit | Require decimal digits only |
 | Whitespace | string | whitespace | Require whitespace characters only |
 | Alphabetic | string | alphabetic | Require ASCII alphabetic characters only |
@@ -832,6 +834,8 @@ export interface StringValidationFactory {
 
 export interface EnumOptions {
   separator?: string;
+  rejectWhitespacePaddedValues?: true;
+  rejectEmptyValues?: true;
 }
 
 export interface UriOptions {
@@ -1201,6 +1205,16 @@ export const dateTimeString: StringValidation = stringValidations.datetime();
 export const timeString: StringValidation = stringValidations.time();
 export const durationString: StringValidation = stringValidations.duration();
 ```
+
+#### Enum Validation Logic
+
+| feature | flag | rule |
+| --- | --- | --- |
+| separator | --enum-separator | Split the --enum value with the configured separator or comma by default |
+| trim-check |  | Trim each split enum candidate during admin schema parsing |
+| whitespace-error |  | Reject the admin schema if any enum candidate has leading or trailing whitespace |
+| empty-error |  | Reject the admin schema if any enum candidate is empty after trimming |
+| runtime-values |  | Runtime user values are matched against the validated enum values without implicit trimming |
 
 #### String Formatter Check
 
@@ -1709,6 +1723,8 @@ export const postalCodeRegistration: ValidationRegistry =
 | MaxWords(maxWords) | string | max-words | Limit a maximum word count |
 | Enum(allowedValues) | string | enum | Allow only values from a fixed set |
 | EnumOptions(separator) | string | enum-separator | Split schema enum values with a custom separator |
+| EnumOptions rejectWhitespacePaddedValues | string | enum-trim-check | Reject enum definitions with leading or trailing whitespace |
+| EnumOptions rejectEmptyValues | string | enum-empty-check | Reject enum definitions with empty values after trimming |
 | Digit | string | digit | Require decimal digits only |
 | Whitespace | string | whitespace | Require whitespace characters only |
 | Alphabetic | string | alphabetic | Require ASCII alphabetic characters only |

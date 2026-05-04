@@ -44,6 +44,7 @@ reports: [{
 			description: "String-focused validators and composition patterns."
 			notes: [
 				"snk.validation.string",
+				"snk.validation.string.enum.csv",
 				"snk.validation.string.chain",
 				"snk.validation.string.number",
 				"snk.validation.string.datetime",
@@ -229,6 +230,13 @@ wash start --options delicate,extra-rinse --options pre-wash
 		title:    "String Validation API"
 		filepath: "examples/string.ts"
 		labels:   ["validation", "string", "typescript"]
+	},
+	{
+		name:      "snk.validation.string.enum.csv"
+		title:     "Enum Validation Logic"
+		filepath:  "examples/enum-validation.csv"
+		arguments: ["format-csv=table"]
+		labels:    ["validation", "string", "enum", "csv"]
 	},
 	{
 		name:     "snk.validation.string.chain"
