@@ -2,6 +2,9 @@ import type { StringValidation } from './common';
 import { stringValidations } from './string';
 
 export const dateString: StringValidation = stringValidations.date();
+export const isoDateString: StringValidation = stringValidations.date({
+  layout: 'ISO8601',
+});
 export const dateTimeString: StringValidation = stringValidations.datetime();
 export const newYorkDateTimeString: StringValidation =
   stringValidations.datetime({

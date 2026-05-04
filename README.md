@@ -32,6 +32,7 @@ schema string --enum cold,warm,hot --required
 schema string --enum cold;warm;hot --enum-separator ;
 schema string --uri --scheme https --secure --allow-query --allow-domains example.com
 schema string --arn --allow-partition aws --allow-service s3 --allow-region us-east-2
+schema string --date --layout ISO8601
 schema string --datetime --layout RFC3339 --allow-timezone --location America/New_York
 schema number --int --required
 custom postal-code --country US --required

@@ -16,7 +16,7 @@ export interface StringValidationFactory {
   bengali(): StringValidation;
   boolean(): StringValidation;
   cyrillic(): StringValidation;
-  date(): StringValidation;
+  date(options?: DateOptions): StringValidation;
   datetime(options?: DateTimeOptions): StringValidation;
   duration(): StringValidation;
   chain(): StringValidationChain;
@@ -68,6 +68,12 @@ export interface EnumOptions {
   separator?: string;
   rejectWhitespacePaddedValues?: true;
   rejectEmptyValues?: true;
+}
+
+export type DateLayout = 'ISO8601';
+
+export interface DateOptions {
+  layout?: DateLayout;
 }
 
 export type DateTimeLayout = 'RFC3339' | 'RFC1123Z' | 'Unix';
@@ -239,6 +245,10 @@ export declare class Katakana implements StringValidation {
 }
 
 export declare class DateString implements StringValidation {
+  readonly options?: DateOptions;
+
+  constructor(options?: DateOptions);
+
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }
 

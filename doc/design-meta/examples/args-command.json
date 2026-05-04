@@ -281,7 +281,7 @@
     {
       "kind": "string",
       "name": "due-date",
-      "schema": ["schema", "string", "--date", "--required"]
+      "schema": ["schema", "string", "--date", "--layout", "ISO8601", "--required"]
     },
     {
       "kind": "string",

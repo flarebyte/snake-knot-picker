@@ -318,7 +318,7 @@ JSON-compatible command representation.
     {
       "kind": "string",
       "name": "due-date",
-      "schema": ["schema", "string", "--date", "--required"]
+      "schema": ["schema", "string", "--date", "--layout", "ISO8601", "--required"]
     },
     {
       "kind": "string",
@@ -719,6 +719,7 @@ Feature inventory grouped by domain.
 | Bool | string | boolean | Accept only string booleans |
 | Color | string | color | Accept only string colors |
 | DateString | string | date | Accept only string dates |
+| DateOptions | string | date-options | Configure date-only layout policy |
 | DateTimeString | string | datetime | Accept only string date-times |
 | DateTimeOptions | string | datetime-options | Configure datetime layout timezone and location policy |
 | DurationString | string | duration | Accept only string durations |
@@ -794,7 +795,7 @@ export interface StringValidationFactory {
   bengali(): StringValidation;
   boolean(): StringValidation;
   cyrillic(): StringValidation;
-  date(): StringValidation;
+  date(options?: DateOptions): StringValidation;
   datetime(options?: DateTimeOptions): StringValidation;
   duration(): StringValidation;
   chain(): StringValidationChain;
@@ -846,6 +847,12 @@ export interface EnumOptions {
   separator?: string;
   rejectWhitespacePaddedValues?: true;
   rejectEmptyValues?: true;
+}
+
+export type DateLayout = 'ISO8601';
+
+export interface DateOptions {
+  layout?: DateLayout;
 }
 
 export type DateTimeLayout = 'RFC3339' | 'RFC1123Z' | 'Unix';
@@ -1017,6 +1024,10 @@ export declare class Katakana implements StringValidation {
 }
 
 export declare class DateString implements StringValidation {
+  readonly options?: DateOptions;
+
+  constructor(options?: DateOptions);
+
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }
 
@@ -1216,6 +1227,17 @@ export const unicodeSeparatorString: StringValidation =
   stringValidations.unicodeSeparator();
 ```
 
+#### Date Validation Logic
+
+| feature | flag | rule |
+| --- | --- | --- |
+| parsing |  | Parse date strings with Go standard library time package before applying policy checks |
+| layout | --layout | Select a named date-only layout parser; supported value is ISO8601 |
+| iso8601 | ISO8601 | Parse with Go layout 2006-01-02 |
+| timezone |  | Reject timezone-bearing date input |
+| location |  | Do not accept --location for date-only validation |
+| date-only |  | Reject input containing time-of-day fields |
+
 #### String Date and Time Validation
 
 ```ts
@@ -1223,6 +1245,9 @@ import type { StringValidation } from './common';
 import { stringValidations } from './string';
 
 export const dateString: StringValidation = stringValidations.date();
+export const isoDateString: StringValidation = stringValidations.date({
+  layout: 'ISO8601',
+});
 export const dateTimeString: StringValidation = stringValidations.datetime();
 export const newYorkDateTimeString: StringValidation =
   stringValidations.datetime({
@@ -1797,6 +1822,7 @@ export const postalCodeRegistration: ValidationRegistry =
 | Bool | string | boolean | Accept only string booleans |
 | Color | string | color | Accept only string colors |
 | DateString | string | date | Accept only string dates |
+| DateOptions | string | date-options | Configure date-only layout policy |
 | DateTimeString | string | datetime | Accept only string date-times |
 | DateTimeOptions | string | datetime-options | Configure datetime layout timezone and location policy |
 | DurationString | string | duration | Accept only string durations |
@@ -1886,6 +1912,7 @@ Admin and user scenarios captured in CSV.
 | Expect a boolean-like string | schema string --boolean | admin |
 | Expect a UUID string | schema string --uuid | admin |
 | Expect a zoned datetime | schema string --datetime --layout RFC3339 --allow-timezone --location America/New_York --required | admin |
+| Expect a date-only value | schema string --date --layout ISO8601 --required | admin |
 | Expect the first tuple element | schema string --tuple 0 --enum monday,tuesday | admin |
 | Expect the second tuple element | schema string --tuple 1 --color | admin |
 | Expect a repeated string flag with length bounds | schema string --alphabetic + schema repeatable --min-length 1 --max-length 5 | admin |
