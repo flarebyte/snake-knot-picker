@@ -2348,3 +2348,52 @@ Transition graph for user validation steps.
       - <a id="graph-node-flow-user-validate-values"></a> Validate Values by Schema: Validate parsed values with string, number, tuple, list, and formatter-aware rules.
         - <a id="graph-node-flow-user-return-result"></a> Return Typed Result or Validation Error: Return a typed parsed command on success, otherwise a validation error payload.
 
+## 06 Go Implementation Layout
+
+Suggested Go module, package, and small-file boundaries.
+
+### 01 Package and File Responsibilities
+
+Recommended package layout that keeps files small and responsibilities narrow.
+
+#### Go Package and File Layout
+
+| guideline | package | path | responsibility | visibility |
+| --- | --- | --- | --- | --- |
+| Keep module metadata only | root | go.mod | Declare module path and Go version | public contract |
+| Small file focused on error constants and structs | picker | errors.go | Stable error IDs and error payload types | public API |
+| Keep transport structs separate from parser implementation | picker | command.go | Command schema and compiled command types | public API |
+| Expose a narrow runtime API for users | picker | validate.go | Top-level Parse and Validate entry points | public API |
+| Expose extension points without leaking compiler internals | picker | registry.go | Registry interfaces and admin extension hooks | public API |
+| Keep builder convenience separate from runtime validation | picker | builder.go | Trusted admin command builder helpers | public API |
+| Do not expose parsed token internals as public API | internal/schema | ast.go | Schema command AST types | internal |
+| Only tokenize and shape-check schema commands | internal/schema | parser.go | Parse admin schema token arrays into AST | internal |
+| Own schema flag validation and registry lookup | internal/schema | compiler.go | Compile schema AST into immutable validator specs | internal |
+| Keep tuple index rules isolated and testable | internal/schema | tuple.go | Compile tuple size and tuple slot schemas | internal |
+| Must never compile schemas or register operators | internal/argv | parser.go | Parse user argv against compiled command schemas | internal |
+| Keep argv parsing data structures small | internal/argv | values.go | Represent typed runtime flag values | internal |
+| Group only closely related string rules | internal/validators | string.go | String validator implementations | internal |
+| Keep numeric parsing separate from string validation | internal/validators | number.go | Number validator implementations | internal |
+| Validate tuple length and slot validators only | internal/validators | tuple.go | Tuple validator implementation | internal |
+| Keep repeatable collection rules separate from tuple rules | internal/validators | list.go | List and repeatable validator implementation | internal |
+| Keep URL-specific parsing and flags out of generic string code | internal/validators | url.go | URL validator using net/url | internal |
+| Keep optional AWS dependency isolated if possible | internal/validators | arn.go | AWS ARN validator using aws-sdk-go-v2 aws/arn | internal |
+| Keep time layout parsing in one focused file | internal/validators | time.go | Date datetime time and duration validators | internal |
+| Keep email-specific domain allow-list logic local | internal/validators | email.go | Email validator using net/mail | internal |
+| Keep minimal color support independent from CSS parsing | internal/validators | color.go | Hex color validator | internal |
+| Keep test helpers out of production API | internal/testutil | errors.go | Shared assertions for validation errors | test-only |
+
+#### Go File Responsibility Guidelines
+
+Prefer small Go files with narrow responsibilities over broad files named after layers.
+
+Guidelines:
+
+1. Keep public API files in the root package focused on stable contracts: errors, command types, registry hooks, builders, and top-level validation entry points.
+2. Put parser, compiler, argv parsing, and concrete built-in validators under `internal/` until the implementation proves which details should become public.
+3. Keep schema token parsing separate from schema compilation; parser files should not instantiate validators.
+4. Keep runtime argv parsing separate from admin schema compilation; argv files must not accept schema authoring commands.
+5. Split validators by domain when the domain has independent parsing rules, such as URL, ARN, time, email, and color.
+6. Avoid import cycles by making validators depend only on common error/context types, while compiler code depends on registry and validator factories.
+7. When a file starts owning unrelated behavior, split it before adding more flags or special cases.
+

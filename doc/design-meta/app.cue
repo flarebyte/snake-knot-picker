@@ -141,6 +141,14 @@ reports: [{
 				"graph-renderer=markdown-text",
 			]
 		}]
+	}, {
+		title:       "06 Go Implementation Layout"
+		description: "Suggested Go module, package, and small-file boundaries."
+		sections: [{
+			title:       "01 Package and File Responsibilities"
+			description: "Recommended package layout that keeps files small and responsibilities narrow."
+			notes:       ["snk.go.layout", "snk.go.layout.guidelines"]
+		}]
 	}]
 }]
 
@@ -467,6 +475,31 @@ wash start --options delicate,extra-rinse --options pre-wash
 		labels:    ["constraints", "cobra", "csv"]
 	},
 	{
+		name:      "snk.go.layout"
+		title:     "Go Package and File Layout"
+		filepath:  "examples/go-layout.csv"
+		arguments: ["format-csv=table"]
+		labels:    ["go", "layout", "csv"]
+	},
+	{
+		name:  "snk.go.layout.guidelines"
+		title: "Go File Responsibility Guidelines"
+		markdown: """
+Prefer small Go files with narrow responsibilities over broad files named after layers.
+
+Guidelines:
+
+1. Keep public API files in the root package focused on stable contracts: errors, command types, registry hooks, builders, and top-level validation entry points.
+2. Put parser, compiler, argv parsing, and concrete built-in validators under `internal/` until the implementation proves which details should become public.
+3. Keep schema token parsing separate from schema compilation; parser files should not instantiate validators.
+4. Keep runtime argv parsing separate from admin schema compilation; argv files must not accept schema authoring commands.
+5. Split validators by domain when the domain has independent parsing rules, such as URL, ARN, time, email, and color.
+6. Avoid import cycles by making validators depend only on common error/context types, while compiler code depends on registry and validator factories.
+7. When a file starts owning unrelated behavior, split it before adding more flags or special cases.
+"""
+		labels: ["go", "layout", "guidelines"]
+	},
+	{
 		name:  "flow.intent"
 		title: "Flow-Specific Specification Intent"
 		markdown: """
@@ -618,6 +651,18 @@ relationships: [
 		to:     "flow.user.parse-argv"
 		label:  "guards"
 		labels: ["guards", "user-flow"]
+	},
+	{
+		from:   "snk.go.layout"
+		to:     "snk.parser.architecture"
+		label:  "implements"
+		labels: ["implements", "go"]
+	},
+	{
+		from:   "snk.go.layout"
+		to:     "snk.registry.api"
+		label:  "contains"
+		labels: ["contains", "go"]
 	},
 	{
 		from:   "snk.registry.api"

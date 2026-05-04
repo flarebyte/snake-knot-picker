@@ -48,6 +48,7 @@ Enum definitions are split by their separator and must already be trimmed; white
 Errors carry stable IDs for program control and rendered messages for humans.
 Admin schema commands are parsed and compiled into immutable validators before command registration.
 Runtime user argv is parsed only against compiled command schemas; it must never compile schema commands or register operators.
+The Go implementation should prefer small files with narrow responsibilities, with parser, compiler, argv, and concrete validator internals kept separate.
 
 ## Validation building blocks
 

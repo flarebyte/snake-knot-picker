@@ -1,0 +1,23 @@
+package,path,responsibility,visibility,guideline
+root,go.mod,Declare module path and Go version,public contract,Keep module metadata only
+picker,errors.go,Stable error IDs and error payload types,public API,Small file focused on error constants and structs
+picker,command.go,Command schema and compiled command types,public API,Keep transport structs separate from parser implementation
+picker,validate.go,Top-level Parse and Validate entry points,public API,Expose a narrow runtime API for users
+picker,registry.go,Registry interfaces and admin extension hooks,public API,Expose extension points without leaking compiler internals
+picker,builder.go,Trusted admin command builder helpers,public API,Keep builder convenience separate from runtime validation
+internal/schema,ast.go,Schema command AST types,internal,Do not expose parsed token internals as public API
+internal/schema,parser.go,Parse admin schema token arrays into AST,internal,Only tokenize and shape-check schema commands
+internal/schema,compiler.go,Compile schema AST into immutable validator specs,internal,Own schema flag validation and registry lookup
+internal/schema,tuple.go,Compile tuple size and tuple slot schemas,internal,Keep tuple index rules isolated and testable
+internal/argv,parser.go,Parse user argv against compiled command schemas,internal,Must never compile schemas or register operators
+internal/argv,values.go,Represent typed runtime flag values,internal,Keep argv parsing data structures small
+internal/validators,string.go,String validator implementations,internal,Group only closely related string rules
+internal/validators,number.go,Number validator implementations,internal,Keep numeric parsing separate from string validation
+internal/validators,tuple.go,Tuple validator implementation,internal,Validate tuple length and slot validators only
+internal/validators,list.go,List and repeatable validator implementation,internal,Keep repeatable collection rules separate from tuple rules
+internal/validators,url.go,URL validator using net/url,internal,Keep URL-specific parsing and flags out of generic string code
+internal/validators,arn.go,AWS ARN validator using aws-sdk-go-v2 aws/arn,internal,Keep optional AWS dependency isolated if possible
+internal/validators,time.go,Date datetime time and duration validators,internal,Keep time layout parsing in one focused file
+internal/validators,email.go,Email validator using net/mail,internal,Keep email-specific domain allow-list logic local
+internal/validators,color.go,Hex color validator,internal,Keep minimal color support independent from CSS parsing
+internal/testutil,errors.go,Shared assertions for validation errors,test-only,Keep test helpers out of production API
