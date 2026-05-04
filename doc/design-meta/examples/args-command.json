@@ -226,6 +226,18 @@
     },
     {
       "kind": "string",
+      "name": "accent-choice",
+      "schema": [
+        "schema",
+        "string",
+        "--enum",
+        "red;green;blue",
+        "--enum-separator",
+        ";"
+      ]
+    },
+    {
+      "kind": "string",
       "name": "due-date",
       "schema": ["schema", "string", "--date", "--required"]
     },

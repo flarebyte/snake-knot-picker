@@ -11,6 +11,21 @@ export const schemaString: ArgsCommandSchema = adminArgs
   .string('enum', stringValidations.enum(['green', 'orange', 'red']), [
     ['schema', 'string', '--enum', 'green,orange,red', '--required'],
   ])
+  .string(
+    'enum-separator',
+    stringValidations.enum(['green', 'orange', 'red'], { separator: ';' }),
+    [
+      [
+        'schema',
+        'string',
+        '--enum',
+        'green;orange;red',
+        '--enum-separator',
+        ';',
+        '--required',
+      ],
+    ],
+  )
   .build();
 
 export const washStartSchema: ArgsCommandSchema = adminArgs

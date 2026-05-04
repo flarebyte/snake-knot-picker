@@ -29,6 +29,7 @@ Examples:
 
 ```text
 schema string --enum cold,warm,hot --required
+schema string --enum cold;warm;hot --enum-separator ;
 schema number --int --required
 custom postal-code --country US --required
 schema repeatable --min-length 1 --max-length 5

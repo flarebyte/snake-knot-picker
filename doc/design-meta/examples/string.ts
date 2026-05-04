@@ -26,7 +26,10 @@ export interface StringValidationFactory {
   devanagari(): StringValidation;
   ethiopic(): StringValidation;
   email(): StringValidation;
-  enum(allowedValues: readonly string[]): StringValidation;
+  enum(
+    allowedValues: readonly string[],
+    options?: EnumOptions,
+  ): StringValidation;
   hexa(): StringValidation;
   gurmukhi(): StringValidation;
   han(): StringValidation;
@@ -59,6 +62,10 @@ export interface StringValidationFactory {
   uppercase(): StringValidation;
   whitespace(): StringValidation;
   uuid(): StringValidation;
+}
+
+export interface EnumOptions {
+  separator?: string;
 }
 
 export declare const stringValidations: StringValidationFactory;
@@ -97,8 +104,9 @@ export declare class MaxWords implements StringValidation {
 
 export declare class Enum implements StringValidation {
   readonly allowedValues: readonly string[];
+  readonly separator?: string;
 
-  constructor(allowedValues: readonly string[]);
+  constructor(allowedValues: readonly string[], options?: EnumOptions);
 
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }

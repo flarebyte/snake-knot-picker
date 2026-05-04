@@ -263,6 +263,18 @@ JSON-compatible command representation.
     },
     {
       "kind": "string",
+      "name": "accent-choice",
+      "schema": [
+        "schema",
+        "string",
+        "--enum",
+        "red;green;blue",
+        "--enum-separator",
+        ";"
+      ]
+    },
+    {
+      "kind": "string",
       "name": "due-date",
       "schema": ["schema", "string", "--date", "--required"]
     },
@@ -497,6 +509,21 @@ export const schemaString: ArgsCommandSchema = adminArgs
   .string('enum', stringValidations.enum(['green', 'orange', 'red']), [
     ['schema', 'string', '--enum', 'green,orange,red', '--required'],
   ])
+  .string(
+    'enum-separator',
+    stringValidations.enum(['green', 'orange', 'red'], { separator: ';' }),
+    [
+      [
+        'schema',
+        'string',
+        '--enum',
+        'green;orange;red',
+        '--enum-separator',
+        ';',
+        '--required',
+      ],
+    ],
+  )
   .build();
 
 export const washStartSchema: ArgsCommandSchema = adminArgs
@@ -617,6 +644,7 @@ Feature inventory grouped by domain.
 | MinWords(minWords) | string | min-words | Require a minimum word count |
 | MaxWords(maxWords) | string | max-words | Limit a maximum word count |
 | Enum(allowedValues) | string | enum | Allow only values from a fixed set |
+| EnumOptions(separator) | string | enum-separator | Split schema enum values with a custom separator |
 | Digit | string | digit | Require decimal digits only |
 | Whitespace | string | whitespace | Require whitespace characters only |
 | Alphabetic | string | alphabetic | Require ASCII alphabetic characters only |
@@ -729,7 +757,10 @@ export interface StringValidationFactory {
   devanagari(): StringValidation;
   ethiopic(): StringValidation;
   email(): StringValidation;
-  enum(allowedValues: readonly string[]): StringValidation;
+  enum(
+    allowedValues: readonly string[],
+    options?: EnumOptions,
+  ): StringValidation;
   hexa(): StringValidation;
   gurmukhi(): StringValidation;
   han(): StringValidation;
@@ -762,6 +793,10 @@ export interface StringValidationFactory {
   uppercase(): StringValidation;
   whitespace(): StringValidation;
   uuid(): StringValidation;
+}
+
+export interface EnumOptions {
+  separator?: string;
 }
 
 export declare const stringValidations: StringValidationFactory;
@@ -800,8 +835,9 @@ export declare class MaxWords implements StringValidation {
 
 export declare class Enum implements StringValidation {
   readonly allowedValues: readonly string[];
+  readonly separator?: string;
 
-  constructor(allowedValues: readonly string[]);
+  constructor(allowedValues: readonly string[], options?: EnumOptions);
 
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }
@@ -1581,6 +1617,7 @@ export const postalCodeRegistration: ValidationRegistry =
 | MinWords(minWords) | string | min-words | Require a minimum word count |
 | MaxWords(maxWords) | string | max-words | Limit a maximum word count |
 | Enum(allowedValues) | string | enum | Allow only values from a fixed set |
+| EnumOptions(separator) | string | enum-separator | Split schema enum values with a custom separator |
 | Digit | string | digit | Require decimal digits only |
 | Whitespace | string | whitespace | Require whitespace characters only |
 | Alphabetic | string | alphabetic | Require ASCII alphabetic characters only |
