@@ -104,7 +104,18 @@ JSON-compatible command representation.
     {
       "kind": "string",
       "name": "report",
-      "schema": ["schema", "string", "--uri", "--required"]
+      "schema": [
+        "schema",
+        "string",
+        "--uri",
+        "--scheme",
+        "https",
+        "--secure",
+        "--allow-query",
+        "--allow-domains",
+        "example.com",
+        "--required"
+      ]
     },
     {
       "kind": "string",
@@ -683,6 +694,7 @@ Feature inventory grouped by domain.
 | UnicodeSymbol | string | unicode-symbol | Require Unicode symbols only |
 | UnicodeSeparator | string | unicode-separator | Require Unicode separators only |
 | Uri | string | uri | Accept only string URIs |
+| UriOptions | string | uri-options | Configure URL scheme component and host policy checks |
 | Arn | string | arn | Accept only string ARNs |
 | Email | string | email | Accept only string email addresses |
 | MatchesFormatter(formatter) | string | matches-formatter | Fail if formatting changes the value |
@@ -789,7 +801,7 @@ export interface StringValidationFactory {
   unicodePunctuation(): StringValidation;
   unicodeSeparator(): StringValidation;
   unicodeSymbol(): StringValidation;
-  uri(): StringValidation;
+  uri(options?: UriOptions): StringValidation;
   uppercase(): StringValidation;
   whitespace(): StringValidation;
   uuid(): StringValidation;
@@ -797,6 +809,18 @@ export interface StringValidationFactory {
 
 export interface EnumOptions {
   separator?: string;
+}
+
+export interface UriOptions {
+  scheme?: 'http' | 'https';
+  secure?: boolean;
+  allowPort?: boolean;
+  allowUserInfo?: boolean;
+  allowFragment?: boolean;
+  allowQuery?: boolean;
+  allowDomains?: readonly string[];
+  allowIp?: boolean;
+  allowOpaque?: boolean;
 }
 
 export declare const stringValidations: StringValidationFactory;
@@ -948,6 +972,10 @@ export declare class DateTimeString implements StringValidation {
 }
 
 export declare class Uri implements StringValidation {
+  readonly options?: UriOptions;
+
+  constructor(options?: UriOptions);
+
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }
 
@@ -1200,6 +1228,21 @@ export const numericString: StringValidation = stringValidations.number(
 export const numericStringValidation: NumberValidation =
   numberValidations.int();
 ```
+
+#### URL Validation Logic
+
+| feature | flag | rule |
+| --- | --- | --- |
+| parsing |  | Parse URLs with Go standard library net/url before applying policy checks |
+| scheme | --scheme | Configured scheme value must be http or https; reject any other URL scheme |
+| secure | --secure | Require scheme to be exactly https |
+| port | --allow-port | Permit URL.Host to contain an explicit port |
+| user-info | --allow-user-info | Permit URL.User authentication credentials |
+| fragment | --allow-fragment | Permit URL.Fragment to be non-empty |
+| query | --allow-query | Permit URL.RawQuery to be non-empty |
+| domain-whitelist | --allow-domains | When provided require URL.Hostname() to equal an allowed domain or end with "." plus an allowed domain |
+| ip-addresses | --allow-ip | By default reject IP host literals; when allowed require net.ParseIP(URL.Hostname()) to succeed for IPv4 or IPv6 hosts |
+| opaque | --allow-opaque | By default reject opaque URLs; when allowed permit net/url parses Opaque instead of Host |
 
 ### 03 Number Validation Examples
 
@@ -1656,6 +1699,7 @@ export const postalCodeRegistration: ValidationRegistry =
 | UnicodeSymbol | string | unicode-symbol | Require Unicode symbols only |
 | UnicodeSeparator | string | unicode-separator | Require Unicode separators only |
 | Uri | string | uri | Accept only string URIs |
+| UriOptions | string | uri-options | Configure URL scheme component and host policy checks |
 | Arn | string | arn | Accept only string ARNs |
 | Email | string | email | Accept only string email addresses |
 | MatchesFormatter(formatter) | string | matches-formatter | Fail if formatting changes the value |
@@ -1727,7 +1771,7 @@ Admin and user scenarios captured in CSV.
 | Expect a prefixed string value | schema string --starts-with blue | admin |
 | Expect an enum | schema string --enum green,orange,red | admin |
 | Expect an enum with custom separator | schema string --enum green;orange;red --enum-separator ; | admin |
-| Expect a URI | schema string --uri --required | admin |
+| Expect a secure URL | schema string --uri --scheme https --secure --allow-query --allow-domains example.com --required | admin |
 | Expect a color like #F54927 | schema string --color --required | admin |
 | Expect a postal code | custom postal-code --country US --required | admin |
 | Expect a boolean-like string | schema string --boolean | admin |

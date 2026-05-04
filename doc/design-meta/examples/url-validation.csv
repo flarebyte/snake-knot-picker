@@ -1,0 +1,11 @@
+feature,flag,rule
+parsing,,Parse URLs with Go standard library net/url before applying policy checks
+scheme,--scheme,Configured scheme value must be http or https; reject any other URL scheme
+secure,--secure,Require scheme to be exactly https
+port,--allow-port,Permit URL.Host to contain an explicit port
+user-info,--allow-user-info,Permit URL.User authentication credentials
+fragment,--allow-fragment,Permit URL.Fragment to be non-empty
+query,--allow-query,Permit URL.RawQuery to be non-empty
+domain-whitelist,--allow-domains,"When provided require URL.Hostname() to equal an allowed domain or end with ""."" plus an allowed domain"
+ip-addresses,--allow-ip,By default reject IP host literals; when allowed require net.ParseIP(URL.Hostname()) to succeed for IPv4 or IPv6 hosts
+opaque,--allow-opaque,By default reject opaque URLs; when allowed permit net/url parses Opaque instead of Host

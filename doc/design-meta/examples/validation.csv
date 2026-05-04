@@ -43,6 +43,7 @@ string,unicode-punctuation,UnicodePunctuation,Require Unicode punctuation only
 string,unicode-symbol,UnicodeSymbol,Require Unicode symbols only
 string,unicode-separator,UnicodeSeparator,Require Unicode separators only
 string,uri,Uri,Accept only string URIs
+string,uri-options,UriOptions,Configure URL scheme component and host policy checks
 string,arn,Arn,Accept only string ARNs
 string,email,Email,Accept only string email addresses
 string,matches-formatter,MatchesFormatter(formatter),Fail if formatting changes the value

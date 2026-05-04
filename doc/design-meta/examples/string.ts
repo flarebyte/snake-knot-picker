@@ -58,7 +58,7 @@ export interface StringValidationFactory {
   unicodePunctuation(): StringValidation;
   unicodeSeparator(): StringValidation;
   unicodeSymbol(): StringValidation;
-  uri(): StringValidation;
+  uri(options?: UriOptions): StringValidation;
   uppercase(): StringValidation;
   whitespace(): StringValidation;
   uuid(): StringValidation;
@@ -66,6 +66,18 @@ export interface StringValidationFactory {
 
 export interface EnumOptions {
   separator?: string;
+}
+
+export interface UriOptions {
+  scheme?: 'http' | 'https';
+  secure?: boolean;
+  allowPort?: boolean;
+  allowUserInfo?: boolean;
+  allowFragment?: boolean;
+  allowQuery?: boolean;
+  allowDomains?: readonly string[];
+  allowIp?: boolean;
+  allowOpaque?: boolean;
 }
 
 export declare const stringValidations: StringValidationFactory;
@@ -217,6 +229,10 @@ export declare class DateTimeString implements StringValidation {
 }
 
 export declare class Uri implements StringValidation {
+  readonly options?: UriOptions;
+
+  constructor(options?: UriOptions);
+
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }
 

@@ -67,7 +67,18 @@
     {
       "kind": "string",
       "name": "report",
-      "schema": ["schema", "string", "--uri", "--required"]
+      "schema": [
+        "schema",
+        "string",
+        "--uri",
+        "--scheme",
+        "https",
+        "--secure",
+        "--allow-query",
+        "--allow-domains",
+        "example.com",
+        "--required"
+      ]
     },
     {
       "kind": "string",
