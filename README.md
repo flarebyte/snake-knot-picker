@@ -34,6 +34,7 @@ schema string --uri --scheme https --secure --allow-query --allow-domains exampl
 schema string --arn --allow-partition aws --allow-service s3 --allow-region us-east-2
 schema string --date --layout ISO8601
 schema string --datetime --layout RFC3339 --allow-timezone --location America/New_York
+schema string --time --layout HHMMSS
 schema number --int --required
 custom postal-code --country US --required
 schema repeatable --min-length 1 --max-length 5

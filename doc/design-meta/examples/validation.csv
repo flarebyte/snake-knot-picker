@@ -55,6 +55,7 @@ string,matches-formatter,MatchesFormatter(formatter),Fail if formatting changes 
 string,number,NumberStringValidation(numberValidation),Parse a string to number then validate it
 string,starts-with,StartsWith(prefix),Require a specific prefix
 string,time,TimeString,Accept only string times
+string,time-options,TimeOptions,Configure time-only layout fraction and timezone policy
 string,uuid,Uuid,Accept only string UUIDs
 string,factory,stringValidations,Create string validators from the factory API
 string,chain,StringValidationChain.pipe(...).build(),Compose string validators and formatters

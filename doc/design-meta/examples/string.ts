@@ -51,7 +51,7 @@ export interface StringValidationFactory {
   tamil(): StringValidation;
   telugu(): StringValidation;
   thai(): StringValidation;
-  time(): StringValidation;
+  time(options?: TimeOptions): StringValidation;
   startsWith(prefix: string): StringValidation;
   unicodeLetter(): StringValidation;
   unicodeNumber(): StringValidation;
@@ -82,6 +82,14 @@ export interface DateTimeOptions {
   layout?: DateTimeLayout;
   allowTimezone?: boolean;
   location?: string;
+}
+
+export type TimeLayout = 'HHMMSS' | 'HHMM';
+
+export interface TimeOptions {
+  layout?: TimeLayout;
+  allowFraction?: boolean;
+  allowTimezone?: boolean;
 }
 
 export interface UriOptions {
@@ -321,6 +329,10 @@ export declare class Thai implements StringValidation {
 }
 
 export declare class TimeString implements StringValidation {
+  readonly options?: TimeOptions;
+
+  constructor(options?: TimeOptions);
+
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }
 

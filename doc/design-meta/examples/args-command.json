@@ -291,7 +291,7 @@
     {
       "kind": "string",
       "name": "alarm-time",
-      "schema": ["schema", "string", "--time", "--required"]
+      "schema": ["schema", "string", "--time", "--layout", "HHMMSS", "--required"]
     }
   ]
 }

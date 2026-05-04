@@ -13,4 +13,11 @@ export const newYorkDateTimeString: StringValidation =
     location: 'America/New_York',
   });
 export const timeString: StringValidation = stringValidations.time();
+export const hourMinuteTimeString: StringValidation = stringValidations.time({
+  layout: 'HHMM',
+});
+export const fractionalTimeString: StringValidation = stringValidations.time({
+  layout: 'HHMMSS',
+  allowFraction: true,
+});
 export const durationString: StringValidation = stringValidations.duration();

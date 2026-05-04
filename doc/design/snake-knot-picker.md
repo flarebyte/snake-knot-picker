@@ -328,7 +328,7 @@ JSON-compatible command representation.
     {
       "kind": "string",
       "name": "alarm-time",
-      "schema": ["schema", "string", "--time", "--required"]
+      "schema": ["schema", "string", "--time", "--layout", "HHMMSS", "--required"]
     }
   ]
 }
@@ -737,6 +737,7 @@ Feature inventory grouped by domain.
 | NumberStringValidation(numberValidation) | string | number | Parse a string to number then validate it |
 | StartsWith(prefix) | string | starts-with | Require a specific prefix |
 | TimeString | string | time | Accept only string times |
+| TimeOptions | string | time-options | Configure time-only layout fraction and timezone policy |
 | Uuid | string | uuid | Accept only string UUIDs |
 | stringValidations | string | factory | Create string validators from the factory API |
 | StringValidationChain.pipe(...).build() | string | chain | Compose string validators and formatters |
@@ -830,7 +831,7 @@ export interface StringValidationFactory {
   tamil(): StringValidation;
   telugu(): StringValidation;
   thai(): StringValidation;
-  time(): StringValidation;
+  time(options?: TimeOptions): StringValidation;
   startsWith(prefix: string): StringValidation;
   unicodeLetter(): StringValidation;
   unicodeNumber(): StringValidation;
@@ -861,6 +862,14 @@ export interface DateTimeOptions {
   layout?: DateTimeLayout;
   allowTimezone?: boolean;
   location?: string;
+}
+
+export type TimeLayout = 'HHMMSS' | 'HHMM';
+
+export interface TimeOptions {
+  layout?: TimeLayout;
+  allowFraction?: boolean;
+  allowTimezone?: boolean;
 }
 
 export interface UriOptions {
@@ -1100,6 +1109,10 @@ export declare class Thai implements StringValidation {
 }
 
 export declare class TimeString implements StringValidation {
+  readonly options?: TimeOptions;
+
+  constructor(options?: TimeOptions);
+
   validate(input: string, opts: ValidatorOptions): ValidationError | null;
 }
 
@@ -1256,6 +1269,13 @@ export const newYorkDateTimeString: StringValidation =
     location: 'America/New_York',
   });
 export const timeString: StringValidation = stringValidations.time();
+export const hourMinuteTimeString: StringValidation = stringValidations.time({
+  layout: 'HHMM',
+});
+export const fractionalTimeString: StringValidation = stringValidations.time({
+  layout: 'HHMMSS',
+  allowFraction: true,
+});
 export const durationString: StringValidation = stringValidations.duration();
 ```
 
@@ -1357,6 +1377,19 @@ export const numericString: StringValidation = stringValidations.number(
 export const numericStringValidation: NumberValidation =
   numberValidations.int();
 ```
+
+#### Time Validation Logic
+
+| feature | flag | rule |
+| --- | --- | --- |
+| parsing |  | Parse time-only strings with Go standard library time package before applying policy checks |
+| layout | --layout | Select a named time-only layout parser; supported values are HHMMSS and HHMM |
+| hhmmss | HHMMSS | Parse with Go layout 15:04:05 and use this as the default layout |
+| hhmm | HHMM | Parse with Go layout 15:04 |
+| fraction | --allow-fraction | Permit fractional seconds only with HHMMSS layout |
+| timezone | --allow-timezone | Permit time-only input containing an explicit timezone or numeric offset |
+| location |  | Do not accept --location for time-only validation |
+| date-fields |  | Reject input containing date fields |
 
 #### URL Validation Logic
 
@@ -1840,6 +1873,7 @@ export const postalCodeRegistration: ValidationRegistry =
 | NumberStringValidation(numberValidation) | string | number | Parse a string to number then validate it |
 | StartsWith(prefix) | string | starts-with | Require a specific prefix |
 | TimeString | string | time | Accept only string times |
+| TimeOptions | string | time-options | Configure time-only layout fraction and timezone policy |
 | Uuid | string | uuid | Accept only string UUIDs |
 | stringValidations | string | factory | Create string validators from the factory API |
 | StringValidationChain.pipe(...).build() | string | chain | Compose string validators and formatters |
@@ -1913,6 +1947,7 @@ Admin and user scenarios captured in CSV.
 | Expect a UUID string | schema string --uuid | admin |
 | Expect a zoned datetime | schema string --datetime --layout RFC3339 --allow-timezone --location America/New_York --required | admin |
 | Expect a date-only value | schema string --date --layout ISO8601 --required | admin |
+| Expect a time-only value | schema string --time --layout HHMMSS --required | admin |
 | Expect the first tuple element | schema string --tuple 0 --enum monday,tuesday | admin |
 | Expect the second tuple element | schema string --tuple 1 --color | admin |
 | Expect a repeated string flag with length bounds | schema string --alphabetic + schema repeatable --min-length 1 --max-length 5 | admin |

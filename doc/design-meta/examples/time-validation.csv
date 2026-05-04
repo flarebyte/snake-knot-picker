@@ -1,0 +1,9 @@
+feature,flag,rule
+parsing,,Parse time-only strings with Go standard library time package before applying policy checks
+layout,--layout,Select a named time-only layout parser; supported values are HHMMSS and HHMM
+hhmmss,HHMMSS,Parse with Go layout 15:04:05 and use this as the default layout
+hhmm,HHMM,Parse with Go layout 15:04
+fraction,--allow-fraction,Permit fractional seconds only with HHMMSS layout
+timezone,--allow-timezone,Permit time-only input containing an explicit timezone or numeric offset
+location,,Do not accept --location for time-only validation
+date-fields,,Reject input containing date fields
