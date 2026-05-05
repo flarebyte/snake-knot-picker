@@ -1,0 +1,17 @@
+[
+  {
+    "name": "schema-injection",
+    "argv": ["wash", "start", "schema", "string", "--required"],
+    "want_error_id": "validation.schema_command_forbidden"
+  },
+  {
+    "name": "huge-tuple-token",
+    "argv": ["wash", "start", "--range", "1,2,3,4,5,6,7,8,9,10"],
+    "want_error_id": "validation.tuple"
+  },
+  {
+    "name": "unexpected-flag",
+    "argv": ["wash", "start", "--__proto__", "x"],
+    "want_error_id": "validation.unexpected_flag"
+  }
+]
