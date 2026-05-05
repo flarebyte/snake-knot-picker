@@ -1,8 +1,8 @@
 .DEFAULT_GOAL := help
 
-.PHONY: build test test-go test-unit test-race \
+.PHONY: build test test-go test-unit test-race test-fixtures \
 	lint lint-go lint-ts format format-go format-ts \
-	typecheck-ts review coverage coverage-go \
+	typecheck-ts review coverage coverage-go coverage-critical \
 	doc-design doc-decision dup complexity release sec \
 	thoth-meta thoth-meta-go thoth-meta-go-test \
 	check-tools install-tools-help help
@@ -24,6 +24,8 @@ THOTH := thoth
 GOLINT_ENV := $(GO_ENV) GOLANGCI_LINT_CACHE=$(GO_LINT_CACHE_DIR)
 COVER_PROFILE := $(TMP_DIR)/test-unit.coverage.out
 COVER_HTML := $(TMP_DIR)/test-unit.coverage.html
+CRITICAL_COVER_PROFILE := $(TMP_DIR)/critical.coverage.out
+CRITICAL_PACKAGES := . ./internal/schema ./internal/argv ./internal/validators
 
 build:
 	mkdir -p $(TMP_DIR)
@@ -32,6 +34,10 @@ build:
 test: test-go
 
 test-go: test-unit
+
+test-fixtures:
+	mkdir -p $(TMP_DIR)
+	$(GO_ENV) $(GO) test -run 'TestCommandDocumentCompileFromFixture|TestEndToEndValidateWithDocumentJSON|TestSecurityRuntimeFixtures' ./...
 
 test-unit:
 	mkdir -p $(TMP_DIR)
@@ -48,6 +54,12 @@ coverage-go: test-unit
 	$(GO_ENV) $(GO) tool cover -html=$(COVER_PROFILE) -o $(COVER_HTML)
 	@printf "Coverage HTML: %s\n" "$(COVER_HTML)"
 
+coverage-critical:
+	mkdir -p $(TMP_DIR)
+	$(GO_ENV) $(GO) test -coverprofile=$(CRITICAL_COVER_PROFILE) -covermode=count $(CRITICAL_PACKAGES)
+	$(GO_ENV) $(GO) tool cover -func=$(CRITICAL_COVER_PROFILE)
+	@printf "Critical coverage profile: %s\n" "$(CRITICAL_COVER_PROFILE)"
+
 lint: lint-go lint-ts
 
 lint-go:
@@ -61,7 +73,7 @@ lint-ts:
 
 format: format-go format-ts
 
-review: format test lint
+review: format test test-fixtures lint
 
 format-go:
 	mkdir -p $(TMP_DIR)
@@ -143,8 +155,10 @@ help:
 	@printf "  test-go      Run Go test targets.\n"
 	@printf "  test-unit    Run verbose Go tests and print coverage summary.\n"
 	@printf "  test-race    Run Go tests with the race detector.\n"
+	@printf "  test-fixtures Run fixture-backed regression tests.\n"
 	@printf "  coverage     Generate the coverage HTML report.\n"
 	@printf "  coverage-go  Generate the Go coverage HTML report from test-unit output.\n"
+	@printf "  coverage-critical  Report coverage for parser/compiler/argv/validators paths.\n"
 	@printf "  lint         Run Go linting and TypeScript design-meta lint checks.\n"
 	@printf "  lint-go      Run go vet and golangci-lint.\n"
 	@printf "  lint-ts      Run Biome checks for doc/design-meta TypeScript examples.\n"

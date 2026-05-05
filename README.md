@@ -112,3 +112,14 @@ That means a validator like `postal-code` can be treated as a first-class schema
 
 - `doc/design-meta/examples/` contains the source-of-truth examples
 - `doc/snake-knot-picker-hero.png` is the README illustration
+
+## Developer workflow
+
+- `make format`: format Go and design-meta TypeScript examples
+- `make test`: run all Go unit/integration tests
+- `make test-fixtures`: run fixture-backed regression tests
+- `make test-race`: run Go tests with race detector
+- `make lint`: run Go vet/golangci-lint and design-meta lint checks
+- `make typecheck-ts`: type-check design-meta TypeScript examples
+- `make coverage`: generate full Go coverage report
+- `make coverage-critical`: coverage summary focused on parser/compiler/argv/validators
