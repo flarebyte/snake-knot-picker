@@ -9,32 +9,32 @@ import (
 )
 
 type StringOptions struct {
-	Enum                 []string
-	Alphabetic           bool
-	Whitespace           bool
-	Lowercase            bool
-	Uppercase            bool
-	Punctuation          bool
-	Hexa                 bool
-	Blank                bool
-	UnicodeLetter        bool
-	UnicodeNumber        bool
-	UnicodePunctuation   bool
-	UnicodeSymbol        bool
-	UnicodeSeparator     bool
-	Latin                bool
-	Han                  bool
-	Devanagari           bool
-	Arabic               bool
-	Hiragana             bool
-	Katakana             bool
-	Hangul               bool
-	Tamil                bool
-	Gujarati             bool
-	Ethiopic             bool
-	Base64               bool
-	StartsWith           string
-	BooleanString        bool
+	Enum               []string
+	Alphabetic         bool
+	Whitespace         bool
+	Lowercase          bool
+	Uppercase          bool
+	Punctuation        bool
+	Hexa               bool
+	Blank              bool
+	UnicodeLetter      bool
+	UnicodeNumber      bool
+	UnicodePunctuation bool
+	UnicodeSymbol      bool
+	UnicodeSeparator   bool
+	Latin              bool
+	Han                bool
+	Devanagari         bool
+	Arabic             bool
+	Hiragana           bool
+	Katakana           bool
+	Hangul             bool
+	Tamil              bool
+	Gujarati           bool
+	Ethiopic           bool
+	Base64             bool
+	StartsWith         string
+	BooleanString      bool
 }
 
 func ParseEnumCandidates(raw, separator string) ([]string, error) {
@@ -127,31 +127,55 @@ func allRunes(s string, pred func(rune) bool) bool {
 	return true
 }
 
-func isAlphabetic(s string) bool      { return allRunes(s, func(r rune) bool { return (r >= 'a' && r <= 'z') || (r >= 'A' && r <= 'Z') }) }
-func isWhitespace(s string) bool      { return allRunes(s, unicode.IsSpace) }
-func isLowercase(s string) bool       { return allRunes(s, unicode.IsLower) }
-func isUppercase(s string) bool       { return allRunes(s, unicode.IsUpper) }
-func isPunctuation(s string) bool     { return allRunes(s, unicode.IsPunct) }
-func isHexa(s string) bool            { return allRunes(s, func(r rune) bool { return (r >= '0' && r <= '9') || (r >= 'a' && r <= 'f') || (r >= 'A' && r <= 'F') }) }
-func isBlank(s string) bool           { return allRunes(s, func(r rune) bool { return r == ' ' || r == '\t' }) }
-func isUnicodeLetter(s string) bool   { return allRunes(s, unicode.IsLetter) }
-func isUnicodeNumber(s string) bool   { return allRunes(s, unicode.IsNumber) }
+func isAlphabetic(s string) bool {
+	return allRunes(s, func(r rune) bool { return (r >= 'a' && r <= 'z') || (r >= 'A' && r <= 'Z') })
+}
+func isWhitespace(s string) bool  { return allRunes(s, unicode.IsSpace) }
+func isLowercase(s string) bool   { return allRunes(s, unicode.IsLower) }
+func isUppercase(s string) bool   { return allRunes(s, unicode.IsUpper) }
+func isPunctuation(s string) bool { return allRunes(s, unicode.IsPunct) }
+func isHexa(s string) bool {
+	return allRunes(s, func(r rune) bool { return (r >= '0' && r <= '9') || (r >= 'a' && r <= 'f') || (r >= 'A' && r <= 'F') })
+}
+func isBlank(s string) bool         { return allRunes(s, func(r rune) bool { return r == ' ' || r == '\t' }) }
+func isUnicodeLetter(s string) bool { return allRunes(s, unicode.IsLetter) }
+func isUnicodeNumber(s string) bool { return allRunes(s, unicode.IsNumber) }
 func isUnicodePunctuation(s string) bool {
 	return allRunes(s, unicode.IsPunct)
 }
 func isUnicodeSymbol(s string) bool    { return allRunes(s, unicode.IsSymbol) }
 func isUnicodeSeparator(s string) bool { return allRunes(s, unicode.IsSpace) }
 
-func isLatin(s string) bool      { return allRunes(s, func(r rune) bool { return unicode.In(r, unicode.Latin) }) }
-func isHan(s string) bool        { return allRunes(s, func(r rune) bool { return unicode.In(r, unicode.Han) }) }
-func isDevanagari(s string) bool { return allRunes(s, func(r rune) bool { return unicode.In(r, unicode.Devanagari) }) }
-func isArabic(s string) bool     { return allRunes(s, func(r rune) bool { return unicode.In(r, unicode.Arabic) }) }
-func isHiragana(s string) bool   { return allRunes(s, func(r rune) bool { return unicode.In(r, unicode.Hiragana) }) }
-func isKatakana(s string) bool   { return allRunes(s, func(r rune) bool { return unicode.In(r, unicode.Katakana) }) }
-func isHangul(s string) bool     { return allRunes(s, func(r rune) bool { return unicode.In(r, unicode.Hangul) }) }
-func isTamil(s string) bool      { return allRunes(s, func(r rune) bool { return unicode.In(r, unicode.Tamil) }) }
-func isGujarati(s string) bool   { return allRunes(s, func(r rune) bool { return unicode.In(r, unicode.Gujarati) }) }
-func isEthiopic(s string) bool   { return allRunes(s, func(r rune) bool { return unicode.In(r, unicode.Ethiopic) }) }
+func isLatin(s string) bool {
+	return allRunes(s, func(r rune) bool { return unicode.In(r, unicode.Latin) })
+}
+func isHan(s string) bool {
+	return allRunes(s, func(r rune) bool { return unicode.In(r, unicode.Han) })
+}
+func isDevanagari(s string) bool {
+	return allRunes(s, func(r rune) bool { return unicode.In(r, unicode.Devanagari) })
+}
+func isArabic(s string) bool {
+	return allRunes(s, func(r rune) bool { return unicode.In(r, unicode.Arabic) })
+}
+func isHiragana(s string) bool {
+	return allRunes(s, func(r rune) bool { return unicode.In(r, unicode.Hiragana) })
+}
+func isKatakana(s string) bool {
+	return allRunes(s, func(r rune) bool { return unicode.In(r, unicode.Katakana) })
+}
+func isHangul(s string) bool {
+	return allRunes(s, func(r rune) bool { return unicode.In(r, unicode.Hangul) })
+}
+func isTamil(s string) bool {
+	return allRunes(s, func(r rune) bool { return unicode.In(r, unicode.Tamil) })
+}
+func isGujarati(s string) bool {
+	return allRunes(s, func(r rune) bool { return unicode.In(r, unicode.Gujarati) })
+}
+func isEthiopic(s string) bool {
+	return allRunes(s, func(r rune) bool { return unicode.In(r, unicode.Ethiopic) })
+}
 
 func isBase64(s string) bool {
 	if s == "" {

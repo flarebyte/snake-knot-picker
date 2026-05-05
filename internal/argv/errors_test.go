@@ -36,4 +36,3 @@ func TestNewValidationDetailPreservesContext(t *testing.T) {
 		t.Fatalf("unexpected path: %#v", detail.Path)
 	}
 }
-

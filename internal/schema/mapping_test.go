@@ -40,4 +40,3 @@ func TestNumberOptionsFromSpec(t *testing.T) {
 		t.Fatalf("unexpected number options: %#v", opts)
 	}
 }
-

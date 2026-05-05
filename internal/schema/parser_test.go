@@ -48,7 +48,11 @@ func TestParseTokensEdgeCaseCSVTokenizeRows(t *testing.T) {
 	if err != nil {
 		t.Fatalf("open edge-case csv: %v", err)
 	}
-	defer file.Close()
+	defer func() {
+		if closeErr := file.Close(); closeErr != nil {
+			t.Fatalf("close edge-case csv: %v", closeErr)
+		}
+	}()
 
 	rows, err := csv.NewReader(file).ReadAll()
 	if err != nil {
@@ -152,4 +156,3 @@ func assertRawEqual(t *testing.T, got, want []string) {
 		}
 	}
 }
-

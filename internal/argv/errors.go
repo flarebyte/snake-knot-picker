@@ -19,4 +19,3 @@ func NewValidationDetail(id string, ctx ErrorContext, params map[string]string) 
 	detail.TupleIndex = ctx.TupleIndex
 	return detail
 }
-

@@ -86,4 +86,3 @@ func TestValidateStringBase64PrefixAndBoolean(t *testing.T) {
 		t.Fatal("expected strict boolean string failure")
 	}
 }
-

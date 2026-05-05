@@ -29,4 +29,3 @@ func (b *CommandBuilder) Build() CommandDocument {
 	out.Flags = append([]CommandFlagDef(nil), b.doc.Flags...)
 	return out
 }
-

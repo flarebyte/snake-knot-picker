@@ -78,4 +78,3 @@ func NumberOptionsFromSpec(spec *CompiledSpec) (validators.NumberOptions, error)
 	}
 	return out, nil
 }
-

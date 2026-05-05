@@ -49,4 +49,3 @@ func TestValidateNumber(t *testing.T) {
 		t.Fatal("expected +Inf failure")
 	}
 }
-

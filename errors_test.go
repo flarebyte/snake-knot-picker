@@ -66,7 +66,7 @@ func TestErrorFixturesCoverEveryKnownID(t *testing.T) {
 
 func TestValidationErrorCollectMultipleDetails(t *testing.T) {
 	err := NewValidationError(ErrorIDValidationRequired, nil)
-	err.Add(NewErrorDetail(ErrorIDValidationString, ErrorKindValidation, map[string]string{"field": "mode"}))
+	err = err.Add(NewErrorDetail(ErrorIDValidationString, ErrorKindValidation, map[string]string{"field": "mode"}))
 	if len(err.Details) != 2 {
 		t.Fatalf("expected 2 details, got %d", len(err.Details))
 	}

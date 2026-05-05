@@ -150,4 +150,3 @@ func flattenList(v picker.Value) []picker.Value {
 	}
 	return []picker.Value{v}
 }
-

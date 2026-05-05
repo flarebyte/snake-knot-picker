@@ -75,4 +75,3 @@ func mustCompile(t *testing.T, c *Compiler, tokens []string) *CompiledSpec {
 	}
 	return spec
 }
-

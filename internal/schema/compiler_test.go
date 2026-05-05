@@ -115,4 +115,3 @@ func assertErrorID(t *testing.T, err error, want string) {
 		t.Fatalf("unexpected id: got=%s want=%s", verr.Details[0].ID, want)
 	}
 }
-

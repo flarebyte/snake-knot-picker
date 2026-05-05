@@ -19,4 +19,3 @@ func NewSchemaDetail(id string, ctx ErrorContext, params map[string]string) pick
 	detail.TupleIndex = ctx.TupleIndex
 	return detail
 }
-
