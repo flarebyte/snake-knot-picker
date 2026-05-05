@@ -64,6 +64,9 @@ var knownFlagArity = map[string]int{
 	"--max-duration":        1,
 	"--starts-with":         1,
 	"--format":              1,
+	"--min":                 1,
+	"--max":                 1,
+	"--multiple-of":         1,
 	"--codepoint-range":     2,
 }
 
@@ -160,4 +163,3 @@ func findFlagValues(flags []ParsedSchemaFlag, name string) []string {
 	}
 	return nil
 }
-
