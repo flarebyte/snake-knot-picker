@@ -1,10 +1,10 @@
 .DEFAULT_GOAL := help
 
-.PHONY: build build-go build-dist test test-go test-unit test-race test-e2e \
-	lint lint-go lint-ts lint-e2e format format-go format-ts format-e2e \
+.PHONY: build test test-go test-unit test-race \
+	lint lint-go lint-ts format format-go format-ts \
 	typecheck-ts review coverage coverage-go \
 	doc-design doc-decision dup complexity release sec \
-	thoth-meta thoth-meta-go thoth-meta-go-test thoth-meta-ts-e2e \
+	thoth-meta thoth-meta-go thoth-meta-go-test \
 	check-tools install-tools-help help
 
 GO := go
@@ -16,8 +16,6 @@ GO_CACHE_DIR := $(ROOT_DIR)/.gocache
 GO_MOD_CACHE_DIR := $(ROOT_DIR)/.gomodcache
 GO_LINT_CACHE_DIR := $(ROOT_DIR)/.golangci-lint-cache
 E2E_BIN_DIR := $(ROOT_DIR)/.e2e-bin
-BUILD_DIR := $(ROOT_DIR)/build
-SEER := $(E2E_BIN_DIR)/seer
 GO_PACKAGES := ./...
 GO_ENV := GOTOOLCHAIN=local GOCACHE=$(GO_CACHE_DIR) GOMODCACHE=$(GO_MOD_CACHE_DIR)
 BUN_ENV := TMPDIR=$(TMP_DIR)
@@ -26,24 +24,12 @@ THOTH := thoth
 GOLINT_ENV := $(GO_ENV) GOLANGCI_LINT_CACHE=$(GO_LINT_CACHE_DIR)
 COVER_PROFILE := $(TMP_DIR)/test-unit.coverage.out
 COVER_HTML := $(TMP_DIR)/test-unit.coverage.html
-VERSION ?= dev
-COMMIT ?= unknown
-BUILD_DATE ?= unknown
-GO_LDFLAGS := -X github.com/flarebyte/baldrick-seer/internal/buildinfo.Version=$(VERSION) -X github.com/flarebyte/baldrick-seer/internal/buildinfo.Commit=$(COMMIT) -X github.com/flarebyte/baldrick-seer/internal/buildinfo.Date=$(BUILD_DATE)
 
-build: build-go build-dist
-
-build-go:
+build:
 	mkdir -p $(TMP_DIR)
-	mkdir -p $(E2E_BIN_DIR)
-	$(GO_ENV) $(GO) build -ldflags "$(GO_LDFLAGS)" -o $(E2E_BIN_DIR)/seer ./cmd/seer
+	$(GO_ENV) $(GO) build $(GO_PACKAGES)
 
-build-dist:
-	mkdir -p $(TMP_DIR)
-	mkdir -p $(BUILD_DIR)
-	$(BUN_ENV) $(BUN) run build-go.ts
-
-test: test-go test-e2e
+test: test-go
 
 test-go: test-unit
 
@@ -62,12 +48,7 @@ coverage-go: test-unit
 	$(GO_ENV) $(GO) tool cover -html=$(COVER_PROFILE) -o $(COVER_HTML)
 	@printf "Coverage HTML: %s\n" "$(COVER_HTML)"
 
-test-e2e: build-go
-	mkdir -p $(TMP_DIR)
-	$(BUN_ENV) $(BUN) install
-	$(BUN_ENV) $(BUN) test ./e2e
-
-lint: lint-go lint-ts lint-e2e
+lint: lint-go lint-ts
 
 lint-go:
 	mkdir -p $(TMP_DIR)
@@ -78,12 +59,7 @@ lint-ts:
 	mkdir -p $(TMP_DIR)
 	$(BUN_ENV) $(BUN) run biome check doc/design-meta/examples
 
-lint-e2e:
-	mkdir -p $(TMP_DIR)
-	$(BUN_ENV) $(BUN) install
-	$(BIOME) check .
-
-format: format-go format-ts format-e2e
+format: format-go format-ts
 
 review: format test lint
 
@@ -101,11 +77,6 @@ format-ts:
 	mkdir -p $(TMP_DIR)
 	$(BUN_ENV) $(BUN) run biome format --write doc/design-meta/examples
 
-format-e2e:
-	mkdir -p $(TMP_DIR)
-	$(BUN_ENV) $(BUN) install
-	$(BIOME) format --write .
-
 typecheck-ts:
 	mkdir -p $(TMP_DIR)
 	$(BUN_ENV) $(BUN) x tsc -p tsconfig.design-meta.json
@@ -117,10 +88,10 @@ doc-design:
 	flyb validate --config doc/design-meta/flows.cue
 	flyb generate markdown --config doc/design-meta/flows.cue
 
-doc-decision: build-go
+doc-decision:
 	mkdir -p doc/decision-meta
 	mkdir -p doc/decision
-	SEER_BIN=$(SEER) sh ./script/generate-decision-docs.sh
+	sh ./script/generate-decision-docs.sh
 
 dup:
 	npx jscpd --format go --min-lines 10 --ignore "**/.gomodcache/**,**/.gocache/**,**/.e2e-bin/**,**/node_modules/**,**/dist/**" --gitignore .
@@ -136,16 +107,13 @@ release:
 sec:
 	semgrep scan --config auto
 
-thoth-meta: thoth-meta-go thoth-meta-go-test thoth-meta-ts-e2e
+thoth-meta: thoth-meta-go thoth-meta-go-test
 
 thoth-meta-go:
 	$(THOTH) run --config ./pipeline-go-maat.thoth.cue
 
 thoth-meta-go-test:
 	$(THOTH) run --config ./pipeline-go-test-maat.thoth.cue
-
-thoth-meta-ts-e2e:
-	$(THOTH) run --config ./pipeline-ts-e2e-maat.thoth.cue
 
 check-tools:
 	@printf "go=%s\n" "$$(command -v $(GO) >/dev/null 2>&1 && printf true || printf false)"
@@ -170,24 +138,19 @@ install-tools-help:
 
 help:
 	@printf "Targets:\n"
-	@printf "  build        Build the E2E binary and release artifacts.\n"
-	@printf "  build-go     Build the Go CLI into .e2e-bin/ for local and E2E use.\n"
-	@printf "  build-dist   Build release binaries for macOS ARM64 and Linux AMD64 into build/.\n"
-	@printf "  test         Run Go tests and Bun E2E tests.\n"
+	@printf "  build        Build all Go packages.\n"
+	@printf "  test         Run Go tests.\n"
 	@printf "  test-go      Run Go test targets.\n"
 	@printf "  test-unit    Run verbose Go tests and print coverage summary.\n"
 	@printf "  test-race    Run Go tests with the race detector.\n"
-	@printf "  test-e2e     Build the CLI and run Bun E2E tests.\n"
 	@printf "  coverage     Generate the coverage HTML report.\n"
 	@printf "  coverage-go  Generate the Go coverage HTML report from test-unit output.\n"
-	@printf "  lint         Run Go linting and Biome checks.\n"
+	@printf "  lint         Run Go linting and TypeScript design-meta lint checks.\n"
 	@printf "  lint-go      Run go vet and golangci-lint.\n"
 	@printf "  lint-ts      Run Biome checks for doc/design-meta TypeScript examples.\n"
-	@printf "  lint-e2e     Run Biome checks for TypeScript and tooling files.\n"
-	@printf "  format       Format Go and Biome-managed files.\n"
+	@printf "  format       Format Go and TypeScript design-meta files.\n"
 	@printf "  format-go    Format Go files with gofmt.\n"
 	@printf "  format-ts    Format doc/design-meta TypeScript examples with Biome.\n"
-	@printf "  format-e2e   Format TypeScript and tooling files with Biome.\n"
 	@printf "  typecheck-ts Type-check doc/design-meta TypeScript examples with tsc.\n"
 	@printf "  review       Run format, test, and lint using existing targets.\n"
 	@printf "  doc-design   Regenerate design docs from flyb configs.\n"
@@ -196,7 +159,7 @@ help:
 	@printf "  complexity   Show top Go and TypeScript files by complexity.\n"
 	@printf "  release      Run the local release helper script.\n"
 	@printf "  sec          Run Semgrep security scan.\n"
-	@printf "  thoth-meta   Refresh thoth metadata for Go, Go tests, and E2E TypeScript.\n"
+	@printf "  thoth-meta   Refresh thoth metadata for Go and Go tests.\n"
 	@printf "  check-tools  Report required tool availability as key=value pairs.\n"
 	@printf "  install-tools-help  Show how to install required tools.\n"
 	@printf "  help         Show this help message.\n"
