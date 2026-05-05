@@ -17,6 +17,22 @@ func (d CommandDocument) ToJSON() ([]byte, error) {
 	return json.Marshal(d)
 }
 
+func ValidateWithDocument(doc CommandDocument, argv []string) (*ParseResult, error) {
+	compiled, err := CompileCommandDocument(doc)
+	if err != nil {
+		return nil, err
+	}
+	return Validate(compiled, argv)
+}
+
+func ValidateWithDocumentJSON(data []byte, argv []string) (*ParseResult, error) {
+	doc, err := ParseCommandDocumentJSON(data)
+	if err != nil {
+		return nil, err
+	}
+	return ValidateWithDocument(doc, argv)
+}
+
 func CompileCommandDocument(doc CommandDocument) (CompiledCommand, error) {
 	if doc.Version == "" {
 		return CompiledCommand{}, NewSchemaError(ErrorIDSchemaInvalidValue, map[string]string{"field": "version"})
@@ -173,4 +189,3 @@ func isSupportedKind(kind string) bool {
 		return false
 	}
 }
-
