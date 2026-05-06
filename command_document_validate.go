@@ -2,59 +2,95 @@ package picker
 
 import "strconv"
 
+const (
+	fieldVersion            = "version"
+	fieldCommandPath        = "commandPath"
+	fieldFlagName           = "flag.name"
+	fieldFlagKind           = "flag.kind"
+	fieldFlagSchema         = "flag.schema"
+	fieldFlagSchemaHead     = "flag.schema.head"
+	fieldFlagSchemaOperator = "flag.schema.operator"
+	fieldFlagSchemas        = "flag.schemas"
+)
+
+type flagCtx struct {
+	name string
+	kind string
+}
+
+type childShape struct {
+	head     string
+	operator string
+	slot     int
+	hasSlot  bool
+}
+
 func validateCommandDocument(doc CommandDocument) error {
 	if doc.Version == "" {
-		return NewSchemaError(ErrorIDSchemaInvalidValue, map[string]string{"field": "version"})
+		return NewSchemaError(ErrorIDSchemaInvalidValue, map[string]string{"field": fieldVersion})
 	}
 	if len(doc.CommandPath) == 0 {
-		return NewSchemaError(ErrorIDSchemaInvalidValue, map[string]string{"field": "commandPath"})
+		return NewSchemaError(ErrorIDSchemaInvalidValue, map[string]string{"field": fieldCommandPath})
 	}
 
 	seenNames := map[string]struct{}{}
 	for _, flag := range doc.Flags {
-		if err := validateFlagDefinition(flag, seenNames); err != nil {
+		ctx, shape, err := validateFlagStructure(flag, seenNames)
+		if err != nil {
+			return err
+		}
+		if err := validateFlagSemantics(ctx, shape, flag.Schemas); err != nil {
 			return err
 		}
 	}
 	return nil
 }
 
-func validateFlagDefinition(flag CommandFlagDef, seenNames map[string]struct{}) error {
+func validateFlagStructure(flag CommandFlagDef, seenNames map[string]struct{}) (flagCtx, primarySchemaShape, error) {
+	ctx := flagCtx{name: flag.Name, kind: flag.Kind}
 	if flag.Name == "" {
-		return NewSchemaError(ErrorIDSchemaInvalidValue, map[string]string{"field": "flag.name"})
+		return ctx, primarySchemaShape{}, NewSchemaError(ErrorIDSchemaInvalidValue, map[string]string{"field": fieldFlagName})
 	}
 	if _, ok := seenNames[flag.Name]; ok {
-		return NewSchemaError(ErrorIDSchemaInvalidCombination, map[string]string{"field": "flag.name", "name": flag.Name})
+		return ctx, primarySchemaShape{}, NewSchemaError(ErrorIDSchemaInvalidCombination, map[string]string{"field": fieldFlagName, "name": flag.Name})
 	}
 	seenNames[flag.Name] = struct{}{}
 
 	if !isSupportedKind(flag.Kind) {
-		return NewSchemaError(ErrorIDSchemaInvalidValue, map[string]string{"field": "flag.kind", "kind": flag.Kind})
+		return ctx, primarySchemaShape{}, NewSchemaError(ErrorIDSchemaInvalidValue, map[string]string{"field": fieldFlagKind, "kind": flag.Kind})
 	}
 	if len(flag.Schema) < 2 {
-		return NewSchemaError(ErrorIDSchemaInvalidValue, map[string]string{"field": "flag.schema", "name": flag.Name})
+		return ctx, primarySchemaShape{}, NewSchemaError(ErrorIDSchemaInvalidValue, map[string]string{"field": fieldFlagSchema, "name": flag.Name})
 	}
 
 	shape, err := parsePrimarySchema(flag.Schema)
 	if err != nil {
-		return err
+		return ctx, primarySchemaShape{}, err
 	}
 	if shape.Head != "schema" && shape.Head != "custom" {
-		return NewSchemaError(ErrorIDSchemaInvalidValue, map[string]string{"field": "flag.schema.head"})
+		return ctx, primarySchemaShape{}, NewSchemaError(ErrorIDSchemaInvalidValue, map[string]string{"field": fieldFlagSchemaHead})
 	}
 	if shape.Head == "custom" && shape.Operator == "" {
-		return NewSchemaError(ErrorIDSchemaInvalidValue, map[string]string{"field": "flag.schema.operator"})
+		return ctx, primarySchemaShape{}, NewSchemaError(ErrorIDSchemaInvalidValue, map[string]string{"field": fieldFlagSchemaOperator})
 	}
+	return ctx, shape, nil
+}
+
+func validateFlagSemantics(ctx flagCtx, shape primarySchemaShape, schemas [][]string) error {
 	if shape.Operator == "tuple" {
-		return validateTupleSchemas(shape.TupleSize, flag.Schemas, flag.Name)
+		return validateTupleSchemas(shape.TupleSize, schemas, ctx.name)
 	}
-	return validateNonTupleSchemas(flag.Schemas, flag.Name)
+	return validateNonTupleSchemas(schemas, ctx.name)
 }
 
 func validateNonTupleSchemas(schemas [][]string, fieldName string) error {
 	for _, child := range schemas {
-		if len(child) < 2 || child[0] != "schema" || child[1] != "repeatable" {
-			return NewSchemaError(ErrorIDSchemaInvalidValue, map[string]string{"field": "flag.schemas", "name": fieldName})
+		shape, err := parseChildSchema(child)
+		if err != nil {
+			return err
+		}
+		if shape.head != "schema" || shape.operator != "repeatable" {
+			return NewSchemaError(ErrorIDSchemaInvalidValue, map[string]string{"field": fieldFlagSchemas, "name": fieldName})
 		}
 	}
 	return nil
@@ -63,26 +99,26 @@ func validateNonTupleSchemas(schemas [][]string, fieldName string) error {
 func validateTupleSchemas(tupleSize int, schemas [][]string, fieldName string) error {
 	seenSlots := map[int]struct{}{}
 	for _, child := range schemas {
-		if len(child) < 2 || child[0] != "schema" {
-			return NewSchemaError(ErrorIDSchemaInvalidValue, map[string]string{"field": fieldName})
-		}
-		if child[1] == "repeatable" {
-			continue
-		}
-		slot, ok, err := parseTupleIndex(child)
+		shape, err := parseChildSchema(child)
 		if err != nil {
 			return err
 		}
-		if !ok {
+		if shape.head != "schema" {
+			return NewSchemaError(ErrorIDSchemaInvalidValue, map[string]string{"field": fieldName})
+		}
+		if shape.operator == "repeatable" {
+			continue
+		}
+		if !shape.hasSlot {
 			return NewSchemaError(ErrorIDSchemaTupleMissingIndex, map[string]string{"field": fieldName})
 		}
-		if slot < 0 || slot >= tupleSize {
+		if shape.slot < 0 || shape.slot >= tupleSize {
 			return NewSchemaError(ErrorIDSchemaTupleIndexOutOfRange, map[string]string{"field": fieldName})
 		}
-		if _, exists := seenSlots[slot]; exists {
+		if _, exists := seenSlots[shape.slot]; exists {
 			return NewSchemaError(ErrorIDSchemaTupleDuplicateSlot, map[string]string{"field": fieldName})
 		}
-		seenSlots[slot] = struct{}{}
+		seenSlots[shape.slot] = struct{}{}
 	}
 	for i := 0; i < tupleSize; i++ {
 		if _, ok := seenSlots[i]; !ok {
@@ -90,6 +126,22 @@ func validateTupleSchemas(tupleSize int, schemas [][]string, fieldName string) e
 		}
 	}
 	return nil
+}
+
+func parseChildSchema(tokens []string) (childShape, error) {
+	if len(tokens) < 2 {
+		return childShape{}, NewSchemaError(ErrorIDSchemaInvalidValue, map[string]string{"field": fieldFlagSchemas})
+	}
+	slot, hasSlot, err := parseTupleIndex(tokens)
+	if err != nil {
+		return childShape{}, err
+	}
+	return childShape{
+		head:     tokens[0],
+		operator: tokens[1],
+		slot:     slot,
+		hasSlot:  hasSlot,
+	}, nil
 }
 
 func parseTupleIndex(tokens []string) (int, bool, error) {
