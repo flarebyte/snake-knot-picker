@@ -15,6 +15,7 @@ func TestEndToEndValidateWithDocumentJSON(t *testing.T) {
 		name      string
 		argv      []string
 		wantErrID string
+		wantKind  string
 		check     func(t *testing.T, got *ParseResult)
 	}{
 		{
@@ -25,17 +26,15 @@ func TestEndToEndValidateWithDocumentJSON(t *testing.T) {
 				if got == nil {
 					t.Fatal("expected parse result")
 				}
-				if got.Values["mode"].String == nil || *got.Values["mode"].String != "normal" {
-					t.Fatalf("unexpected mode: %#v", got.Values["mode"])
+				if len(got.CommandPath) != 2 || got.CommandPath[0] != "wash" || got.CommandPath[1] != "start" {
+					t.Fatalf("unexpected command path: %#v", got.CommandPath)
 				}
-				if got.Values["spin"].Number == nil || *got.Values["spin"].Number != 1200 {
-					t.Fatalf("unexpected spin: %#v", got.Values["spin"])
-				}
-				if got.Values["extra-rinse"].Bool == nil || !*got.Values["extra-rinse"].Bool {
-					t.Fatalf("unexpected extra-rinse: %#v", got.Values["extra-rinse"])
-				}
-				if len(got.Values["range"].Tuple) != 2 {
-					t.Fatalf("unexpected range tuple: %#v", got.Values["range"])
+				assertStringValue(t, got.Values, "mode", "normal")
+				assertNumberValue(t, got.Values, "spin", 1200)
+				assertBoolValue(t, got.Values, "extra-rinse", true)
+				assertTupleStringValues(t, got.Values, "range", "10", "20")
+				if _, exists := got.Values["not-a-flag"]; exists {
+					t.Fatalf("unexpected value key present: not-a-flag")
 				}
 			},
 		},
@@ -43,16 +42,19 @@ func TestEndToEndValidateWithDocumentJSON(t *testing.T) {
 			name:      "runtime-unknown-flag",
 			argv:      []string{"wash", "start", "--not-a-flag", "x"},
 			wantErrID: ErrorIDValidationUnexpectedFlag,
+			wantKind:  ErrorKindValidation,
 		},
 		{
 			name:      "runtime-schema-command-forbidden",
 			argv:      []string{"wash", "start", "schema", "string", "--required"},
 			wantErrID: ErrorIDValidationSchemaCommandForbidden,
+			wantKind:  ErrorKindValidation,
 		},
 		{
 			name:      "runtime-invalid-type",
 			argv:      []string{"wash", "start", "--spin", "abc"},
 			wantErrID: ErrorIDValidationInvalidType,
+			wantKind:  ErrorKindValidation,
 		},
 	}
 
@@ -61,7 +63,10 @@ func TestEndToEndValidateWithDocumentJSON(t *testing.T) {
 		t.Run(tc.name, func(t *testing.T) {
 			got, err := ValidateWithDocumentJSON(raw, tc.argv)
 			if tc.wantErrID != "" {
-				assertDocErrID(t, err, tc.wantErrID)
+				assertErrorDetail(t, err, tc.wantErrID, tc.wantKind)
+				if got != nil {
+					t.Fatalf("expected nil parse result on error, got=%#v", got)
+				}
 				return
 			}
 			if err != nil {
@@ -77,5 +82,5 @@ func TestEndToEndValidateWithDocumentJSON(t *testing.T) {
 func TestEndToEndSchemaErrorHappensBeforeRegistration(t *testing.T) {
 	doc := makeInvalidTupleMissingSlotDoc()
 	_, err := ValidateWithDocument(doc, []string{"wash", "start", "--range", "10,20"})
-	assertDocErrID(t, err, ErrorIDSchemaTupleMissingSlot)
+	assertErrorDetail(t, err, ErrorIDSchemaTupleMissingSlot, ErrorKindSchema)
 }
