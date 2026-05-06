@@ -17,9 +17,6 @@ func ValidateEmail(value string, allowDomains []string) error {
 		return picker.NewValidationError(picker.ErrorIDValidationFormat, map[string]string{"reason": "display_name"})
 	}
 	at := strings.LastIndex(addr.Address, "@")
-	if at <= 0 || at+1 >= len(addr.Address) {
-		return picker.NewValidationError(picker.ErrorIDValidationFormat, map[string]string{"format": "email"})
-	}
 	domain := strings.ToLower(addr.Address[at+1:])
 	if len(allowDomains) > 0 {
 		ok := false

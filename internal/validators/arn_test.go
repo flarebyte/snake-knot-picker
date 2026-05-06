@@ -23,10 +23,29 @@ func TestValidateARN(t *testing.T) {
 	if err := ValidateARN("arn:aws:sns:us-east-2:000000000000:example-sns-topic-name", opts); err == nil {
 		t.Fatal("expected account allow-list failure")
 	}
+	if err := ValidateARN("arn:aws-cn:sns:us-east-2:123456789012:example-sns-topic-name", opts); err == nil {
+		t.Fatal("expected partition allow-list failure")
+	}
 	if err := ValidateARN("arn:aws:sns:us-east-2:123456789012:other", opts); err == nil {
 		t.Fatal("expected resource allow-list failure")
 	}
 	if err := ValidateARN("arn:aws:sns", opts); err == nil {
 		t.Fatal("expected malformed arn failure")
+	}
+}
+
+func TestValidateARNAdditionalBranches(t *testing.T) {
+	// Empty allow-lists should allow valid ARN parts.
+	open := ARNOptions{}
+	if err := ValidateARN("arn:aws:s3:::bucket-name", open); err != nil {
+		t.Fatalf("unexpected open allow-list rejection: %v", err)
+	}
+	// Malformed: missing service.
+	if err := ValidateARN("arn:aws::us-east-1:123456789012:res", open); err == nil {
+		t.Fatal("expected malformed missing-service rejection")
+	}
+	// Malformed: missing resource.
+	if err := ValidateARN("arn:aws:sns:us-east-1:123456789012:", open); err == nil {
+		t.Fatal("expected malformed missing-resource rejection")
 	}
 }

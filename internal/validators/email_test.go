@@ -15,4 +15,7 @@ func TestValidateEmail(t *testing.T) {
 	if err := ValidateEmail("not-an-email", nil); err == nil {
 		t.Fatal("expected malformed email rejection")
 	}
+	if err := ValidateEmail("@example.com", nil); err == nil {
+		t.Fatal("expected missing local-part rejection")
+	}
 }

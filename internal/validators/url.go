@@ -21,7 +21,13 @@ type URLOptions struct {
 
 func ValidateURL(value string, opt URLOptions) error {
 	u, err := url.Parse(value)
-	if err != nil || u.Scheme == "" || u.Host == "" {
+	if err != nil || u.Scheme == "" {
+		return picker.NewValidationError(picker.ErrorIDValidationFormat, map[string]string{"format": "url"})
+	}
+	if u.Opaque != "" {
+		return picker.NewValidationError(picker.ErrorIDValidationFormat, map[string]string{"reason": "opaque"})
+	}
+	if u.Host == "" {
 		return picker.NewValidationError(picker.ErrorIDValidationFormat, map[string]string{"format": "url"})
 	}
 	if u.Scheme != "http" && u.Scheme != "https" {
@@ -63,9 +69,6 @@ func ValidateURL(value string, opt URLOptions) error {
 		if !ok {
 			return picker.NewValidationError(picker.ErrorIDValidationFormat, map[string]string{"reason": "domain"})
 		}
-	}
-	if u.Opaque != "" {
-		return picker.NewValidationError(picker.ErrorIDValidationFormat, map[string]string{"reason": "opaque"})
 	}
 	return nil
 }

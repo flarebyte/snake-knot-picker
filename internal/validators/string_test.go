@@ -19,6 +19,10 @@ func TestParseEnumCandidates(t *testing.T) {
 	if err == nil {
 		t.Fatal("expected empty enum definition error")
 	}
+	values, err = ParseEnumCandidates("red,green,blue", "")
+	if err != nil || len(values) != 3 {
+		t.Fatalf("unexpected default-separator parse: values=%v err=%v", values, err)
+	}
 }
 
 func TestValidateStringEnumNoRuntimeTrim(t *testing.T) {
@@ -40,8 +44,19 @@ func TestValidateStringClassesAndScripts(t *testing.T) {
 	}{
 		{name: "alphabetic-ok", value: "AbCd", options: StringOptions{Alphabetic: true}},
 		{name: "alphabetic-fail", value: "abc1", options: StringOptions{Alphabetic: true}, wantErr: true},
+		{name: "whitespace-ok", value: " \n\t", options: StringOptions{Whitespace: true}},
+		{name: "whitespace-fail", value: "a ", options: StringOptions{Whitespace: true}, wantErr: true},
+		{name: "lowercase-ok", value: "abc", options: StringOptions{Lowercase: true}},
+		{name: "lowercase-fail", value: "Abc", options: StringOptions{Lowercase: true}, wantErr: true},
+		{name: "uppercase-ok", value: "ABC", options: StringOptions{Uppercase: true}},
+		{name: "uppercase-fail", value: "ABc", options: StringOptions{Uppercase: true}, wantErr: true},
+		{name: "punctuation-ok", value: "!?.", options: StringOptions{Punctuation: true}},
+		{name: "punctuation-fail", value: "a!", options: StringOptions{Punctuation: true}, wantErr: true},
 		{name: "hexa-ok", value: "0A1f", options: StringOptions{Hexa: true}},
 		{name: "blank-ok", value: " \t\t", options: StringOptions{Blank: true}},
+		{name: "unicode-punctuation-ok", value: "。！？", options: StringOptions{UnicodePunctuation: true}},
+		{name: "unicode-symbol-ok", value: "∞∑★", options: StringOptions{UnicodeSymbol: true}},
+		{name: "unicode-separator-ok", value: "\u2003 \t", options: StringOptions{UnicodeSeparator: true}},
 		{name: "unicode-letter-ok", value: "東京", options: StringOptions{UnicodeLetter: true}},
 		{name: "unicode-number-ok", value: "١٢٣", options: StringOptions{UnicodeNumber: true}},
 		{name: "latin-ok", value: "resume", options: StringOptions{Latin: true}},
@@ -70,6 +85,9 @@ func TestValidateStringBase64PrefixAndBoolean(t *testing.T) {
 	if err := ValidateString("aGVsbG8=", StringOptions{Base64: true}); err != nil {
 		t.Fatalf("unexpected base64 error: %v", err)
 	}
+	if err := ValidateString("", StringOptions{Base64: true}); err == nil {
+		t.Fatal("expected empty base64 rejection")
+	}
 	if err := ValidateString("not-base64", StringOptions{Base64: true}); err == nil {
 		t.Fatal("expected invalid base64 error")
 	}
@@ -84,5 +102,11 @@ func TestValidateStringBase64PrefixAndBoolean(t *testing.T) {
 	}
 	if err := ValidateString("True", StringOptions{BooleanString: true}); err == nil {
 		t.Fatal("expected strict boolean string failure")
+	}
+}
+
+func TestValidateStringEmptyInputFailsClassChecks(t *testing.T) {
+	if err := ValidateString("", StringOptions{Alphabetic: true}); err == nil {
+		t.Fatal("expected empty input to fail class checks")
 	}
 }

@@ -15,4 +15,7 @@ func TestValidateColor(t *testing.T) {
 	if err := ValidateColor("rgb(1,2,3)", "hex", true); err == nil {
 		t.Fatal("expected css color rejection")
 	}
+	if err := ValidateColor("#A1B2C3", "rgb", true); err == nil {
+		t.Fatal("expected unsupported format rejection")
+	}
 }
