@@ -95,20 +95,11 @@ func TestCommandDocumentCompileErrors(t *testing.T) {
 		},
 		{
 			name: "tuple-missing-slot",
-			doc: CommandDocument{
-				Version:     "1",
-				CommandPath: []string{"wash"},
-				Flags: []CommandFlagDef{
-					{
-						Kind:   "tuple",
-						Name:   "range",
-						Schema: []string{"schema", "tuple", "--size", "2"},
-						Schemas: [][]string{
-							{"schema", "number", "--tuple", "0", "--int"},
-						},
-					},
-				},
-			},
+			doc: func() CommandDocument {
+				doc := makeInvalidTupleMissingSlotDoc()
+				doc.CommandPath = []string{"wash"}
+				return doc
+			}(),
 			id: ErrorIDSchemaTupleMissingSlot,
 		},
 	}

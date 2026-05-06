@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/flarebyte/snake-knot-picker"
+	"github.com/flarebyte/snake-knot-picker/internal/testutil"
 )
 
 func TestCompileArgsCommandFixtures(t *testing.T) {
@@ -104,14 +105,5 @@ func TestRegistryDuplicateRegistration(t *testing.T) {
 
 func assertErrorID(t *testing.T, err error, want string) {
 	t.Helper()
-	if err == nil {
-		t.Fatalf("expected error %s", want)
-	}
-	verr, ok := err.(*picker.ValidationError)
-	if !ok || len(verr.Details) == 0 {
-		t.Fatalf("expected structured error, got %T", err)
-	}
-	if verr.Details[0].ID != want {
-		t.Fatalf("unexpected id: got=%s want=%s", verr.Details[0].ID, want)
-	}
+	_ = testutil.MustValidationErrorWithID(t, err, want)
 }

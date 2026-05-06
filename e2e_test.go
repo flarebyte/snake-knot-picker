@@ -75,20 +75,7 @@ func TestEndToEndValidateWithDocumentJSON(t *testing.T) {
 }
 
 func TestEndToEndSchemaErrorHappensBeforeRegistration(t *testing.T) {
-	doc := CommandDocument{
-		Version:     "1",
-		CommandPath: []string{"wash", "start"},
-		Flags: []CommandFlagDef{
-			{
-				Kind:   "tuple",
-				Name:   "range",
-				Schema: []string{"schema", "tuple", "--size", "2"},
-				Schemas: [][]string{
-					{"schema", "number", "--tuple", "0", "--int"},
-				},
-			},
-		},
-	}
+	doc := makeInvalidTupleMissingSlotDoc()
 	_, err := ValidateWithDocument(doc, []string{"wash", "start", "--range", "10,20"})
 	assertDocErrID(t, err, ErrorIDSchemaTupleMissingSlot)
 }
