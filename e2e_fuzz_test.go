@@ -22,6 +22,19 @@ func FuzzE2EValidateWithDocumentJSON(f *testing.F) {
 	})
 }
 
+func FuzzE2EValidateWithDocumentJSONFactory(f *testing.F) {
+	fixture := mustLoadArgsCommandFixture(f)
+	f.Add(string(fixture), []byte{1, 2, 3, 4})
+	f.Add(string(fixture), []byte{9, 8, 7, 6, 5})
+	f.Add(string(fixture), []byte{255, 0, 127})
+
+	f.Fuzz(func(t *testing.T, rawDoc string, noise []byte) {
+		argv := buildRandomWashStartArgv(noise)
+		got, err := ValidateWithDocumentJSON([]byte(rawDoc), argv)
+		assertE2EResultInvariant(t, got, err)
+	})
+}
+
 func FuzzE2EValidateCompiledRuntime(f *testing.F) {
 	compiled := mustCompileArgsCommandFixture(f)
 
@@ -46,6 +59,43 @@ func FuzzE2EValidateCompiledRuntime(f *testing.F) {
 				}
 			}
 		}
+	})
+}
+
+func FuzzE2EValidateCompiledRuntimeFactory(f *testing.F) {
+	compiled := mustCompileArgsCommandFixture(f)
+	f.Add([]byte{1, 2, 3})
+	f.Add([]byte{4, 5, 6, 7})
+
+	f.Fuzz(func(t *testing.T, noise []byte) {
+		argv := buildRandomWashStartArgv(noise)
+		got, err := Validate(compiled, argv)
+		assertE2EResultInvariant(t, got, err)
+	})
+}
+
+func FuzzE2ETupleRepeatableWithDocumentJSONFactory(f *testing.F) {
+	fixture := mustLoadArgsCommandFixture(f)
+	f.Add(string(fixture), []byte{10, 20, 30})
+	f.Add(string(fixture), []byte{0, 1, 2, 3, 4})
+	f.Add(string(fixture), []byte{255, 128, 64, 32})
+
+	f.Fuzz(func(t *testing.T, rawDoc string, noise []byte) {
+		argv := buildRandomTupleRepeatableArgv(noise)
+		got, err := ValidateWithDocumentJSON([]byte(rawDoc), argv)
+		assertE2EResultInvariant(t, got, err)
+	})
+}
+
+func FuzzE2ETupleRepeatableCompiledFactory(f *testing.F) {
+	compiled := mustCompileArgsCommandFixture(f)
+	f.Add([]byte{42, 7, 99})
+	f.Add([]byte{3, 3, 3, 3})
+
+	f.Fuzz(func(t *testing.T, noise []byte) {
+		argv := buildRandomTupleRepeatableArgv(noise)
+		got, err := Validate(compiled, argv)
+		assertE2EResultInvariant(t, got, err)
 	})
 }
 
