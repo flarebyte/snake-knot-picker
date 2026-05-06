@@ -2,7 +2,29 @@ package picker
 
 import (
 	"fmt"
-	"strconv"
+)
+
+var (
+	interestingModeValues = []string{
+		"normal", "delicate", "whites",
+		"", " normal", "normal ", "NORMAL", "nørmal",
+	}
+	interestingSpinValues = []string{
+		"-1", "0", "1", "1200", "999999999", "9223372036854775807",
+		"abc", "1e309", "NaN", "+12", "12x",
+	}
+	interestingTupleValues = []string{
+		"0,1", "-1,0", "1,2,3", "1", "", ",", " , ",
+		"10,20", "000,001", "1e2,2e2", "x,y",
+	}
+	interestingAddValues = []string{
+		"soap", "bleach", "softener", "",
+		"soap,bleach", "soap,,bleach", ",soap", "soap,",
+		" soap ", "x", "x,y,z",
+	}
+	interestingUnknownFlags = []string{
+		"--not-a-flag", "--unknown", "--__proto__", "--modee",
+	}
 )
 
 type fuzzRand struct {
@@ -57,9 +79,9 @@ func buildRandomWashStartArgv(data []byte) []string {
 	case 0:
 		// Valid-ish scenario with randomized values and order.
 		flags := []string{
-			fmt.Sprintf("--mode=%s", r.pick([]string{"normal", "delicate", "whites"})),
-			fmt.Sprintf("--spin=%s", strconv.Itoa(200+r.intn(2600))),
-			fmt.Sprintf("--range=%d,%d", r.intn(100), r.intn(100)),
+			fmt.Sprintf("--mode=%s", r.pick(interestingModeValues)),
+			fmt.Sprintf("--spin=%s", r.pick(interestingSpinValues)),
+			fmt.Sprintf("--range=%s", r.pick(interestingTupleValues)),
 		}
 		if r.bool() {
 			flags = append(flags, "--extra-rinse")
@@ -68,23 +90,23 @@ func buildRandomWashStartArgv(data []byte) []string {
 		argv = append(argv, flags...)
 	case 1:
 		// Unknown flag scenario.
-		argv = append(argv, "--not-a-flag", r.pick([]string{"x", "y", "z", "123"}))
+		argv = append(argv, r.pick(interestingUnknownFlags), r.pick([]string{"x", "y", "z", "", "123"}))
 	case 2:
 		// Schema command injection attempt.
 		argv = append(argv, "schema", "string", "--required")
 	case 3:
 		// Invalid type for number.
-		argv = append(argv, "--spin", r.pick([]string{"abc", "12x", "∞"}))
+		argv = append(argv, "--spin", r.pick(interestingSpinValues))
 	default:
 		// Mixed flag forms and shuffled order.
 		flags := []string{
-			"--mode", r.pick([]string{"normal", "delicate"}),
-			"--range", fmt.Sprintf("%d,%d", r.intn(100), r.intn(100)),
+			"--mode", r.pick(interestingModeValues),
+			"--range", r.pick(interestingTupleValues),
 		}
 		if r.bool() {
-			flags = append(flags, "--spin", strconv.Itoa(r.intn(3000)))
+			flags = append(flags, "--spin", r.pick(interestingSpinValues))
 		} else {
-			flags = append(flags, fmt.Sprintf("--spin=%d", r.intn(3000)))
+			flags = append(flags, fmt.Sprintf("--spin=%s", r.pick(interestingSpinValues)))
 		}
 		r.shuffle(flags)
 		argv = append(argv, flags...)
@@ -101,36 +123,36 @@ func buildRandomTupleRepeatableArgv(data []byte) []string {
 	case 0:
 		// Valid tuple + repeatable list with randomized order.
 		flags := []string{
-			fmt.Sprintf("--range=%d,%d", r.intn(100), r.intn(100)),
-			"--add", r.pick([]string{"soap", "bleach", "softener"}),
-			fmt.Sprintf("--add=%s,%s", r.pick([]string{"x", "y", "z"}), r.pick([]string{"a", "b", "c"})),
+			fmt.Sprintf("--range=%s", r.pick(interestingTupleValues)),
+			"--add", r.pick(interestingAddValues),
+			fmt.Sprintf("--add=%s", r.pick(interestingAddValues)),
 		}
 		r.shuffle(flags)
 		argv = append(argv, flags...)
 	case 1:
 		// Tuple arity too small.
-		argv = append(argv, "--range", strconv.Itoa(r.intn(100)))
+		argv = append(argv, "--range", r.pick([]string{"", "1", "-1", "x"}))
 	case 2:
 		// Tuple arity too large.
-		argv = append(argv, "--range", fmt.Sprintf("%d,%d,%d", r.intn(100), r.intn(100), r.intn(100)))
+		argv = append(argv, "--range", r.pick([]string{"1,2,3", "0,0,0,0", "-1,0,1"}))
 	case 3:
 		// Empty tuple payload.
 		argv = append(argv, "--range", "")
 	case 4:
 		// Repeatable only.
 		argv = append(argv,
-			"--add", r.pick([]string{"soap", "bleach"}),
-			"--add", r.pick([]string{"rinse", "freshener"}),
+			"--add", r.pick(interestingAddValues),
+			"--add", r.pick(interestingAddValues),
 		)
 	case 5:
 		// Mixed malformed + unknown.
-		argv = append(argv, "--add", "--unknown", "x")
+		argv = append(argv, "--add", r.pick(interestingUnknownFlags), "x")
 	default:
 		// Valid-ish tuple, mode and spin shuffled around.
 		flags := []string{
-			fmt.Sprintf("--range=%d,%d", r.intn(100), r.intn(100)),
-			fmt.Sprintf("--mode=%s", r.pick([]string{"normal", "delicate", "whites"})),
-			fmt.Sprintf("--spin=%d", 200+r.intn(2600)),
+			fmt.Sprintf("--range=%s", r.pick(interestingTupleValues)),
+			fmt.Sprintf("--mode=%s", r.pick(interestingModeValues)),
+			fmt.Sprintf("--spin=%s", r.pick(interestingSpinValues)),
 		}
 		r.shuffle(flags)
 		argv = append(argv, flags...)
