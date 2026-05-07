@@ -134,3 +134,62 @@ func TestE2ETokenizedArgvDeterminism(t *testing.T) {
 		t.Fatalf("non-deterministic repeatable list length: got1=%d got2=%d", len(got1.Values["add"].List), len(got2.Values["add"].List))
 	}
 }
+
+func TestE2ETokenizedArgvRepeatedNonRepeatableLastWins(t *testing.T) {
+	raw := mustLoadArgsCommandFixture(t)
+	argv := []string{"wash", "start", "--mode", "normal", "--mode", "delicate", "--spin", "1200", "--range", "10,20"}
+
+	got, err := ValidateWithDocumentJSON(raw, argv)
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	assertStringValue(t, got.Values, "mode", "delicate")
+}
+
+func TestE2ETokenizedArgvRepeatableEmptySegmentsContract(t *testing.T) {
+	raw := mustLoadArgsCommandFixture(t)
+
+	// Empty CSV segments are dropped when there are non-empty segments.
+	gotA, errA := ValidateWithDocumentJSON(raw, []string{"wash", "start", "--mode", "normal", "--spin", "1200", "--range", "10,20", "--add=a,,b"})
+	if errA != nil {
+		t.Fatalf("unexpected error for add=a,,b: %v", errA)
+	}
+	if len(gotA.Values["add"].List) != 2 {
+		t.Fatalf("unexpected list length for add=a,,b: %#v", gotA.Values["add"])
+	}
+	assertTupleStringValues(t, map[string]Value{"tmp": {Tuple: gotA.Values["add"].List}}, "tmp", "a", "b")
+
+	// Entirely empty value is preserved as one empty item.
+	gotB, errB := ValidateWithDocumentJSON(raw, []string{"wash", "start", "--mode", "normal", "--spin", "1200", "--range", "10,20", "--add="})
+	if errB != nil {
+		t.Fatalf("unexpected error for add=: %v", errB)
+	}
+	if len(gotB.Values["add"].List) != 1 || gotB.Values["add"].List[0].String == nil || *gotB.Values["add"].List[0].String != "" {
+		t.Fatalf("unexpected list for add=: %#v", gotB.Values["add"])
+	}
+}
+
+func TestE2ETokenizedArgvRepeatableMixedFormsOrdering(t *testing.T) {
+	raw := mustLoadArgsCommandFixture(t)
+	argv := []string{"wash", "start", "--mode", "normal", "--spin", "1200", "--range", "10,20", "--add", "a", "--add=b,c", "--add", "d"}
+
+	got, err := ValidateWithDocumentJSON(raw, argv)
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if len(got.Values["add"].List) != 4 {
+		t.Fatalf("unexpected list length: %#v", got.Values["add"])
+	}
+	assertTupleStringValues(t, map[string]Value{"tmp": {Tuple: got.Values["add"].List}}, "tmp", "a", "b", "c", "d")
+}
+
+func TestE2ETokenizedArgvRepeatedTupleLastWins(t *testing.T) {
+	raw := mustLoadArgsCommandFixture(t)
+	argv := []string{"wash", "start", "--mode", "normal", "--spin", "1200", "--range", "1,2", "--range", "3,4"}
+
+	got, err := ValidateWithDocumentJSON(raw, argv)
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	assertTupleStringValues(t, got.Values, "range", "3", "4")
+}
