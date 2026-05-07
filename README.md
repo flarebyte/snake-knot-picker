@@ -10,6 +10,9 @@ It is designed for two use cases:
 2. strict user-side validation for untrusted input
 
 Users only provide command argv. They never define schemas or register new commands.
+Primary runtime usage is a tokenized argv list (`[]string`), for example:
+`[]string{"wash", "start", "--spin", "1200"}`.
+A single argv-like string can be supported as a convenience, but `[]string` is the intended API contract.
 
 ## What it supports
 
