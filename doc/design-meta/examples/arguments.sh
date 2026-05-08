@@ -6,9 +6,10 @@ wash start delicate --temp warm
 
 # Integer flags
 wash start normal --spin 1200
-wash start normal --spin=1200
+## KO inline value syntax is not supported:
+# wash start normal --spin=1200
 # OK ["--spin", "1200", "cottons"]
-# OK ["--spin=1200", "cottons"]
+# KO ["--spin=1200", "cottons"]
 # KO ["--spin 1200", "cottons"]
 
 # Boolean flags

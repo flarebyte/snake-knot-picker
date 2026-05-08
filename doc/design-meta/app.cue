@@ -212,11 +212,11 @@ wash start delicate --temp warm
 
 # Integer flags
 wash start normal --spin 1200
-wash start normal --spin=1200
+# KO wash start normal --spin=1200
 
 # Repeatable values
-wash --add=bleach,softener,scent-beads
-wash --add=bleach --add=softener
+wash --add bleach,softener,scent-beads
+wash --add bleach --add softener
 
 # Boolean flags
 wash start bedding --extra-rinse

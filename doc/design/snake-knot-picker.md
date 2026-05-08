@@ -363,7 +363,7 @@ wash start delicate --temp warm
 
 # Integer flags
 wash start normal --spin 1200
-wash start normal --spin=1200
+# KO wash start normal --spin=1200
 
 # Repeatable values
 wash start whites --add bleach --add softener
@@ -382,6 +382,7 @@ wash start --options delicate,extra-rinse --options pre-wash
 
 Repeatable runtime flags intentionally require tokenized argv form (`--add value`) and reject inline form (`--add=value`).  
 Reason: it reduces parser ambiguity between flags and values, keeps repeated-value handling deterministic, and narrows the risk of flag-like payloads being interpreted inconsistently across parsing paths.
+Runtime input is `[]string` argv only; single-line string parsing convenience is intentionally not part of the runtime API.
 
 ### 03 Admin and User API Types
 
