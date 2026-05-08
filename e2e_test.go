@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestEndToEndCaseBListArgvIsPrimary(t *testing.T) {
+func TestEndToEndTokenizedArgvIsPrimary(t *testing.T) {
 	raw := mustLoadArgsCommandFixture(t)
 	argv := []string{"wash", "start", "--mode", "normal", "--spin", "1200", "--extra-rinse", "--range", "10,20"}
 
@@ -20,40 +20,6 @@ func TestEndToEndCaseBListArgvIsPrimary(t *testing.T) {
 	assertNumberValue(t, got.Values, "spin", 1200)
 	assertBoolValue(t, got.Values, "extra-rinse", true)
 	assertTupleStringValues(t, got.Values, "range", "10", "20")
-}
-
-func TestEndToEndCaseAStringArgvIsConvenienceOnly(t *testing.T) {
-	raw := mustLoadArgsCommandFixture(t)
-	line := "wash start --mode normal --spin 1200 --extra-rinse --range 10,20"
-
-	got, err := ValidateWithDocumentJSONArgvString(raw, line)
-	if err != nil {
-		t.Fatalf("unexpected error for argv string convenience: %v", err)
-	}
-	if got == nil {
-		t.Fatal("expected parse result")
-	}
-	assertStringValue(t, got.Values, "mode", "normal")
-	assertNumberValue(t, got.Values, "spin", 1200)
-	assertBoolValue(t, got.Values, "extra-rinse", true)
-	assertTupleStringValues(t, got.Values, "range", "10", "20")
-}
-
-func TestEndToEndCaseAStringArgvQuotedValueLimitation(t *testing.T) {
-	raw := mustLoadArgsCommandFixture(t)
-
-	// Primary API (case B): caller controls tokenization, so spaces in values are preserved.
-	listArgv := []string{"wash", "start", "--mode", "normal with space", "--spin", "1200", "--range", "10,20"}
-	listGot, listErr := ValidateWithDocumentJSON(raw, listArgv)
-	if listErr != nil {
-		t.Fatalf("unexpected case B error: %v", listErr)
-	}
-	assertStringValue(t, listGot.Values, "mode", "normal with space")
-
-	// Convenience API (case A): strings.Fields does not preserve shell-style quoting.
-	line := `wash start --mode "normal with space" --spin 1200 --range 10,20`
-	_, err := ValidateWithDocumentJSONArgvString(raw, line)
-	assertErrorDetail(t, err, ErrorIDValidationInvalidType, ErrorKindValidation)
 }
 
 func TestEndToEndValidateWithDocumentJSON(t *testing.T) {
