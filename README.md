@@ -13,6 +13,7 @@ Users only provide command argv. They never define schemas or register new comma
 Primary runtime usage is a tokenized argv list (`[]string`), for example:
 `[]string{"wash", "start", "--spin", "1200"}`.
 A single argv-like string can be supported as a convenience, but `[]string` is the intended API contract.
+For repeatable flags, use tokenized form (`[]string{"--add", "value"}`); inline repeatable form (`--add=value`) is rejected by design.
 
 ## What it supports
 

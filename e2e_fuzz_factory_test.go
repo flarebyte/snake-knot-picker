@@ -125,7 +125,7 @@ func buildRandomTupleRepeatableArgv(data []byte) []string {
 		flags := []string{
 			fmt.Sprintf("--range=%s", r.pick(interestingTupleValues)),
 			"--add", r.pick(interestingAddValues),
-			fmt.Sprintf("--add=%s", r.pick(interestingAddValues)),
+			"--add", r.pick(interestingAddValues),
 		}
 		r.shuffle(flags)
 		argv = append(argv, flags...)

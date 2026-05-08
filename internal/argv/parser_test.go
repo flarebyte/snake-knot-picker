@@ -27,7 +27,7 @@ func TestParserValidPathsAndFlagForms(t *testing.T) {
 		"--spin", "1200",
 		"--range=10,20",
 		"--add", "soap",
-		"--add=bleach,rinse",
+		"--add", "bleach,rinse",
 	})
 	if err != nil {
 		t.Fatalf("parse failed: %v", err)
@@ -59,6 +59,7 @@ func TestParserErrors(t *testing.T) {
 		Flags: []picker.CompiledFlag{
 			{Kind: "string", Name: "mode"},
 			{Kind: "tuple", Name: "range", TupleSize: 2},
+			{Kind: "string", Name: "add", Repeatable: true},
 		},
 	}
 	cases := []struct {
@@ -70,6 +71,7 @@ func TestParserErrors(t *testing.T) {
 		{name: "schema-injection", argv: []string{"wash", "start", "schema", "string"}, id: picker.ErrorIDValidationSchemaCommandForbidden},
 		{name: "missing-value", argv: []string{"wash", "start", "--mode"}, id: picker.ErrorIDValidationInvalidType},
 		{name: "tuple-arity", argv: []string{"wash", "start", "--range", "10"}, id: picker.ErrorIDValidationTuple},
+		{name: "repeatable-inline-forbidden", argv: []string{"wash", "start", "--mode", "normal", "--range", "10,20", "--add=x"}, id: picker.ErrorIDValidationInvalidType},
 		{name: "non-flag-token", argv: []string{"wash", "start", "oops"}, id: picker.ErrorIDValidationInvalidType},
 	}
 	for _, tc := range cases {

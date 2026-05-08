@@ -104,7 +104,7 @@ func TestParseRuntimeArgvPatterns(t *testing.T) {
 		"--mode=normal",
 		"--spin", "900",
 		"--range", "10,20",
-		"--add=soap",
+		"--add", "soap",
 		"--add", "rinse,bleach",
 	})
 	if err != nil {

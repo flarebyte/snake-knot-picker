@@ -26,7 +26,7 @@ func TestE2ETokenizedArgvFlagFormParity(t *testing.T) {
 
 func TestE2ETokenizedArgvRepeatableMix(t *testing.T) {
 	raw := mustLoadArgsCommandFixture(t)
-	argv := []string{"wash", "start", "--add=a,b", "--add", "c", "--mode", "normal", "--spin", "1200", "--range", "10,20"}
+	argv := []string{"wash", "start", "--add", "a,b", "--add", "c", "--mode", "normal", "--spin", "1200", "--range", "10,20"}
 	got, err := ValidateWithDocumentJSON(raw, argv)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -150,7 +150,7 @@ func TestE2ETokenizedArgvRepeatableEmptySegmentsContract(t *testing.T) {
 	raw := mustLoadArgsCommandFixture(t)
 
 	// Empty CSV segments are dropped when there are non-empty segments.
-	gotA, errA := ValidateWithDocumentJSON(raw, []string{"wash", "start", "--mode", "normal", "--spin", "1200", "--range", "10,20", "--add=a,,b"})
+	gotA, errA := ValidateWithDocumentJSON(raw, []string{"wash", "start", "--mode", "normal", "--spin", "1200", "--range", "10,20", "--add", "a,,b"})
 	if errA != nil {
 		t.Fatalf("unexpected error for add=a,,b: %v", errA)
 	}
@@ -160,7 +160,7 @@ func TestE2ETokenizedArgvRepeatableEmptySegmentsContract(t *testing.T) {
 	assertTupleStringValues(t, map[string]Value{"tmp": {Tuple: gotA.Values["add"].List}}, "tmp", "a", "b")
 
 	// Entirely empty value is preserved as one empty item.
-	gotB, errB := ValidateWithDocumentJSON(raw, []string{"wash", "start", "--mode", "normal", "--spin", "1200", "--range", "10,20", "--add="})
+	gotB, errB := ValidateWithDocumentJSON(raw, []string{"wash", "start", "--mode", "normal", "--spin", "1200", "--range", "10,20", "--add", ""})
 	if errB != nil {
 		t.Fatalf("unexpected error for add=: %v", errB)
 	}
@@ -171,7 +171,7 @@ func TestE2ETokenizedArgvRepeatableEmptySegmentsContract(t *testing.T) {
 
 func TestE2ETokenizedArgvRepeatableMixedFormsOrdering(t *testing.T) {
 	raw := mustLoadArgsCommandFixture(t)
-	argv := []string{"wash", "start", "--mode", "normal", "--spin", "1200", "--range", "10,20", "--add", "a", "--add=b,c", "--add", "d"}
+	argv := []string{"wash", "start", "--mode", "normal", "--spin", "1200", "--range", "10,20", "--add", "a", "--add", "b,c", "--add", "d"}
 
 	got, err := ValidateWithDocumentJSON(raw, argv)
 	if err != nil {
@@ -192,4 +192,10 @@ func TestE2ETokenizedArgvRepeatedTupleLastWins(t *testing.T) {
 		t.Fatalf("unexpected error: %v", err)
 	}
 	assertTupleStringValues(t, got.Values, "range", "3", "4")
+}
+
+func TestE2ETokenizedArgvRepeatableInlineIsForbidden(t *testing.T) {
+	raw := mustLoadArgsCommandFixture(t)
+	_, err := ValidateWithDocumentJSON(raw, []string{"wash", "start", "--mode", "normal", "--spin", "1200", "--range", "10,20", "--add=x"})
+	assertErrorDetail(t, err, ErrorIDValidationInvalidType, ErrorKindValidation)
 }
