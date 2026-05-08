@@ -23,9 +23,9 @@ func TestParserValidPathsAndFlagForms(t *testing.T) {
 	got, err := p.Parse(cmd, []string{
 		"wash", "start",
 		"--extra-rinse",
-		"--mode=delicate",
+		"--mode", "delicate",
 		"--spin", "1200",
-		"--range=10,20",
+		"--range", "10,20",
 		"--add", "soap",
 		"--add", "bleach,rinse",
 	})
@@ -71,6 +71,7 @@ func TestParserErrors(t *testing.T) {
 		{name: "schema-injection", argv: []string{"wash", "start", "schema", "string"}, id: picker.ErrorIDValidationSchemaCommandForbidden},
 		{name: "missing-value", argv: []string{"wash", "start", "--mode"}, id: picker.ErrorIDValidationInvalidType},
 		{name: "tuple-arity", argv: []string{"wash", "start", "--range", "10"}, id: picker.ErrorIDValidationTuple},
+		{name: "inline-mode-forbidden", argv: []string{"wash", "start", "--mode=normal", "--range", "10,20"}, id: picker.ErrorIDValidationInvalidType},
 		{name: "repeatable-inline-forbidden", argv: []string{"wash", "start", "--mode", "normal", "--range", "10,20", "--add=x"}, id: picker.ErrorIDValidationInvalidType},
 		{name: "non-flag-token", argv: []string{"wash", "start", "oops"}, id: picker.ErrorIDValidationInvalidType},
 	}

@@ -1,7 +1,14 @@
 package picker
 
 func CompileCommandDocument(doc CommandDocument) (CompiledCommand, error) {
-	if err := validateCommandDocument(doc); err != nil {
+	return CompileCommandDocumentWithOptions(doc, DefaultCompileOptions())
+}
+
+func CompileCommandDocumentWithOptions(doc CommandDocument, options CompileOptions) (CompiledCommand, error) {
+	if options.FlagNameValidator == nil {
+		options.FlagNameValidator = DefaultCompileOptions().FlagNameValidator
+	}
+	if err := validateCommandDocument(doc, options.FlagNameValidator); err != nil {
 		return CompiledCommand{}, err
 	}
 

@@ -2,26 +2,16 @@ package picker
 
 import "testing"
 
-func TestE2ETokenizedArgvFlagFormParity(t *testing.T) {
+func TestE2ETokenizedArgvRejectsInlineKeyValueSyntax(t *testing.T) {
 	raw := mustLoadArgsCommandFixture(t)
-	argvA := []string{"wash", "start", "--mode", "normal", "--spin", "1200", "--range", "10,20"}
-	argvB := []string{"wash", "start", "--mode=normal", "--spin=1200", "--range=10,20"}
-
-	gotA, errA := ValidateWithDocumentJSON(raw, argvA)
-	if errA != nil {
-		t.Fatalf("unexpected error A: %v", errA)
+	okArgv := []string{"wash", "start", "--mode", "normal", "--spin", "1200", "--range", "10,20"}
+	_, okErr := ValidateWithDocumentJSON(raw, okArgv)
+	if okErr != nil {
+		t.Fatalf("unexpected tokenized argv error: %v", okErr)
 	}
-	gotB, errB := ValidateWithDocumentJSON(raw, argvB)
-	if errB != nil {
-		t.Fatalf("unexpected error B: %v", errB)
-	}
-
-	assertStringValue(t, gotA.Values, "mode", "normal")
-	assertStringValue(t, gotB.Values, "mode", "normal")
-	assertNumberValue(t, gotA.Values, "spin", 1200)
-	assertNumberValue(t, gotB.Values, "spin", 1200)
-	assertTupleStringValues(t, gotA.Values, "range", "10", "20")
-	assertTupleStringValues(t, gotB.Values, "range", "10", "20")
+	inlineArgv := []string{"wash", "start", "--mode=normal", "--spin=1200", "--range=10,20"}
+	_, inlineErr := ValidateWithDocumentJSON(raw, inlineArgv)
+	assertErrorDetail(t, inlineErr, ErrorIDValidationInvalidType, ErrorKindValidation)
 }
 
 func TestE2ETokenizedArgvRepeatableMix(t *testing.T) {
@@ -65,11 +55,8 @@ func TestE2ETokenizedArgvBooleanHandling(t *testing.T) {
 	}
 	assertBoolValue(t, gotTrue.Values, "extra-rinse", true)
 
-	gotFalse, errFalse := ValidateWithDocumentJSON(raw, []string{"wash", "start", "--mode", "normal", "--spin", "1200", "--range", "10,20", "--extra-rinse=false"})
-	if errFalse != nil {
-		t.Fatalf("unexpected explicit false boolean error: %v", errFalse)
-	}
-	assertBoolValue(t, gotFalse.Values, "extra-rinse", false)
+	_, errFalse := ValidateWithDocumentJSON(raw, []string{"wash", "start", "--mode", "normal", "--spin", "1200", "--range", "10,20", "--extra-rinse=false"})
+	assertErrorDetail(t, errFalse, ErrorIDValidationInvalidType, ErrorKindValidation)
 }
 
 func TestE2ETokenizedArgvCommandPathVariants(t *testing.T) {

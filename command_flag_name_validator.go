@@ -1,0 +1,54 @@
+package picker
+
+import (
+	"regexp"
+	"unicode"
+)
+
+type FlagNameValidator func(name string) error
+
+type CompileOptions struct {
+	FlagNameValidator FlagNameValidator
+}
+
+func DefaultCompileOptions() CompileOptions {
+	return CompileOptions{
+		FlagNameValidator: DefaultManualFlagNameValidator(),
+	}
+}
+
+func DefaultManualFlagNameValidator() FlagNameValidator {
+	return NewManualFlagNameValidator(1, 64, func(r rune) bool {
+		return unicode.IsLetter(r) || unicode.IsDigit(r) || r == '-' || r == '_' || r == '.'
+	})
+}
+
+func DefaultRegexFlagNameValidator() FlagNameValidator {
+	return NewRegexFlagNameValidator(regexp.MustCompile(`^[A-Za-z0-9._-]+$`), 1, 64)
+}
+
+func NewRegexFlagNameValidator(re *regexp.Regexp, minLen, maxLen int) FlagNameValidator {
+	return func(name string) error {
+		if len(name) < minLen || len(name) > maxLen {
+			return NewSchemaError(ErrorIDSchemaInvalidValue, map[string]string{"field": fieldFlagName, "name": name})
+		}
+		if !re.MatchString(name) {
+			return NewSchemaError(ErrorIDSchemaInvalidValue, map[string]string{"field": fieldFlagName, "name": name})
+		}
+		return nil
+	}
+}
+
+func NewManualFlagNameValidator(minLen, maxLen int, allowedRune func(r rune) bool) FlagNameValidator {
+	return func(name string) error {
+		if len(name) < minLen || len(name) > maxLen {
+			return NewSchemaError(ErrorIDSchemaInvalidValue, map[string]string{"field": fieldFlagName, "name": name})
+		}
+		for _, r := range name {
+			if !allowedRune(r) {
+				return NewSchemaError(ErrorIDSchemaInvalidValue, map[string]string{"field": fieldFlagName, "name": name})
+			}
+		}
+		return nil
+	}
+}

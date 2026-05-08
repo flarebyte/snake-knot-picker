@@ -38,10 +38,8 @@ func Parse(command CompiledCommand, argv []string) (*ParseResult, error) {
 
 		var rawValues []string
 		if hasInline {
-			if def.Repeatable {
-				return nil, NewValidationError(ErrorIDValidationInvalidType, map[string]string{"flag": name})
-			}
-			rawValues = append(rawValues, inline)
+			_ = inline
+			return nil, NewValidationError(ErrorIDValidationInvalidType, map[string]string{"flag": name})
 		} else if def.Kind == "boolean" {
 			rawValues = append(rawValues, "true")
 		} else {

@@ -101,7 +101,7 @@ func TestParseRuntimeArgvPatterns(t *testing.T) {
 	got, err := Parse(cmd, []string{
 		"wash", "start",
 		"--extra-rinse",
-		"--mode=normal",
+		"--mode", "normal",
 		"--spin", "900",
 		"--range", "10,20",
 		"--add", "soap",

@@ -71,7 +71,7 @@ func TestEndToEndValidateWithDocumentJSON(t *testing.T) {
 	}{
 		{
 			name: "valid-basic",
-			argv: []string{"wash", "start", "--mode", "normal", "--spin=1200", "--extra-rinse", "--range", "10,20"},
+			argv: []string{"wash", "start", "--mode", "normal", "--spin", "1200", "--extra-rinse", "--range", "10,20"},
 			check: func(t *testing.T, got *ParseResult) {
 				t.Helper()
 				if got == nil {

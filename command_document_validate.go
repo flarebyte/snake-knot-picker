@@ -25,7 +25,7 @@ type childShape struct {
 	hasSlot  bool
 }
 
-func validateCommandDocument(doc CommandDocument) error {
+func validateCommandDocument(doc CommandDocument, flagNameValidator FlagNameValidator) error {
 	if doc.Version == "" {
 		return NewSchemaError(ErrorIDSchemaInvalidValue, map[string]string{"field": fieldVersion})
 	}
@@ -35,7 +35,7 @@ func validateCommandDocument(doc CommandDocument) error {
 
 	seenNames := map[string]struct{}{}
 	for _, flag := range doc.Flags {
-		ctx, shape, err := validateFlagStructure(flag, seenNames)
+		ctx, shape, err := validateFlagStructure(flag, seenNames, flagNameValidator)
 		if err != nil {
 			return err
 		}
@@ -46,13 +46,16 @@ func validateCommandDocument(doc CommandDocument) error {
 	return nil
 }
 
-func validateFlagStructure(flag CommandFlagDef, seenNames map[string]struct{}) (flagCtx, primarySchemaShape, error) {
+func validateFlagStructure(flag CommandFlagDef, seenNames map[string]struct{}, flagNameValidator FlagNameValidator) (flagCtx, primarySchemaShape, error) {
 	ctx := flagCtx{name: flag.Name, kind: flag.Kind}
 	if flag.Name == "" {
 		return ctx, primarySchemaShape{}, NewSchemaError(ErrorIDSchemaInvalidValue, map[string]string{"field": fieldFlagName})
 	}
 	if _, ok := seenNames[flag.Name]; ok {
 		return ctx, primarySchemaShape{}, NewSchemaError(ErrorIDSchemaInvalidCombination, map[string]string{"field": fieldFlagName, "name": flag.Name})
+	}
+	if err := flagNameValidator(flag.Name); err != nil {
+		return ctx, primarySchemaShape{}, err
 	}
 	seenNames[flag.Name] = struct{}{}
 
