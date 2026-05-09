@@ -93,6 +93,10 @@ func splitFlag(token string) (name, inline string, hasInline bool) {
 }
 
 func parseFlagValue(def CompiledFlag, rawValues []string) (Value, error) {
+	if hasFlagLikeValue(rawValues) {
+		return Value{}, NewValidationError(ErrorIDValidationInvalidType, map[string]string{"flag": def.Name, "kind": def.Kind})
+	}
+
 	switch def.Kind {
 	case "boolean":
 		v := true
@@ -112,6 +116,9 @@ func parseFlagValue(def CompiledFlag, rawValues []string) (Value, error) {
 		return Value{Number: &n}, nil
 	case "tuple":
 		parts := splitCSV(rawValues[0])
+		if hasFlagLikeValue(parts) {
+			return Value{}, NewValidationError(ErrorIDValidationInvalidType, map[string]string{"flag": def.Name, "kind": def.Kind})
+		}
 		if def.TupleSize > 0 && len(parts) != def.TupleSize {
 			return Value{}, NewValidationError(ErrorIDValidationTuple, map[string]string{"flag": def.Name})
 		}
@@ -125,6 +132,9 @@ func parseFlagValue(def CompiledFlag, rawValues []string) (Value, error) {
 		s := rawValues[0]
 		if def.Repeatable {
 			parts := splitCSV(s)
+			if hasFlagLikeValue(parts) {
+				return Value{}, NewValidationError(ErrorIDValidationInvalidType, map[string]string{"flag": def.Name, "kind": def.Kind})
+			}
 			list := make([]Value, 0, len(parts))
 			for _, p := range parts {
 				cp := p
@@ -134,6 +144,15 @@ func parseFlagValue(def CompiledFlag, rawValues []string) (Value, error) {
 		}
 		return Value{String: &s}, nil
 	}
+}
+
+func hasFlagLikeValue(values []string) bool {
+	for _, v := range values {
+		if strings.HasPrefix(strings.TrimSpace(v), "--") {
+			return true
+		}
+	}
+	return false
 }
 
 func splitCSV(value string) []string {
