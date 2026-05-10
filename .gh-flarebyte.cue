@@ -89,6 +89,11 @@ repository: {
 
 build: {
   language:             "go"
+  mode:                 "library"
+  packages: [
+    "./...",
+  ]
+  runTests:             true
   outputDir:            "build"
   checksumFile:         "build/checksums.txt"
   artifactTargetSuffix: true
@@ -102,6 +107,7 @@ release: {
   versionSource:    "main.project.yaml"
   tagPrefix:        "v"
   notesMode:        "generate-notes"
+  includeArtifacts: false
   artifactDir:      "build"
   includeChecksums: true
 }
