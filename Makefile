@@ -2,7 +2,7 @@
 
 .PHONY: build test test-go test-unit test-race test-fixtures \
 	lint lint-go lint-ts format format-go format-ts \
-	typecheck-ts review coverage coverage-go coverage-critical \
+	typecheck-ts review coverage coverage-go coverage-critical coverage-threshold \
 	doc-design doc-decision dup complexity release sec \
 	thoth-meta thoth-meta-go thoth-meta-go-test \
 	check-tools install-tools-help help
@@ -26,6 +26,7 @@ COVER_PROFILE := $(TMP_DIR)/test-unit.coverage.out
 COVER_HTML := $(TMP_DIR)/test-unit.coverage.html
 CRITICAL_COVER_PROFILE := $(TMP_DIR)/critical.coverage.out
 CRITICAL_PACKAGES := . ./internal/schema ./internal/argv ./internal/validators
+COVERAGE_MIN := 98.0
 
 build:
 	mkdir -p $(TMP_DIR)
@@ -59,6 +60,22 @@ coverage-critical:
 	$(GO_ENV) $(GO) test -coverprofile=$(CRITICAL_COVER_PROFILE) -covermode=count $(CRITICAL_PACKAGES)
 	$(GO_ENV) $(GO) tool cover -func=$(CRITICAL_COVER_PROFILE)
 	@printf "Critical coverage profile: %s\n" "$(CRITICAL_COVER_PROFILE)"
+
+coverage-threshold:
+	mkdir -p $(TMP_DIR)
+	$(GO_ENV) $(GO) test -coverprofile=$(COVER_PROFILE) -covermode=count $(GO_PACKAGES)
+	@report="$$( $(GO_ENV) $(GO) tool cover -func=$(COVER_PROFILE) )"; \
+	printf "%s\n" "$$report"; \
+	below="$$(printf "%s\n" "$$report" | awk -v min=$(COVERAGE_MIN) ' \
+	/^[^[:space:]].*:[0-9]+:/ { \
+		pct=$$NF; gsub(/%/, "", pct); \
+		if (pct+0 < min+0) print $$0; \
+	} \
+	')"; \
+	if [ -n "$$below" ]; then \
+		printf "\nFunctions below %.1f%% coverage:\n%s\n" $(COVERAGE_MIN) "$$below"; \
+		exit 1; \
+	fi
 
 lint: lint-go lint-ts
 
@@ -159,6 +176,7 @@ help:
 	@printf "  coverage     Generate the coverage HTML report.\n"
 	@printf "  coverage-go  Generate the Go coverage HTML report from test-unit output.\n"
 	@printf "  coverage-critical  Report coverage for parser/compiler/argv/validators paths.\n"
+	@printf "  coverage-threshold Run tests and fail if any function is below COVERAGE_MIN (default 98.0).\n"
 	@printf "  lint         Run Go linting and TypeScript design-meta lint checks.\n"
 	@printf "  lint-go      Run go vet and golangci-lint.\n"
 	@printf "  lint-ts      Run Biome checks for doc/design-meta TypeScript examples.\n"
