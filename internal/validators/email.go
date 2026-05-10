@@ -10,6 +10,7 @@ import (
 	"github.com/flarebyte/snake-knot-picker"
 )
 
+// ValidateEmail validates email syntax and optional domain allowlist constraints.
 func ValidateEmail(value string, allowDomains []string) error {
 	addr, err := mail.ParseAddress(value)
 	if err != nil {

@@ -11,6 +11,7 @@ import (
 	"github.com/flarebyte/snake-knot-picker"
 )
 
+// StringOptions defines option flags used by ValidateString.
 type StringOptions struct {
 	Enum               []string
 	Alphabetic         bool
@@ -40,6 +41,7 @@ type StringOptions struct {
 	BooleanString      bool
 }
 
+// ParseEnumCandidates parses and validates raw enum candidates by separator.
 func ParseEnumCandidates(raw, separator string) ([]string, error) {
 	if separator == "" {
 		separator = ","
@@ -59,6 +61,7 @@ func ParseEnumCandidates(raw, separator string) ([]string, error) {
 	return out, nil
 }
 
+// ValidateString validates a string value against string validation options.
 func ValidateString(value string, options StringOptions) error {
 	if len(options.Enum) > 0 {
 		ok := false

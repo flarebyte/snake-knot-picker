@@ -3,11 +3,13 @@
 // architecture notes: The implementation favors small deterministic helpers with explicit error IDs to keep behavior stable for both humans and automation.
 package schema
 
+// ParsedSchemaFlag is one schema flag token with its parsed values.
 type ParsedSchemaFlag struct {
 	Name   string
 	Values []string
 }
 
+// CommandAST is the parsed schema command token tree.
 type CommandAST struct {
 	Head       string
 	Operator   string

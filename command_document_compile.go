@@ -3,10 +3,12 @@
 // architecture notes: Document validation runs before compileFlag, so some compile-time defensive branches are intentionally hard to reach from public entry points.
 package picker
 
+// CompileCommandDocument validates and compiles a command document using default options.
 func CompileCommandDocument(doc CommandDocument) (CompiledCommand, error) {
 	return CompileCommandDocumentWithOptions(doc, DefaultCompileOptions())
 }
 
+// CompileCommandDocumentWithOptions validates and compiles a command document with custom compile options.
 func CompileCommandDocumentWithOptions(doc CommandDocument, options CompileOptions) (CompiledCommand, error) {
 	if options.FlagNameValidator == nil {
 		options.FlagNameValidator = DefaultCompileOptions().FlagNameValidator

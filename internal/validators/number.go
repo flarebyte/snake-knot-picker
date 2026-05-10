@@ -10,6 +10,7 @@ import (
 	"github.com/flarebyte/snake-knot-picker"
 )
 
+// NumberOptions defines numeric constraints used by ValidateNumber.
 type NumberOptions struct {
 	Int        bool
 	Min        *float64
@@ -17,6 +18,7 @@ type NumberOptions struct {
 	MultipleOf *float64
 }
 
+// ParseNumberString parses a number from string and rejects NaN/Inf.
 func ParseNumberString(value string) (float64, error) {
 	n, err := strconv.ParseFloat(value, 64)
 	if err != nil || math.IsNaN(n) || math.IsInf(n, 0) {
@@ -25,6 +27,7 @@ func ParseNumberString(value string) (float64, error) {
 	return n, nil
 }
 
+// ValidateNumber validates a number value against NumberOptions.
 func ValidateNumber(value float64, options NumberOptions) error {
 	if math.IsNaN(value) || math.IsInf(value, 0) {
 		return picker.NewValidationError(picker.ErrorIDValidationNumber, nil)

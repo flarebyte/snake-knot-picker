@@ -5,10 +5,12 @@ package picker
 
 import "sort"
 
+// ValidatorFactory provides the operator name for a registered validator capability.
 type ValidatorFactory interface {
 	Name() string
 }
 
+// Registry stores validator factories keyed by operator name.
 type Registry interface {
 	Register(factory ValidatorFactory) error
 	Lookup(operator string) (ValidatorFactory, bool)
@@ -18,6 +20,7 @@ type registry struct {
 	factories map[string]ValidatorFactory
 }
 
+// NewRegistry creates a registry preloaded with built-in operators.
 func NewRegistry() Registry {
 	r := &registry{factories: map[string]ValidatorFactory{}}
 	for _, name := range builtInOperators() {
@@ -58,6 +61,7 @@ type staticFactory struct {
 
 func (f staticFactory) Name() string { return f.name }
 
+// NewStaticFactory creates a minimal ValidatorFactory that returns a static name.
 func NewStaticFactory(name string) ValidatorFactory {
 	return staticFactory{name: name}
 }

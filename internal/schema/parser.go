@@ -10,6 +10,7 @@ import (
 	"github.com/flarebyte/snake-knot-picker"
 )
 
+// ParseTokens parses one schema token sequence into a CommandAST.
 func ParseTokens(tokens []string) (*CommandAST, error) {
 	if len(tokens) < 2 {
 		return nil, picker.NewSchemaError(picker.ErrorIDSchemaInvalidValue, nil)

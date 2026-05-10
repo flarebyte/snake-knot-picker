@@ -9,6 +9,7 @@ import (
 	"github.com/flarebyte/snake-knot-picker/internal/validators"
 )
 
+// StringOptionsFromSpec maps a compiled schema spec into string validator options.
 func StringOptionsFromSpec(spec *CompiledSpec) (validators.StringOptions, error) {
 	var out validators.StringOptions
 	if spec == nil {
@@ -52,6 +53,7 @@ func StringOptionsFromSpec(spec *CompiledSpec) (validators.StringOptions, error)
 	return out, nil
 }
 
+// NumberOptionsFromSpec maps a compiled schema spec into number validator options.
 func NumberOptionsFromSpec(spec *CompiledSpec) (validators.NumberOptions, error) {
 	var out validators.NumberOptions
 	if spec == nil {

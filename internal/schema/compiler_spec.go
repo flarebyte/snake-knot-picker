@@ -5,6 +5,7 @@ package schema
 
 import "sort"
 
+// CompiledSpec is the immutable compiled representation of one schema command.
 type CompiledSpec struct {
 	Head      string
 	Operator  string
@@ -23,6 +24,7 @@ func buildCompiledSpec(ast *CommandAST, flags FlagSet) *CompiledSpec {
 	}
 }
 
+// Clone returns a deep copy of the compiled spec.
 func (s *CompiledSpec) Clone() *CompiledSpec {
 	if s == nil {
 		return nil

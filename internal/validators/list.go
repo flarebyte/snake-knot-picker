@@ -3,4 +3,5 @@
 // architecture notes: The implementation favors small deterministic helpers with explicit error IDs to keep behavior stable for both humans and automation.
 package validators
 
+// ListValidator is a placeholder type for list validator wiring.
 type ListValidator struct{}

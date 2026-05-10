@@ -9,6 +9,7 @@ import (
 	"github.com/flarebyte/snake-knot-picker"
 )
 
+// TupleSpec is the compiled tuple schema with slot validators and optional repeatable modifier.
 type TupleSpec struct {
 	Size       int
 	Required   bool
@@ -16,6 +17,7 @@ type TupleSpec struct {
 	Repeatable *CompiledSpec
 }
 
+// CompileTupleSpec compiles tuple primary/child specs into one validated tuple spec.
 func CompileTupleSpec(primary *CompiledSpec, children []*CompiledSpec, field string) (*TupleSpec, error) {
 	if primary == nil || primary.Operator != "tuple" {
 		return nil, picker.NewSchemaError(picker.ErrorIDSchemaInvalidValue, map[string]string{"field": field, "operator": "tuple"})

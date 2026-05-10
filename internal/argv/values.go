@@ -5,4 +5,5 @@ package argv
 
 import "github.com/flarebyte/snake-knot-picker"
 
+// Values is the argv-layer map of parsed values keyed by flag name.
 type Values map[string]picker.Value

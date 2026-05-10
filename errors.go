@@ -5,6 +5,7 @@ package picker
 
 import "fmt"
 
+// Schema and validation error identifiers.
 const (
 	ErrorIDSchemaUnknownOperator            = "schema.unknown_operator"
 	ErrorIDSchemaUnknownFlag                = "schema.unknown_flag"
@@ -30,6 +31,7 @@ const (
 	ErrorIDValidationRange                  = "validation.range"
 )
 
+// Error kinds used in structured error details.
 const (
 	ErrorKindSchema     = "schema"
 	ErrorKindValidation = "validation"
@@ -72,10 +74,12 @@ type ErrorDetail struct {
 	Params     map[string]string
 }
 
+// ValidationError aggregates one or more structured validation details.
 type ValidationError struct {
 	Details []ErrorDetail
 }
 
+// NewErrorDetail creates one structured error detail with a rendered message.
 func NewErrorDetail(id, kind string, params map[string]string) ErrorDetail {
 	detail := ErrorDetail{
 		ID:     id,
@@ -86,18 +90,21 @@ func NewErrorDetail(id, kind string, params map[string]string) ErrorDetail {
 	return detail
 }
 
+// NewSchemaError creates a schema-kind validation error containing one detail.
 func NewSchemaError(id string, params map[string]string) *ValidationError {
 	return &ValidationError{
 		Details: []ErrorDetail{NewErrorDetail(id, ErrorKindSchema, params)},
 	}
 }
 
+// NewValidationError creates a validation-kind error containing one detail.
 func NewValidationError(id string, params map[string]string) *ValidationError {
 	return &ValidationError{
 		Details: []ErrorDetail{NewErrorDetail(id, ErrorKindValidation, params)},
 	}
 }
 
+// Add appends one detail and returns the receiver for chaining.
 func (e *ValidationError) Add(detail ErrorDetail) *ValidationError {
 	if e == nil {
 		return &ValidationError{Details: []ErrorDetail{detail}}
@@ -106,10 +113,12 @@ func (e *ValidationError) Add(detail ErrorDetail) *ValidationError {
 	return e
 }
 
+// MessageTemplate returns the message template for an error ID.
 func MessageTemplate(id string) string {
 	return errorMessageTemplates[id]
 }
 
+// RenderMessage renders a message for an error ID and params.
 func RenderMessage(id string, params map[string]string) string {
 	tmpl := MessageTemplate(id)
 	if tmpl == "" {
@@ -129,6 +138,7 @@ func cloneParams(in map[string]string) map[string]string {
 	return out
 }
 
+// Error implements the standard error interface.
 func (e *ValidationError) Error() string {
 	if e == nil || len(e.Details) == 0 {
 		return "validation failed"

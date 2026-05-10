@@ -13,6 +13,7 @@ type fatalHelper interface {
 	Fatal(args ...any)
 }
 
+// MustNoError fails the test helper when err is non-nil.
 func MustNoError(t fatalHelper, err error) {
 	t.Helper()
 	if err != nil {
@@ -20,6 +21,7 @@ func MustNoError(t fatalHelper, err error) {
 	}
 }
 
+// MustValidationErrorWithID fails unless err is a ValidationError whose first detail matches id.
 func MustValidationErrorWithID(t fatalHelper, err error, id string) *picker.ValidationError {
 	t.Helper()
 	verr, ok := err.(*picker.ValidationError)
@@ -35,6 +37,7 @@ func MustValidationErrorWithID(t fatalHelper, err error, id string) *picker.Vali
 	return verr
 }
 
+// MustEqualPath fails unless two string slices match exactly in length and values.
 func MustEqualPath(t fatalHelper, got, want []string) {
 	t.Helper()
 	if len(got) != len(want) {

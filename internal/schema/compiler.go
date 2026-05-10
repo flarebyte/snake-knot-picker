@@ -5,14 +5,17 @@ package schema
 
 import "github.com/flarebyte/snake-knot-picker"
 
+// Compiler compiles parsed schema AST nodes into compiled specs.
 type Compiler struct {
 	registry picker.Registry
 }
 
+// NewCompiler creates a schema compiler bound to an operator registry.
 func NewCompiler(registry picker.Registry) *Compiler {
 	return &Compiler{registry: registry}
 }
 
+// Compile validates compile preconditions and returns a compiled schema spec.
 func (c *Compiler) Compile(ast *CommandAST) (*CompiledSpec, error) {
 	if err := c.validateCompileInputs(ast); err != nil {
 		return nil, err

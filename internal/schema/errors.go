@@ -5,6 +5,7 @@ package schema
 
 import "github.com/flarebyte/snake-knot-picker"
 
+// ErrorContext carries schema-layer context fields for structured error details.
 type ErrorContext struct {
 	Path       []string
 	Field      string
@@ -13,6 +14,7 @@ type ErrorContext struct {
 	TupleIndex *int
 }
 
+// NewSchemaDetail builds a schema-kind error detail with context attached.
 func NewSchemaDetail(id string, ctx ErrorContext, params map[string]string) picker.ErrorDetail {
 	detail := picker.NewErrorDetail(id, picker.ErrorKindSchema, params)
 	detail.Path = append([]string(nil), ctx.Path...)

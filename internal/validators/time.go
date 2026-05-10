@@ -9,6 +9,7 @@ import (
 	"github.com/flarebyte/snake-knot-picker"
 )
 
+// ValidateDate validates a date string using a named or explicit layout.
 func ValidateDate(value, layout string) error {
 	if layout == "" || layout == "ISO8601" {
 		layout = "2006-01-02"
@@ -19,6 +20,7 @@ func ValidateDate(value, layout string) error {
 	return nil
 }
 
+// ValidateDateTime validates a datetime string for supported datetime layouts.
 func ValidateDateTime(value, layout string) error {
 	switch layout {
 	case "", "RFC3339":
@@ -42,6 +44,7 @@ func ValidateDateTime(value, layout string) error {
 	return nil
 }
 
+// ValidateClockTime validates a clock time string for supported time layouts.
 func ValidateClockTime(value, layout string) error {
 	switch layout {
 	case "HHMMSS":
@@ -58,6 +61,7 @@ func ValidateClockTime(value, layout string) error {
 	return nil
 }
 
+// ValidateDuration validates a duration string and optional min/max duration bounds.
 func ValidateDuration(value string, min, max *time.Duration) error {
 	d, err := time.ParseDuration(value)
 	if err != nil {

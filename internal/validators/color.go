@@ -14,6 +14,7 @@ var (
 	hex8 = regexp.MustCompile(`^#[0-9a-fA-F]{8}$`)
 )
 
+// ValidateColor validates a color string according to format and alpha settings.
 func ValidateColor(value, format string, allowAlpha bool) error {
 	if format != "hex" {
 		return picker.NewValidationError(picker.ErrorIDValidationFormat, map[string]string{"format": "color"})

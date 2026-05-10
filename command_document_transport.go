@@ -5,6 +5,7 @@ package picker
 
 import "encoding/json"
 
+// ParseCommandDocumentJSON decodes a JSON payload into a CommandDocument.
 func ParseCommandDocumentJSON(data []byte) (CommandDocument, error) {
 	var doc CommandDocument
 	if err := json.Unmarshal(data, &doc); err != nil {
@@ -13,6 +14,7 @@ func ParseCommandDocumentJSON(data []byte) (CommandDocument, error) {
 	return doc, nil
 }
 
+// ToJSON encodes the command document as JSON.
 func (d CommandDocument) ToJSON() ([]byte, error) {
 	return json.Marshal(d)
 }

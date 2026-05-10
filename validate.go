@@ -8,14 +8,17 @@ import (
 	"strings"
 )
 
+// Runtime holds a compiled command for runtime validation workflows.
 type Runtime struct {
 	command CompiledCommand
 }
 
+// NewRuntime creates a runtime wrapper for a compiled command.
 func NewRuntime(command CompiledCommand) (*Runtime, error) {
 	return &Runtime{command: command}, nil
 }
 
+// Parse validates tokenized argv against a compiled command and returns typed values.
 func Parse(command CompiledCommand, argv []string) (*ParseResult, error) {
 	values := map[string]Value{}
 	flags := map[string]CompiledFlag{}
@@ -72,6 +75,7 @@ func Parse(command CompiledCommand, argv []string) (*ParseResult, error) {
 	}, nil
 }
 
+// Validate is an alias of Parse kept as a semantic entry point.
 func Validate(command CompiledCommand, argv []string) (*ParseResult, error) {
 	return Parse(command, argv)
 }

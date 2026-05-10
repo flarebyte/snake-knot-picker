@@ -11,6 +11,7 @@ import (
 	"github.com/flarebyte/snake-knot-picker"
 )
 
+// URLOptions defines URL constraints for ValidateURL.
 type URLOptions struct {
 	Scheme       string
 	Secure       bool
@@ -22,6 +23,7 @@ type URLOptions struct {
 	AllowIPs     bool
 }
 
+// ValidateURL validates URL syntax and option-based URL constraints.
 func ValidateURL(value string, opt URLOptions) error {
 	u, err := url.Parse(value)
 	if err != nil || u.Scheme == "" {

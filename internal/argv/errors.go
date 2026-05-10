@@ -5,6 +5,7 @@ package argv
 
 import "github.com/flarebyte/snake-knot-picker"
 
+// ErrorContext carries argv-layer context fields for structured error details.
 type ErrorContext struct {
 	Path       []string
 	Field      string
@@ -13,6 +14,7 @@ type ErrorContext struct {
 	TupleIndex *int
 }
 
+// NewValidationDetail builds a validation detail with argv context attached.
 func NewValidationDetail(id string, ctx ErrorContext, params map[string]string) picker.ErrorDetail {
 	detail := picker.NewErrorDetail(id, picker.ErrorKindValidation, params)
 	detail.Path = append([]string(nil), ctx.Path...)

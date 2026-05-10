@@ -5,10 +5,13 @@ package argv
 
 import "github.com/flarebyte/snake-knot-picker"
 
+// Parser adapts the top-level picker parser for internal argv workflows.
 type Parser struct{}
 
+// NewParser creates a new argv parser adapter.
 func NewParser() *Parser { return &Parser{} }
 
+// Parse validates argv against a compiled command.
 func (p *Parser) Parse(command picker.CompiledCommand, argv []string) (*picker.ParseResult, error) {
 	return picker.Parse(command, argv)
 }

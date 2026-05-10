@@ -9,6 +9,7 @@ import (
 	"github.com/flarebyte/snake-knot-picker"
 )
 
+// ARNOptions defines ARN allowlist constraints for ValidateARN.
 type ARNOptions struct {
 	AllowPartition []string
 	AllowService   []string
@@ -25,6 +26,7 @@ type arnParts struct {
 	Resource  string
 }
 
+// ValidateARN validates ARN structure and allowlist constraints.
 func ValidateARN(value string, opt ARNOptions) error {
 	p, ok := parseARN(value)
 	if !ok {

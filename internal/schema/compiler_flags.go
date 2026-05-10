@@ -5,6 +5,7 @@ package schema
 
 import "github.com/flarebyte/snake-knot-picker"
 
+// FlagSet is a query helper around compiled schema flags.
 type FlagSet struct {
 	raw map[string][]string
 }
@@ -24,11 +25,13 @@ func collectFlags(ast *CommandAST) (FlagSet, error) {
 	return FlagSet{raw: flags}, nil
 }
 
+// Has reports whether the flag is present in the set.
 func (f FlagSet) Has(name string) bool {
 	_, ok := f.raw[name]
 	return ok
 }
 
+// First returns the first value for a flag, or empty string when missing.
 func (f FlagSet) First(name string) string {
 	values := f.raw[name]
 	if len(values) == 0 {
@@ -37,6 +40,7 @@ func (f FlagSet) First(name string) string {
 	return values[0]
 }
 
+// FirstOr returns the first value for a flag, or fallback when missing/empty.
 func (f FlagSet) FirstOr(name, fallback string) string {
 	v := f.First(name)
 	if v == "" {
@@ -45,10 +49,12 @@ func (f FlagSet) FirstOr(name, fallback string) string {
 	return v
 }
 
+// All returns a copy of all values for a flag.
 func (f FlagSet) All(name string) []string {
 	return append([]string(nil), f.raw[name]...)
 }
 
+// CloneRaw returns a deep copy of raw flags storage.
 func (f FlagSet) CloneRaw() map[string][]string {
 	out := make(map[string][]string, len(f.raw))
 	for k, v := range f.raw {
