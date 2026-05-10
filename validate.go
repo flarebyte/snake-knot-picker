@@ -1,3 +1,6 @@
+// purpose: Parse tokenized runtime argv against compiled command flags and produce typed values or structured validation errors.
+// responsibilities: Tokenize command path, detect/resolve flags, parse typed values, merge repeatables, and emit stable validation errors.
+// architecture notes: Inline --key=value is intentionally rejected and values that look like flags are blocked to reduce parsing ambiguity and security risk.
 package picker
 
 import (

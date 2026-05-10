@@ -1,3 +1,6 @@
+// purpose: Compile validated command documents into immutable runtime command definitions.
+// responsibilities: Apply compile options, validate the document, derive compiled flag attributes, and return immutable runtime command shape.
+// architecture notes: Document validation runs before compileFlag, so some compile-time defensive branches are intentionally hard to reach from public entry points.
 package picker
 
 func CompileCommandDocument(doc CommandDocument) (CompiledCommand, error) {

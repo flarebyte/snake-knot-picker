@@ -1,5 +1,8 @@
 locator: command_document_runtime.go
 meta:
+  purpose: "Bridge document-based entry points to the compile-and-validate runtime flow."
+  responsibilities: "Expose focused functions that parse, validate, transform, or register data within this file's module boundary."
+  architecture_notes: "The implementation favors small deterministic helpers with explicit error IDs to keep behavior stable for both humans and automation."
   function_list:
     - ValidateWithDocument
     - ValidateWithDocumentJSON

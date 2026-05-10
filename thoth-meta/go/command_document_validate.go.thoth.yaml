@@ -1,5 +1,8 @@
 locator: command_document_validate.go
 meta:
+  purpose: "Enforce structural and semantic constraints on command documents before compilation."
+  responsibilities: "Validate document fields, check flag-name policy, enforce kind/schema invariants, and verify tuple/repeatable child schema semantics."
+  architecture_notes: "Tuple child schemas are validated by explicit slot indexing and repeatable children are handled as tuple modifiers, not slot validators."
   function_list:
     - parseChildSchema
     - parseTupleIndex

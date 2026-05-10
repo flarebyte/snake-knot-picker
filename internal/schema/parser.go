@@ -1,3 +1,6 @@
+// purpose: Tokenize and parse schema command tokens into AST form with flag/value structure.
+// responsibilities: Parse schema head/operator, decode known and unknown flag arity patterns, track repeated flags, and assign tuple slot metadata.
+// architecture notes: Known flags use strict catalog arity while unknown flags follow a permissive capture mode to preserve extensibility before compile-time checks.
 package schema
 
 import (

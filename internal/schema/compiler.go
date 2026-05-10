@@ -1,3 +1,6 @@
+// purpose: Compile parsed schema AST into compiled specs after registry and rule validation.
+// responsibilities: Validate compile preconditions, collect flags, run compiler rules, and build compiled specs.
+// architecture notes: Operator resolution is registry-driven so custom operators can be introduced without changing parser structure.
 package schema
 
 import "github.com/flarebyte/snake-knot-picker"

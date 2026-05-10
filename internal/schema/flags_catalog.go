@@ -1,3 +1,6 @@
+// purpose: Define known schema flags, their arity, and allowed-flag catalogs by schema head.
+// responsibilities: Expose focused functions that parse, validate, transform, or register data within this file's module boundary.
+// architecture notes: The implementation favors small deterministic helpers with explicit error IDs to keep behavior stable for both humans and automation.
 package schema
 
 var schemaFlagArity = map[string]int{

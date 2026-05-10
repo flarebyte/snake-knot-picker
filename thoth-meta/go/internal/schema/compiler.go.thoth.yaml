@@ -1,5 +1,8 @@
 locator: internal/schema/compiler.go
 meta:
+  purpose: "Compile parsed schema AST into compiled specs after registry and rule validation."
+  responsibilities: "Validate compile preconditions, collect flags, run compiler rules, and build compiled specs."
+  architecture_notes: "Operator resolution is registry-driven so custom operators can be introduced without changing parser structure."
   function_list:
     - NewCompiler
   import_files_list:

@@ -1,3 +1,6 @@
+// purpose: Provide operator-factory registration and lookup so schema operators can be validated against known capabilities.
+// responsibilities: Expose focused functions that parse, validate, transform, or register data within this file's module boundary.
+// architecture notes: Built-in operators are pre-registered at construction time and duplicate registration is explicitly rejected.
 package picker
 
 import "sort"

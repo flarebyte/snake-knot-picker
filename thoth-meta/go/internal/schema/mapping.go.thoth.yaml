@@ -1,5 +1,8 @@
 locator: internal/schema/mapping.go
 meta:
+  purpose: "Map compiled schema flags into concrete validator option structs."
+  responsibilities: "Expose focused functions that parse, validate, transform, or register data within this file's module boundary."
+  architecture_notes: "The implementation favors small deterministic helpers with explicit error IDs to keep behavior stable for both humans and automation."
   function_list:
     - NumberOptionsFromSpec
     - StringOptionsFromSpec

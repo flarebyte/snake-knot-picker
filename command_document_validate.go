@@ -1,3 +1,6 @@
+// purpose: Enforce structural and semantic constraints on command documents before compilation.
+// responsibilities: Validate document fields, check flag-name policy, enforce kind/schema invariants, and verify tuple/repeatable child schema semantics.
+// architecture notes: Tuple child schemas are validated by explicit slot indexing and repeatable children are handled as tuple modifiers, not slot validators.
 package picker
 
 import "strconv"
