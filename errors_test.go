@@ -71,3 +71,50 @@ func TestValidationErrorCollectMultipleDetails(t *testing.T) {
 		t.Fatalf("expected 2 details, got %d", len(err.Details))
 	}
 }
+
+func TestValidationErrorAddOnNilReceiver(t *testing.T) {
+	var err *ValidationError
+	err = err.Add(NewErrorDetail(ErrorIDValidationInvalidType, ErrorKindValidation, nil))
+	if err == nil || len(err.Details) != 1 {
+		t.Fatalf("expected new error with one detail, got %#v", err)
+	}
+}
+
+func TestRenderMessageUnknownTemplate(t *testing.T) {
+	if got := RenderMessage("unknown.id", nil); got != "validation failed" {
+		t.Fatalf("unexpected fallback message: %q", got)
+	}
+}
+
+func TestValidationErrorErrorMethodBranches(t *testing.T) {
+	var nilErr *ValidationError
+	if got := nilErr.Error(); got != "validation failed" {
+		t.Fatalf("unexpected nil receiver message: %q", got)
+	}
+
+	empty := &ValidationError{}
+	if got := empty.Error(); got != "validation failed" {
+		t.Fatalf("unexpected empty details message: %q", got)
+	}
+
+	withMessage := &ValidationError{
+		Details: []ErrorDetail{{ID: ErrorIDValidationRequired, Message: "custom message"}},
+	}
+	if got := withMessage.Error(); got != "custom message" {
+		t.Fatalf("unexpected message detail return: %q", got)
+	}
+
+	withIDNoMessage := &ValidationError{
+		Details: []ErrorDetail{{ID: ErrorIDValidationRequired}},
+	}
+	if got := withIDNoMessage.Error(); got != ErrorIDValidationRequired+": validation failed" {
+		t.Fatalf("unexpected id fallback: %q", got)
+	}
+
+	noIDNoMessage := &ValidationError{
+		Details: []ErrorDetail{{}},
+	}
+	if got := noIDNoMessage.Error(); got != "validation failed" {
+		t.Fatalf("unexpected no-id fallback: %q", got)
+	}
+}

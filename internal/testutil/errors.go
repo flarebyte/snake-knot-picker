@@ -1,19 +1,23 @@
 package testutil
 
 import (
-	"testing"
-
 	"github.com/flarebyte/snake-knot-picker"
 )
 
-func MustNoError(t *testing.T, err error) {
+type fatalHelper interface {
+	Helper()
+	Fatalf(format string, args ...any)
+	Fatal(args ...any)
+}
+
+func MustNoError(t fatalHelper, err error) {
 	t.Helper()
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
 }
 
-func MustValidationErrorWithID(t *testing.T, err error, id string) *picker.ValidationError {
+func MustValidationErrorWithID(t fatalHelper, err error, id string) *picker.ValidationError {
 	t.Helper()
 	verr, ok := err.(*picker.ValidationError)
 	if !ok {
@@ -28,7 +32,7 @@ func MustValidationErrorWithID(t *testing.T, err error, id string) *picker.Valid
 	return verr
 }
 
-func MustEqualPath(t *testing.T, got, want []string) {
+func MustEqualPath(t fatalHelper, got, want []string) {
 	t.Helper()
 	if len(got) != len(want) {
 		t.Fatalf("path length mismatch: got=%v want=%v", got, want)
