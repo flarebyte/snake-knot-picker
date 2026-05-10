@@ -1,0 +1,13 @@
+locator: command_flag_name_validator_test.go
+meta:
+  function_list:
+    - BenchmarkFlagNameValidatorManual
+    - BenchmarkFlagNameValidatorRegex
+    - TestCompileCommandDocumentWithInjectedFlagNameValidator
+    - TestDefaultManualFlagNameValidator
+    - TestRegexFlagNameValidatorFactory
+  import_files_list:
+    - regexp
+    - strings
+    - testing
+  language: go

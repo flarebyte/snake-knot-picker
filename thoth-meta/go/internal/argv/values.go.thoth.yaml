@@ -1,0 +1,6 @@
+locator: internal/argv/values.go
+meta:
+  function_list: []
+  import_files_list:
+    - github.com/flarebyte/snake-knot-picker
+  language: go

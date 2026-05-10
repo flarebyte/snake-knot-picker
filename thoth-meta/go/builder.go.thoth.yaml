@@ -1,0 +1,6 @@
+locator: builder.go
+meta:
+  function_list:
+    - NewCommandBuilder
+  import_files_list: []
+  language: go

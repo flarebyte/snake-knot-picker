@@ -1,0 +1,7 @@
+locator: internal/schema/compiler_spec.go
+meta:
+  function_list:
+    - buildCompiledSpec
+  import_files_list:
+    - sort
+  language: go

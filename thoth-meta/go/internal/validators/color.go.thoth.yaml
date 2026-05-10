@@ -1,0 +1,8 @@
+locator: internal/validators/color.go
+meta:
+  function_list:
+    - ValidateColor
+  import_files_list:
+    - github.com/flarebyte/snake-knot-picker
+    - regexp
+  language: go

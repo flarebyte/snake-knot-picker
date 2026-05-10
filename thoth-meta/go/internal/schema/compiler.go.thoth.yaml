@@ -1,0 +1,7 @@
+locator: internal/schema/compiler.go
+meta:
+  function_list:
+    - NewCompiler
+  import_files_list:
+    - github.com/flarebyte/snake-knot-picker
+  language: go

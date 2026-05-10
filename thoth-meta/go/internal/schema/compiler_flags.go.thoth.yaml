@@ -1,0 +1,10 @@
+locator: internal/schema/compiler_flags.go
+meta:
+  function_list:
+    - collectFlags
+    - firstFlagValue
+    - firstFlagValueDefault
+    - hasFlag
+  import_files_list:
+    - github.com/flarebyte/snake-knot-picker
+  language: go

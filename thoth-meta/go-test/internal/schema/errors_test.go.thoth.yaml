@@ -1,0 +1,8 @@
+locator: internal/schema/errors_test.go
+meta:
+  function_list:
+    - TestNewSchemaDetailPreservesContext
+  import_files_list:
+    - github.com/flarebyte/snake-knot-picker
+    - testing
+  language: go

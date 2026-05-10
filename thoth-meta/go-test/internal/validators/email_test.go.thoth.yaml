@@ -1,0 +1,7 @@
+locator: internal/validators/email_test.go
+meta:
+  function_list:
+    - TestValidateEmail
+  import_files_list:
+    - testing
+  language: go

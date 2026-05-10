@@ -1,0 +1,11 @@
+locator: internal/schema/compiler_rules.go
+meta:
+  function_list:
+    - splitEnum
+    - validateCompilerRules
+    - validateEnumDefinitionRule
+    - validateSecureSchemeRule
+  import_files_list:
+    - github.com/flarebyte/snake-knot-picker
+    - strings
+  language: go

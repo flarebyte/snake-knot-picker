@@ -1,0 +1,13 @@
+locator: internal/testutil/errors_test.go
+meta:
+  function_list:
+    - TestMustEqualPath
+    - TestMustNoError
+    - TestMustValidationErrorWithID
+    - mustPanic
+  import_files_list:
+    - errors
+    - fmt
+    - github.com/flarebyte/snake-knot-picker
+    - testing
+  language: go

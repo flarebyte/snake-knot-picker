@@ -1,0 +1,10 @@
+locator: test_helpers_test.go
+meta:
+  function_list:
+    - makeInvalidTupleMissingSlotDoc
+    - mustCompileArgsCommandFixture
+    - mustLoadArgsCommandFixture
+  import_files_list:
+    - os
+    - testing
+  language: go

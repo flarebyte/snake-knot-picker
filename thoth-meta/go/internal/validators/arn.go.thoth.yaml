@@ -1,0 +1,10 @@
+locator: internal/validators/arn.go
+meta:
+  function_list:
+    - ValidateARN
+    - inAllowList
+    - parseARN
+  import_files_list:
+    - github.com/flarebyte/snake-knot-picker
+    - strings
+  language: go

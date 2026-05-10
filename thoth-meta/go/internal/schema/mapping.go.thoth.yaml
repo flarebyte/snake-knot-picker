@@ -1,0 +1,9 @@
+locator: internal/schema/mapping.go
+meta:
+  function_list:
+    - NumberOptionsFromSpec
+    - StringOptionsFromSpec
+  import_files_list:
+    - github.com/flarebyte/snake-knot-picker/internal/validators
+    - strconv
+  language: go

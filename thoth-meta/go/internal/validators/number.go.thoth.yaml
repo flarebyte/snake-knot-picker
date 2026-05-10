@@ -1,0 +1,10 @@
+locator: internal/validators/number.go
+meta:
+  function_list:
+    - ParseNumberString
+    - ValidateNumber
+  import_files_list:
+    - github.com/flarebyte/snake-knot-picker
+    - math
+    - strconv
+  language: go

@@ -1,0 +1,12 @@
+locator: internal/argv/parser_test.go
+meta:
+  function_list:
+    - TestParserErrors
+    - TestParserNoCommandPathPrefixStillParses
+    - TestParserValidPathsAndFlagForms
+    - assertErrorID
+  import_files_list:
+    - github.com/flarebyte/snake-knot-picker
+    - github.com/flarebyte/snake-knot-picker/internal/testutil
+    - testing
+  language: go

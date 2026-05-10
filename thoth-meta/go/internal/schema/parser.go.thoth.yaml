@@ -1,0 +1,12 @@
+locator: internal/schema/parser.go
+meta:
+  function_list:
+    - ParseTokens
+    - findFlagValues
+    - isLongFlag
+    - parseFlagValues
+  import_files_list:
+    - github.com/flarebyte/snake-knot-picker
+    - strconv
+    - strings
+  language: go

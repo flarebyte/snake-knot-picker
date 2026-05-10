@@ -1,0 +1,9 @@
+locator: registry.go
+meta:
+  function_list:
+    - NewRegistry
+    - NewStaticFactory
+    - builtInOperators
+  import_files_list:
+    - sort
+  language: go

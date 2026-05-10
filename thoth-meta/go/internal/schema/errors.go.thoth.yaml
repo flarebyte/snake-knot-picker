@@ -1,0 +1,7 @@
+locator: internal/schema/errors.go
+meta:
+  function_list:
+    - NewSchemaDetail
+  import_files_list:
+    - github.com/flarebyte/snake-knot-picker
+  language: go

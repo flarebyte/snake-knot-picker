@@ -1,0 +1,35 @@
+locator: internal/validators/string.go
+meta:
+  function_list:
+    - ParseEnumCandidates
+    - ValidateString
+    - allRunes
+    - isAlphabetic
+    - isArabic
+    - isBase64
+    - isBlank
+    - isDevanagari
+    - isEthiopic
+    - isGujarati
+    - isHan
+    - isHangul
+    - isHexa
+    - isHiragana
+    - isKatakana
+    - isLatin
+    - isLowercase
+    - isPunctuation
+    - isTamil
+    - isUnicodeLetter
+    - isUnicodeNumber
+    - isUnicodePunctuation
+    - isUnicodeSeparator
+    - isUnicodeSymbol
+    - isUppercase
+    - isWhitespace
+  import_files_list:
+    - encoding/base64
+    - github.com/flarebyte/snake-knot-picker
+    - strings
+    - unicode
+  language: go

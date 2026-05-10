@@ -1,0 +1,13 @@
+locator: command_document_validate.go
+meta:
+  function_list:
+    - parseChildSchema
+    - parseTupleIndex
+    - validateCommandDocument
+    - validateFlagSemantics
+    - validateFlagStructure
+    - validateNonTupleSchemas
+    - validateTupleSchemas
+  import_files_list:
+    - strconv
+  language: go

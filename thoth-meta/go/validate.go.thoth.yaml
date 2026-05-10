@@ -1,0 +1,16 @@
+locator: validate.go
+meta:
+  function_list:
+    - NewRuntime
+    - Parse
+    - Validate
+    - flattenList
+    - hasFlagLikeValue
+    - parseFlagValue
+    - splitCSV
+    - splitFlag
+    - stripCommandPath
+  import_files_list:
+    - strconv
+    - strings
+  language: go

@@ -1,0 +1,11 @@
+locator: internal/validators/time.go
+meta:
+  function_list:
+    - ValidateClockTime
+    - ValidateDate
+    - ValidateDateTime
+    - ValidateDuration
+  import_files_list:
+    - github.com/flarebyte/snake-knot-picker
+    - time
+  language: go

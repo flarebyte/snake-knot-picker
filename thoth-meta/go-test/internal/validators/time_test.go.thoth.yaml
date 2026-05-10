@@ -1,0 +1,8 @@
+locator: internal/validators/time_test.go
+meta:
+  function_list:
+    - TestValidateDateTimeAndDuration
+  import_files_list:
+    - testing
+    - time
+  language: go

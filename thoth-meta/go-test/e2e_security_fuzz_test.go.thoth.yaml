@@ -1,0 +1,11 @@
+locator: e2e_security_fuzz_test.go
+meta:
+  function_list:
+    - FuzzE2ESecurityRejectsFlagLikeCSVSegments
+    - FuzzE2ESecurityRejectsFlagLikeValues
+    - buildSecurityArgv
+    - hasFlagLikeCSVSegment
+    - isFlagLikeValueToken
+  import_files_list:
+    - testing
+  language: go

@@ -1,0 +1,13 @@
+locator: command_document_test.go
+meta:
+  function_list:
+    - TestCommandDocumentCompileErrors
+    - TestCommandDocumentCompileFromFixture
+    - TestCommandDocumentCustomValidatorAndAdminOnly
+    - TestCommandDocumentJSONRoundTrip
+    - assertDocErrID
+  import_files_list:
+    - encoding/json
+    - os
+    - testing
+  language: go

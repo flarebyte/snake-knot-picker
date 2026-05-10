@@ -1,0 +1,12 @@
+locator: command_flag_name_validator.go
+meta:
+  function_list:
+    - DefaultCompileOptions
+    - DefaultManualFlagNameValidator
+    - DefaultRegexFlagNameValidator
+    - NewManualFlagNameValidator
+    - NewRegexFlagNameValidator
+  import_files_list:
+    - regexp
+    - unicode
+  language: go

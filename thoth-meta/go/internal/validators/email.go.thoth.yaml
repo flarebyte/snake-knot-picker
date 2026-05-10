@@ -1,0 +1,9 @@
+locator: internal/validators/email.go
+meta:
+  function_list:
+    - ValidateEmail
+  import_files_list:
+    - github.com/flarebyte/snake-knot-picker
+    - net/mail
+    - strings
+  language: go

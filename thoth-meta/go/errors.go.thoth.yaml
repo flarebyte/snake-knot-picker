@@ -1,0 +1,12 @@
+locator: errors.go
+meta:
+  function_list:
+    - MessageTemplate
+    - NewErrorDetail
+    - NewSchemaError
+    - NewValidationError
+    - RenderMessage
+    - cloneParams
+  import_files_list:
+    - fmt
+  language: go

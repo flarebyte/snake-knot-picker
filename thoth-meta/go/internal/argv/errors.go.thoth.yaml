@@ -1,0 +1,7 @@
+locator: internal/argv/errors.go
+meta:
+  function_list:
+    - NewValidationDetail
+  import_files_list:
+    - github.com/flarebyte/snake-knot-picker
+  language: go

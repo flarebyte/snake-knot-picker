@@ -1,0 +1,8 @@
+locator: internal/schema/fuzz_test.go
+meta:
+  function_list:
+    - FuzzParseTokens
+  import_files_list:
+    - strings
+    - testing
+  language: go

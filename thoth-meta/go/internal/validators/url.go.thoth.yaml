@@ -1,0 +1,10 @@
+locator: internal/validators/url.go
+meta:
+  function_list:
+    - ValidateURL
+  import_files_list:
+    - github.com/flarebyte/snake-knot-picker
+    - net
+    - net/url
+    - strings
+  language: go

@@ -1,0 +1,7 @@
+locator: command_document_transport.go
+meta:
+  function_list:
+    - ParseCommandDocumentJSON
+  import_files_list:
+    - encoding/json
+  language: go

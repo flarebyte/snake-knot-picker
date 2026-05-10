@@ -1,0 +1,12 @@
+locator: e2e_assertions_test.go
+meta:
+  function_list:
+    - assertBoolValue
+    - assertErrorDetail
+    - assertNumberValue
+    - assertStringValue
+    - assertTupleStringValues
+    - mustValidationError
+  import_files_list:
+    - testing
+  language: go

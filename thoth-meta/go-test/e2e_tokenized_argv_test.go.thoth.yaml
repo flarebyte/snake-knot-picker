@@ -1,0 +1,18 @@
+locator: e2e_tokenized_argv_test.go
+meta:
+  function_list:
+    - TestE2ETokenizedArgvBooleanHandling
+    - TestE2ETokenizedArgvCommandPathVariants
+    - TestE2ETokenizedArgvDeterminism
+    - TestE2ETokenizedArgvRejectsInlineKeyValueSyntax
+    - TestE2ETokenizedArgvRepeatableEmptySegmentsContract
+    - TestE2ETokenizedArgvRepeatableInlineIsForbidden
+    - TestE2ETokenizedArgvRepeatableMix
+    - TestE2ETokenizedArgvRepeatableMixedFormsOrdering
+    - TestE2ETokenizedArgvRepeatedNonRepeatableLastWins
+    - TestE2ETokenizedArgvRepeatedTupleLastWins
+    - TestE2ETokenizedArgvTupleFailures
+    - TestE2ETokenizedArgvUnknownFlagAndNumericEdges
+  import_files_list:
+    - testing
+  language: go

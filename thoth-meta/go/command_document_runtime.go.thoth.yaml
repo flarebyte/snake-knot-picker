@@ -1,0 +1,7 @@
+locator: command_document_runtime.go
+meta:
+  function_list:
+    - ValidateWithDocument
+    - ValidateWithDocumentJSON
+  import_files_list: []
+  language: go

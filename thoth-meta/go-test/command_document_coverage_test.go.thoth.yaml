@@ -1,0 +1,20 @@
+locator: command_document_coverage_test.go
+meta:
+  function_list:
+    - TestCompileCommandDocumentWithOptionsCustomValidatorSuccess
+    - TestCompileCommandDocumentWithOptionsDefaultsWhenNilValidator
+    - TestCompileFlagErrorPath
+    - TestCompileFlagRepeatableDetection
+    - TestDefaultRegexFlagNameValidator
+    - TestParseChildSchemaAndTupleIndexBranches
+    - TestParseCommandDocumentJSONInvalid
+    - TestParsePrimarySchemaTupleEdgeCases
+    - TestValidateFlagStructureCustomAndSchemaHeadRules
+    - TestValidateFlagStructureExtraBranches
+    - TestValidateNonTupleSchemasInvalidChild
+    - TestValidateNonTupleSchemasValidAndParseFailure
+    - TestValidateTupleSchemasBranches
+    - TestValidateWithDocumentJSONInvalidDocument
+  import_files_list:
+    - testing
+  language: go

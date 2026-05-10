@@ -1,0 +1,7 @@
+locator: internal/argv/parser.go
+meta:
+  function_list:
+    - NewParser
+  import_files_list:
+    - github.com/flarebyte/snake-knot-picker
+  language: go

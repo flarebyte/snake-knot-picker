@@ -1,0 +1,10 @@
+locator: internal/validators/fuzz_test.go
+meta:
+  function_list:
+    - FuzzValidateFormats
+    - FuzzValidateNumber
+    - FuzzValidateString
+  import_files_list:
+    - testing
+    - time
+  language: go

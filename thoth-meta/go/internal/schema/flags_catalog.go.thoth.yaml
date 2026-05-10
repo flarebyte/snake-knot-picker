@@ -1,0 +1,6 @@
+locator: internal/schema/flags_catalog.go
+meta:
+  function_list:
+    - allowedFlagsForHead
+  import_files_list: []
+  language: go
