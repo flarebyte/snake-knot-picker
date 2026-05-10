@@ -139,3 +139,4 @@ That means a validator like `postal-code` can be treated as a first-class schema
 ## Contributing
 
 Maintenance and contributor workflow is documented in [CONTRIBUTING.md](CONTRIBUTING.md).
+Detailed API usage examples are documented in [USAGE.md](USAGE.md).
