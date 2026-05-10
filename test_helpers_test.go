@@ -47,3 +47,23 @@ func mustCompileArgsCommandFixture(t testing.TB) CompiledCommand {
 	}
 	return compiled
 }
+
+func makeFuzzRuntimeDoc() CommandDocument {
+	return CommandDocument{
+		Version:     "1",
+		CommandPath: []string{"wash", "start"},
+		Flags: []CommandFlagDef{
+			{Kind: "string", Name: "mode", Schema: []string{"schema", "string", "--required"}},
+			{Kind: "number", Name: "spin", Schema: []string{"schema", "number", "--int"}},
+			{
+				Kind:   "tuple",
+				Name:   "range",
+				Schema: []string{"schema", "tuple", "--size", "2"},
+				Schemas: [][]string{
+					{"schema", "number", "--tuple", "0", "--int"},
+					{"schema", "number", "--tuple", "1", "--int"},
+				},
+			},
+		},
+	}
+}

@@ -22,23 +22,7 @@ func FuzzCompileCommandDocument(f *testing.F) {
 }
 
 func FuzzValidateRuntimeArgv(f *testing.F) {
-	doc := CommandDocument{
-		Version:     "1",
-		CommandPath: []string{"wash", "start"},
-		Flags: []CommandFlagDef{
-			{Kind: "string", Name: "mode", Schema: []string{"schema", "string"}},
-			{Kind: "number", Name: "spin", Schema: []string{"schema", "number"}},
-			{
-				Kind:   "tuple",
-				Name:   "range",
-				Schema: []string{"schema", "tuple", "--size", "2"},
-				Schemas: [][]string{
-					{"schema", "number", "--tuple", "0", "--int"},
-					{"schema", "number", "--tuple", "1", "--int"},
-				},
-			},
-		},
-	}
+	doc := makeFuzzRuntimeDoc()
 	compiled, err := CompileCommandDocument(doc)
 	if err != nil {
 		f.Fatalf("compile seed command failed: %v", err)

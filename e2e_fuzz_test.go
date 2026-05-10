@@ -103,24 +103,7 @@ func FuzzE2ETupleRepeatableCompiledFactory(f *testing.F) {
 }
 
 func FuzzE2ECompileThenValidateFromDocument(f *testing.F) {
-	baseDoc := CommandDocument{
-		Version:     "1",
-		CommandPath: []string{"wash", "start"},
-		Flags: []CommandFlagDef{
-			{Kind: "string", Name: "mode", Schema: []string{"schema", "string", "--required"}},
-			{Kind: "number", Name: "spin", Schema: []string{"schema", "number", "--int"}},
-			{
-				Kind:   "tuple",
-				Name:   "range",
-				Schema: []string{"schema", "tuple", "--size", "2"},
-				Schemas: [][]string{
-					{"schema", "number", "--tuple", "0", "--int"},
-					{"schema", "number", "--tuple", "1", "--int"},
-				},
-			},
-		},
-	}
-	b, _ := json.Marshal(baseDoc)
+	b, _ := json.Marshal(makeFuzzRuntimeDoc())
 	f.Add(string(b), "wash start --mode normal --spin 1200 --range 10,20")
 	f.Add(string(b), "wash start --spin abc")
 	f.Add(string(b), "wash start --unknown x")
