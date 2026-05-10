@@ -1,0 +1,11 @@
+locator: internal/schema/tuple_test.go
+meta:
+  function_list:
+    - TestCompileTupleSpecErrors
+    - TestCompileTupleSpecValidOutOfOrderSlotsWithRepeatable
+    - TestOldSingleCommandMultiTupleShapeRejected
+    - mustCompile
+  import_files_list:
+    - github.com/flarebyte/snake-knot-picker
+    - testing
+  language: go

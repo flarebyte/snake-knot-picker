@@ -1,0 +1,10 @@
+locator: e2e_test.go
+meta:
+  function_list:
+    - TestEndToEndSchemaErrorHappensBeforeRegistration
+    - TestEndToEndTokenizedArgvIsPrimary
+    - TestEndToEndValidateWithDocumentJSON
+  import_files_list:
+    - os
+    - testing
+  language: go

@@ -1,0 +1,8 @@
+locator: internal/validators/arn_test.go
+meta:
+  function_list:
+    - TestValidateARN
+    - TestValidateARNAdditionalBranches
+  import_files_list:
+    - testing
+  language: go

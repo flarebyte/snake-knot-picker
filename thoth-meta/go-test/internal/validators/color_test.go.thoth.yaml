@@ -1,0 +1,7 @@
+locator: internal/validators/color_test.go
+meta:
+  function_list:
+    - TestValidateColor
+  import_files_list:
+    - testing
+  language: go

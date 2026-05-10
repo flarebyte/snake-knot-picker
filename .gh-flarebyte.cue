@@ -99,7 +99,7 @@ build: {
 }
 
 release: {
-  versionSource:    "package.json"
+  versionSource:    "main.project.yaml"
   tagPrefix:        "v"
   notesMode:        "generate-notes"
   artifactDir:      "build"

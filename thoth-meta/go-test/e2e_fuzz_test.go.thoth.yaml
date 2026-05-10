@@ -1,0 +1,16 @@
+locator: e2e_fuzz_test.go
+meta:
+  function_list:
+    - FuzzE2ECompileThenValidateFromDocument
+    - FuzzE2ETupleRepeatableCompiledFactory
+    - FuzzE2ETupleRepeatableWithDocumentJSONFactory
+    - FuzzE2EValidateCompiledRuntime
+    - FuzzE2EValidateCompiledRuntimeFactory
+    - FuzzE2EValidateWithDocumentJSON
+    - FuzzE2EValidateWithDocumentJSONFactory
+    - assertE2EResultInvariant
+  import_files_list:
+    - encoding/json
+    - strings
+    - testing
+  language: go

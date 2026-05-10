@@ -1,0 +1,9 @@
+locator: registry_test.go
+meta:
+  function_list:
+    - TestNewStaticFactoryAndBuiltInOperators
+    - TestRegistryBuiltinsLookupAndOperators
+    - TestRegistryRegisterBranches
+  import_files_list:
+    - testing
+  language: go

@@ -1,0 +1,18 @@
+locator: internal/schema/compiler_test.go
+meta:
+  function_list:
+    - TestCompileArgsCommandFixtures
+    - TestCompileEnumInvalidDefinitions
+    - TestCompileInvalidCombination
+    - TestCompileSpecIsMutationSafe
+    - TestCompileUnknownFlag
+    - TestCompileUnknownOperator
+    - TestRegistryDuplicateRegistration
+    - assertErrorID
+  import_files_list:
+    - encoding/json
+    - github.com/flarebyte/snake-knot-picker
+    - github.com/flarebyte/snake-knot-picker/internal/testutil
+    - os
+    - testing
+  language: go

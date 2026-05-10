@@ -363,11 +363,12 @@ wash start delicate --temp warm
 
 # Integer flags
 wash start normal --spin 1200
-wash start normal --spin=1200
+# KO wash start normal --spin=1200
 
 # Repeatable values
-wash --add=bleach,softener,scent-beads
-wash --add=bleach --add=softener
+wash start whites --add bleach --add softener
+wash start whites --add bleach,softener,scent-beads --add scent-booster
+# KO wash start whites --add=bleach
 
 # Boolean flags
 wash start bedding --extra-rinse
@@ -378,6 +379,10 @@ wash start whites --add bleach --add softener
 # Comma-separated values with repeated option flags
 wash start --options delicate,extra-rinse --options pre-wash
 ```
+
+Repeatable runtime flags intentionally require tokenized argv form (`--add value`) and reject inline form (`--add=value`).  
+Reason: it reduces parser ambiguity between flags and values, keeps repeated-value handling deterministic, and narrows the risk of flag-like payloads being interpreted inconsistently across parsing paths.
+Runtime input is `[]string` argv only; single-line string parsing convenience is intentionally not part of the runtime API.
 
 ### 03 Admin and User API Types
 
@@ -2396,4 +2401,3 @@ Guidelines:
 5. Split validators by domain when the domain has independent parsing rules, such as URL, ARN, time, email, and color.
 6. Avoid import cycles by making validators depend only on common error/context types, while compiler code depends on registry and validator factories.
 7. When a file starts owning unrelated behavior, split it before adding more flags or special cases.
-

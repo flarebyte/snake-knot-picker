@@ -1,0 +1,11 @@
+locator: picker_test.go
+meta:
+  function_list:
+    - TestErrorIDsAreUnique
+    - TestParseRejectsSchemaCommandsAtRuntime
+    - TestParseRejectsUnknownFlag
+    - TestParseRuntimeArgvPatterns
+    - TestPublicContractsCompile
+  import_files_list:
+    - testing
+  language: go

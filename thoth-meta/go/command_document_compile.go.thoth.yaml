@@ -1,0 +1,11 @@
+locator: command_document_compile.go
+meta:
+  purpose: "Compile validated command documents into immutable runtime command definitions."
+  responsibilities: "Apply compile options, validate the document, derive compiled flag attributes, and return immutable runtime command shape."
+  architecture_notes: "Document validation runs before compileFlag, so some compile-time defensive branches are intentionally hard to reach from public entry points."
+  function_list:
+    - CompileCommandDocument
+    - CompileCommandDocumentWithOptions
+    - compileFlag
+  import_files_list: []
+  language: go

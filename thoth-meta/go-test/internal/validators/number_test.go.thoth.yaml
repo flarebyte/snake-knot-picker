@@ -1,0 +1,9 @@
+locator: internal/validators/number_test.go
+meta:
+  function_list:
+    - TestParseNumberString
+    - TestValidateNumber
+  import_files_list:
+    - math
+    - testing
+  language: go

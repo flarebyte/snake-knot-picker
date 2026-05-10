@@ -1,0 +1,19 @@
+locator: validate.go
+meta:
+  purpose: "Parse tokenized runtime argv against compiled command flags and produce typed values or structured validation errors."
+  responsibilities: "Tokenize command path, detect/resolve flags, parse typed values, merge repeatables, and emit stable validation errors."
+  architecture_notes: "Inline --key=value is intentionally rejected and values that look like flags are blocked to reduce parsing ambiguity and security risk."
+  function_list:
+    - NewRuntime
+    - Parse
+    - Validate
+    - flattenList
+    - hasFlagLikeValue
+    - parseFlagValue
+    - splitCSV
+    - splitFlag
+    - stripCommandPath
+  import_files_list:
+    - strconv
+    - strings
+  language: go

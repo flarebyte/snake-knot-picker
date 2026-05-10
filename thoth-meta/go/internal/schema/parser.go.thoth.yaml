@@ -1,0 +1,15 @@
+locator: internal/schema/parser.go
+meta:
+  purpose: "Tokenize and parse schema command tokens into AST form with flag/value structure."
+  responsibilities: "Parse schema head/operator, decode known and unknown flag arity patterns, track repeated flags, and assign tuple slot metadata."
+  architecture_notes: "Known flags use strict catalog arity while unknown flags follow a permissive capture mode to preserve extensibility before compile-time checks."
+  function_list:
+    - ParseTokens
+    - findFlagValues
+    - isLongFlag
+    - parseFlagValues
+  import_files_list:
+    - github.com/flarebyte/snake-knot-picker
+    - strconv
+    - strings
+  language: go

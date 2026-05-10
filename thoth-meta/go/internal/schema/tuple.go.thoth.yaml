@@ -1,0 +1,11 @@
+locator: internal/schema/tuple.go
+meta:
+  purpose: "Compile tuple primary and child schema specs into validated tuple configuration."
+  responsibilities: "Expose focused functions that parse, validate, transform, or register data within this file's module boundary."
+  architecture_notes: "The implementation favors small deterministic helpers with explicit error IDs to keep behavior stable for both humans and automation."
+  function_list:
+    - CompileTupleSpec
+  import_files_list:
+    - github.com/flarebyte/snake-knot-picker
+    - strconv
+  language: go

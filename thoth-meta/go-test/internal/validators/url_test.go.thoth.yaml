@@ -1,0 +1,8 @@
+locator: internal/validators/url_test.go
+meta:
+  function_list:
+    - TestValidateURL
+    - TestValidateURLAllowBranches
+  import_files_list:
+    - testing
+  language: go

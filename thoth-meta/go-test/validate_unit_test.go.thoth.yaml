@@ -1,0 +1,9 @@
+locator: validate_unit_test.go
+meta:
+  function_list:
+    - TestFlattenListBranches
+    - TestParseFlagValueBranches
+    - strPtr
+  import_files_list:
+    - testing
+  language: go

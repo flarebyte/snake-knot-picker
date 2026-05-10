@@ -1,0 +1,11 @@
+locator: internal/validators/string_test.go
+meta:
+  function_list:
+    - TestParseEnumCandidates
+    - TestValidateStringBase64PrefixAndBoolean
+    - TestValidateStringClassesAndScripts
+    - TestValidateStringEmptyInputFailsClassChecks
+    - TestValidateStringEnumNoRuntimeTrim
+  import_files_list:
+    - testing
+  language: go

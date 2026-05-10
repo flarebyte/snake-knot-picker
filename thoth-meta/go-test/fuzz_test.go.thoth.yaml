@@ -1,0 +1,9 @@
+locator: fuzz_test.go
+meta:
+  function_list:
+    - FuzzCompileCommandDocument
+    - FuzzValidateRuntimeArgv
+  import_files_list:
+    - strings
+    - testing
+  language: go

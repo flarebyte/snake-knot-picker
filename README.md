@@ -10,6 +10,29 @@ It is designed for two use cases:
 2. strict user-side validation for untrusted input
 
 Users only provide command argv. They never define schemas or register new commands.
+Primary runtime usage is a tokenized argv list (`[]string`), for example:
+`[]string{"wash", "start", "--spin", "1200"}`.
+For repeatable flags, use tokenized form (`[]string{"--add", "value"}`); inline repeatable form (`--add=value`) is rejected by design.
+
+## Entry points
+
+Primary runtime API:
+
+- `Validate(compiled CompiledCommand, argv []string) (*ParseResult, error)`
+- `ValidateWithDocument(doc CommandDocument, argv []string) (*ParseResult, error)`
+- `ValidateWithDocumentJSON(data []byte, argv []string) (*ParseResult, error)`
+
+Schema/document API:
+
+- `ParseCommandDocumentJSON(data []byte) (CommandDocument, error)`
+- `CompileCommandDocument(doc CommandDocument) (CompiledCommand, error)`
+- `CompileCommandDocumentWithOptions(doc CommandDocument, options CompileOptions) (CompiledCommand, error)`
+
+Builder API:
+
+- `NewCommandBuilder(commandPath ...string) *CommandBuilder`
+- `(*CommandBuilder).AddFlag(flag CommandFlagDef) *CommandBuilder`
+- `(*CommandBuilder).Build() CommandDocument`
 
 ## What it supports
 
@@ -112,3 +135,9 @@ That means a validator like `postal-code` can be treated as a first-class schema
 
 - `doc/design-meta/examples/` contains the source-of-truth examples
 - `doc/snake-knot-picker-hero.png` is the README illustration
+
+## Contributing
+
+Maintenance and contributor workflow is documented in [CONTRIBUTING.md](CONTRIBUTING.md).
+Detailed API usage examples are documented in [USAGE.md](USAGE.md).
+Compact command/operator reference is in [CHEATSHEET.md](CHEATSHEET.md).

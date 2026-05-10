@@ -1,0 +1,9 @@
+locator: security_regression_test.go
+meta:
+  function_list:
+    - TestSecurityRuntimeFixtures
+  import_files_list:
+    - encoding/json
+    - os
+    - testing
+  language: go

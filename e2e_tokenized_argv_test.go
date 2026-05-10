@@ -1,0 +1,191 @@
+// purpose: Provide production logic for the snake-knot-picker validation and schema pipeline.
+// responsibilities: Expose focused functions that parse, validate, transform, or register data within this file's module boundary.
+// architecture notes: The implementation favors small deterministic helpers with explicit error IDs to keep behavior stable for both humans and automation.
+package picker
+
+import "testing"
+
+func TestE2ETokenizedArgvRejectsInlineKeyValueSyntax(t *testing.T) {
+	raw := mustLoadArgsCommandFixture(t)
+	okArgv := []string{"wash", "start", "--mode", "normal", "--spin", "1200", "--range", "10,20"}
+	_, okErr := ValidateWithDocumentJSON(raw, okArgv)
+	if okErr != nil {
+		t.Fatalf("unexpected tokenized argv error: %v", okErr)
+	}
+	inlineArgv := []string{"wash", "start", "--mode=normal", "--spin=1200", "--range=10,20"}
+	_, inlineErr := ValidateWithDocumentJSON(raw, inlineArgv)
+	assertErrorDetail(t, inlineErr, ErrorIDValidationInvalidType, ErrorKindValidation)
+}
+
+func TestE2ETokenizedArgvRepeatableMix(t *testing.T) {
+	raw := mustLoadArgsCommandFixture(t)
+	argv := []string{"wash", "start", "--add", "a,b", "--add", "c", "--mode", "normal", "--spin", "1200", "--range", "10,20"}
+	got, err := ValidateWithDocumentJSON(raw, argv)
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	v := got.Values["add"]
+	if len(v.List) != 3 {
+		t.Fatalf("unexpected repeatable add list length: %#v", v)
+	}
+}
+
+func TestE2ETokenizedArgvTupleFailures(t *testing.T) {
+	raw := mustLoadArgsCommandFixture(t)
+	cases := []struct {
+		name string
+		argv []string
+	}{
+		{name: "too-short", argv: []string{"wash", "start", "--mode", "normal", "--spin", "1200", "--range", "10"}},
+		{name: "too-long", argv: []string{"wash", "start", "--mode", "normal", "--spin", "1200", "--range", "10,20,30"}},
+		{name: "empty", argv: []string{"wash", "start", "--mode", "normal", "--spin", "1200", "--range", ""}},
+	}
+	for _, tc := range cases {
+		tc := tc
+		t.Run(tc.name, func(t *testing.T) {
+			_, err := ValidateWithDocumentJSON(raw, tc.argv)
+			assertErrorDetail(t, err, ErrorIDValidationTuple, ErrorKindValidation)
+		})
+	}
+}
+
+func TestE2ETokenizedArgvBooleanHandling(t *testing.T) {
+	raw := mustLoadArgsCommandFixture(t)
+
+	gotTrue, errTrue := ValidateWithDocumentJSON(raw, []string{"wash", "start", "--mode", "normal", "--spin", "1200", "--range", "10,20", "--extra-rinse"})
+	if errTrue != nil {
+		t.Fatalf("unexpected true boolean error: %v", errTrue)
+	}
+	assertBoolValue(t, gotTrue.Values, "extra-rinse", true)
+
+	_, errFalse := ValidateWithDocumentJSON(raw, []string{"wash", "start", "--mode", "normal", "--spin", "1200", "--range", "10,20", "--extra-rinse=false"})
+	assertErrorDetail(t, errFalse, ErrorIDValidationInvalidType, ErrorKindValidation)
+}
+
+func TestE2ETokenizedArgvCommandPathVariants(t *testing.T) {
+	raw := mustLoadArgsCommandFixture(t)
+
+	// With prefix.
+	_, err := ValidateWithDocumentJSON(raw, []string{"wash", "start", "--mode", "normal", "--spin", "1200", "--range", "10,20"})
+	if err != nil {
+		t.Fatalf("unexpected prefixed argv error: %v", err)
+	}
+
+	// Without prefix.
+	_, err = ValidateWithDocumentJSON(raw, []string{"--mode", "normal", "--spin", "1200", "--range", "10,20"})
+	if err != nil {
+		t.Fatalf("unexpected non-prefixed argv error: %v", err)
+	}
+
+	// Wrong prefix should be treated as runtime tokens and fail type check.
+	_, err = ValidateWithDocumentJSON(raw, []string{"wash", "stop", "--mode", "normal"})
+	assertErrorDetail(t, err, ErrorIDValidationInvalidType, ErrorKindValidation)
+}
+
+func TestE2ETokenizedArgvUnknownFlagAndNumericEdges(t *testing.T) {
+	raw := mustLoadArgsCommandFixture(t)
+
+	_, err := ValidateWithDocumentJSON(raw, []string{"wash", "start", "--mode", "normal", "--spin", "1200", "--range", "10,20", "--mod", "x"})
+	assertErrorDetail(t, err, ErrorIDValidationUnexpectedFlag, ErrorKindValidation)
+
+	// 0 and -1 parse as numbers in current runtime parser.
+	_, err = ValidateWithDocumentJSON(raw, []string{"wash", "start", "--mode", "normal", "--spin", "0", "--range", "10,20"})
+	if err != nil {
+		t.Fatalf("unexpected spin=0 error: %v", err)
+	}
+	_, err = ValidateWithDocumentJSON(raw, []string{"wash", "start", "--mode", "normal", "--spin", "-1", "--range", "10,20"})
+	if err != nil {
+		t.Fatalf("unexpected spin=-1 error: %v", err)
+	}
+	_, err = ValidateWithDocumentJSON(raw, []string{"wash", "start", "--mode", "normal", "--spin", "abc", "--range", "10,20"})
+	assertErrorDetail(t, err, ErrorIDValidationInvalidType, ErrorKindValidation)
+}
+
+func TestE2ETokenizedArgvDeterminism(t *testing.T) {
+	raw := mustLoadArgsCommandFixture(t)
+	argv := []string{"wash", "start", "--mode", "normal", "--spin", "1200", "--range", "10,20", "--add", "a,b", "--add", "c"}
+
+	got1, err1 := ValidateWithDocumentJSON(raw, argv)
+	if err1 != nil {
+		t.Fatalf("unexpected first run error: %v", err1)
+	}
+	got2, err2 := ValidateWithDocumentJSON(raw, argv)
+	if err2 != nil {
+		t.Fatalf("unexpected second run error: %v", err2)
+	}
+
+	assertStringValue(t, got1.Values, "mode", "normal")
+	assertStringValue(t, got2.Values, "mode", "normal")
+	assertNumberValue(t, got1.Values, "spin", 1200)
+	assertNumberValue(t, got2.Values, "spin", 1200)
+	assertTupleStringValues(t, got1.Values, "range", "10", "20")
+	assertTupleStringValues(t, got2.Values, "range", "10", "20")
+	if len(got1.Values["add"].List) != len(got2.Values["add"].List) {
+		t.Fatalf("non-deterministic repeatable list length: got1=%d got2=%d", len(got1.Values["add"].List), len(got2.Values["add"].List))
+	}
+}
+
+func TestE2ETokenizedArgvRepeatedNonRepeatableLastWins(t *testing.T) {
+	raw := mustLoadArgsCommandFixture(t)
+	argv := []string{"wash", "start", "--mode", "normal", "--mode", "delicate", "--spin", "1200", "--range", "10,20"}
+
+	got, err := ValidateWithDocumentJSON(raw, argv)
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	assertStringValue(t, got.Values, "mode", "delicate")
+}
+
+func TestE2ETokenizedArgvRepeatableEmptySegmentsContract(t *testing.T) {
+	raw := mustLoadArgsCommandFixture(t)
+
+	// Empty CSV segments are dropped when there are non-empty segments.
+	gotA, errA := ValidateWithDocumentJSON(raw, []string{"wash", "start", "--mode", "normal", "--spin", "1200", "--range", "10,20", "--add", "a,,b"})
+	if errA != nil {
+		t.Fatalf("unexpected error for add=a,,b: %v", errA)
+	}
+	if len(gotA.Values["add"].List) != 2 {
+		t.Fatalf("unexpected list length for add=a,,b: %#v", gotA.Values["add"])
+	}
+	assertTupleStringValues(t, map[string]Value{"tmp": {Tuple: gotA.Values["add"].List}}, "tmp", "a", "b")
+
+	// Entirely empty value is preserved as one empty item.
+	gotB, errB := ValidateWithDocumentJSON(raw, []string{"wash", "start", "--mode", "normal", "--spin", "1200", "--range", "10,20", "--add", ""})
+	if errB != nil {
+		t.Fatalf("unexpected error for add=: %v", errB)
+	}
+	if len(gotB.Values["add"].List) != 1 || gotB.Values["add"].List[0].String == nil || *gotB.Values["add"].List[0].String != "" {
+		t.Fatalf("unexpected list for add=: %#v", gotB.Values["add"])
+	}
+}
+
+func TestE2ETokenizedArgvRepeatableMixedFormsOrdering(t *testing.T) {
+	raw := mustLoadArgsCommandFixture(t)
+	argv := []string{"wash", "start", "--mode", "normal", "--spin", "1200", "--range", "10,20", "--add", "a", "--add", "b,c", "--add", "d"}
+
+	got, err := ValidateWithDocumentJSON(raw, argv)
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if len(got.Values["add"].List) != 4 {
+		t.Fatalf("unexpected list length: %#v", got.Values["add"])
+	}
+	assertTupleStringValues(t, map[string]Value{"tmp": {Tuple: got.Values["add"].List}}, "tmp", "a", "b", "c", "d")
+}
+
+func TestE2ETokenizedArgvRepeatedTupleLastWins(t *testing.T) {
+	raw := mustLoadArgsCommandFixture(t)
+	argv := []string{"wash", "start", "--mode", "normal", "--spin", "1200", "--range", "1,2", "--range", "3,4"}
+
+	got, err := ValidateWithDocumentJSON(raw, argv)
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	assertTupleStringValues(t, got.Values, "range", "3", "4")
+}
+
+func TestE2ETokenizedArgvRepeatableInlineIsForbidden(t *testing.T) {
+	raw := mustLoadArgsCommandFixture(t)
+	_, err := ValidateWithDocumentJSON(raw, []string{"wash", "start", "--mode", "normal", "--spin", "1200", "--range", "10,20", "--add=x"})
+	assertErrorDetail(t, err, ErrorIDValidationInvalidType, ErrorKindValidation)
+}

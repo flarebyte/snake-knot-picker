@@ -1,0 +1,10 @@
+locator: internal/argv/errors.go
+meta:
+  purpose: "Define argv-specific error-detail helpers for parser error reporting in tests and adapters."
+  responsibilities: "Expose focused functions that parse, validate, transform, or register data within this file's module boundary."
+  architecture_notes: "The implementation favors small deterministic helpers with explicit error IDs to keep behavior stable for both humans and automation."
+  function_list:
+    - NewValidationDetail
+  import_files_list:
+    - github.com/flarebyte/snake-knot-picker
+  language: go

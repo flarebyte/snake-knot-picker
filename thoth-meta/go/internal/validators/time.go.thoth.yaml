@@ -1,0 +1,14 @@
+locator: internal/validators/time.go
+meta:
+  purpose: "Implement date, datetime, time, and duration validation helpers."
+  responsibilities: "Expose focused functions that parse, validate, transform, or register data within this file's module boundary."
+  architecture_notes: "The implementation favors small deterministic helpers with explicit error IDs to keep behavior stable for both humans and automation."
+  function_list:
+    - ValidateClockTime
+    - ValidateDate
+    - ValidateDateTime
+    - ValidateDuration
+  import_files_list:
+    - github.com/flarebyte/snake-knot-picker
+    - time
+  language: go
